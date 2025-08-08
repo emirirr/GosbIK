@@ -38,8 +38,8 @@ const lightTheme: Theme = {
     error: '#F44336',
   },
   icons: {
-    success: require('../assets/images/icons/ikon sarı.png'),
-    error: require('../assets/images/icons/ikon siyah.png'),
+    success: null,
+    error: null,
   },
 };
 
@@ -56,8 +56,8 @@ const darkTheme: Theme = {
     error: '#F44336',
   },
   icons: {
-    success: require('../assets/images/icons/ikon siyah.png'),
-    error: require('../assets/images/icons/ikon sarı.png'),
+    success: null,
+    error: null,
   },
 };
 

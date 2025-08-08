@@ -30,7 +30,7 @@ export default function App() {
     // Simulate splash screen duration
     const timer = setTimeout(() => {
       setShowSplash(false);
-      setCurrentScreen('login');
+      setCurrentScreen('main'); // Direkt ana sayfaya geç
     }, 3000); // 3 seconds
 
     return () => clearTimeout(timer);
@@ -131,7 +131,9 @@ export default function App() {
   }
 
   return (
-    <MainScreen />
+    <ThemeProvider>
+      <MainScreen />
+    </ThemeProvider>
   );
 }
 
