@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -9,7 +8,6 @@ import { HomeIcon, SearchIcon, IndustryIcon, BurgerIcon, IKIcon } from './icons/
 
 interface TabItem {
   id: string;
-  title: string;
   icon: React.ComponentType<any>;
   activeIcon?: React.ComponentType<any>;
 }
@@ -26,31 +24,26 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
   const tabs: TabItem[] = [
     {
       id: 'home',
-      title: 'Ana Sayfa',
       icon: HomeIcon,
       activeIcon: HomeIcon,
     },
     {
       id: 'ik',
-      title: 'ik',
       icon: IKIcon,
       activeIcon: IKIcon,
     },
     {
       id: 'search',
-      title: 'Arama',
       icon: SearchIcon,
       activeIcon: SearchIcon,
     },
     {
       id: 'industry',
-      title: 'Sanayi',
       icon: IndustryIcon,
       activeIcon: IndustryIcon,
     },
     {
       id: 'menu',
-      title: 'Menü',
       icon: BurgerIcon,
       activeIcon: BurgerIcon,
     },
@@ -74,12 +67,6 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
               height={24}
               color={iconColor}
             />
-            <Text style={[
-              styles.tabText,
-              isActive && styles.activeTabText
-            ]}>
-              {tab.title}
-            </Text>
           </TouchableOpacity>
         );
       })}
@@ -114,19 +101,6 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: 'contain',
-    marginBottom: 4,
-  },
-  activeTabIcon: {
-    // Active icon styling if needed
-  },
-  tabText: {
-    fontSize: 10,
-    color: '#666666',
-    textAlign: 'center',
-  },
-  activeTabText: {
-    color: '#FFBB01',
-    fontWeight: 'bold',
   },
 });
 
