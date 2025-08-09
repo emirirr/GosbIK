@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
-import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage } from 'react-native-svg';
+import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -132,7 +132,7 @@ const AppleIcon: React.FC = () => (
   </Svg>
 );
 
-const MainScreen: React.FC = () => {
+const MainScreen = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [activeCategory, setActiveCategory] = useState('Tümü');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -295,10 +295,20 @@ const MainScreen: React.FC = () => {
       title: "Frontend Developer",
       company: "Microsoft",
       location: "İstanbul / Türkiye",
-      date: "20.04.2025",
+      date: "15.04.2025",
       logo: "microsoft"
+    },
+    {
+      id: 3,
+      title: "UI/UX Designer",
+      company: "Baykar Teknoloji",
+      location: "Ankara / Türkiye",
+      date: "16.04.2025",
+      logo: "baykar"
     }
   ];
+
+
 
   // Yaklaşan Etkinlikler data
   const upcomingEvents = [
@@ -480,30 +490,38 @@ const MainScreen: React.FC = () => {
   const renderJobCard = (item: any) => (
     <TouchableOpacity key={item.id} style={styles.jobCard}>
       <View style={styles.jobYellowStripe} />
-      <View style={styles.jobLogoContainer}>
-        {item.logo === "apple" ? (
-          <AppleIcon />
-        ) : item.logo === "microsoft" ? (
-          <MicrosoftIcon />
-        ) : (
-          <Text style={styles.jobLogo}>{item.logo}</Text>
-        )}
-      </View>
-      <View style={styles.jobContent}>
-        <Text style={styles.jobTitle}>{item.title}</Text>
-        <Text style={styles.jobCompany}>{item.company}</Text>
+      <View style={styles.jobCardContent}>
+        <View style={styles.jobCardHeader}>
+          <View style={styles.jobCompanyLogoCircle}>
+            {item.logo === "apple" ? (
+              <AppleIcon />
+            ) : item.logo === "microsoft" ? (
+              <MicrosoftIcon />
+            ) : (
+              <Text style={styles.jobCompanyLogoText}>B</Text>
+            )}
+          </View>
+          <View style={styles.jobCardInfo}>
+            <Text style={styles.jobTitle}>{item.title}</Text>
+            <Text style={styles.jobCompany}>{item.company}</Text>
+          </View>
+        </View>
+        
         <View style={styles.jobDetails}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <LocationIcon />
-            <Text style={styles.locationText}>{item.location}</Text>
-    </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <CalendarIcon />            <Text style={styles.dateText}>{item.date}</Text>
+          <View style={styles.jobDetailRow}>
+            <LocationIcon />
+            <Text style={styles.jobDetailText}>{item.location}</Text>
+          </View>
+          <View style={styles.jobDetailRow}>
+            <CalendarIcon />
+            <Text style={styles.jobDetailText}>{item.date}</Text>
+          </View>
+        </View>
       </View>
-      </View>
-    </View>
     </TouchableOpacity>
   );
+
+
 
   const renderEventCard = (item: any) => (
     <TouchableOpacity key={item.id} style={styles.eventCard}>
@@ -672,6 +690,8 @@ const MainScreen: React.FC = () => {
               {jobPostings.map(renderJobCard)}
             </ScrollView>
 
+
+
             {/* Upcoming Events Section */}
             {renderSectionHeader('Yaklaşan Etkinlikler')}
             <ScrollView 
@@ -683,168 +703,137 @@ const MainScreen: React.FC = () => {
               {upcomingEvents.map(renderEventCard)}
             </ScrollView>
 
-            {/* Job Listings Section */}
-            <View style={styles.jobListingsContainer}>
-              <View style={styles.jobListingsHeader}>
-                <View style={styles.jobListingsHeaderLeft}>
-                  <View style={styles.gosbikLogoOuter}>
-                    <View style={styles.gosbikLogoMiddle}>
-                      <View style={styles.gosbikLogo}>
-                        <Image 
-                          source={require('../assets/images/splash/splash logo.png')}
-                          style={styles.gosbikLogoImage}
-                          resizeMode="contain"
-                        />
-                      </View>
+            {/* Social Media Section */}
+            <View style={styles.socialMediaSection}>
+              {/* Header */}
+              <View style={styles.socialMediaHeader}>
+                <View style={styles.gosbikLogoOuter}>
+                  <View style={styles.gosbikLogoMiddle}>
+                    <View style={styles.gosbikLogoInner}>
+                      <Image 
+                        source={require('../assets/images/splash/splash logo.png')}
+                        style={styles.socialMediaLogoImage}
+                        resizeMode="contain"
+                      />
                     </View>
-                  </View>
-                  <View style={styles.jobListingsTitleContainer}>
-                    <Text style={styles.jobListingsTitle}>Gosbik Sosyal Medya</Text>
-                    <Text style={styles.jobListingsSubtitle}>81 Paylaşım</Text>
                   </View>
                 </View>
-                <TouchableOpacity style={styles.jobListingsViewAll}>
-                  <Text style={styles.jobListingsViewAllText}>Takip Edin</Text>
-              </TouchableOpacity>
-            </View>
-            
-                            <View style={styles.jobListingsContent}>
-                <View style={styles.jobCardContainer}>
-                  <View style={styles.jobCardStripe} />
-                  <View style={styles.jobCard}>
-                    <View style={styles.jobCardHeader}>
-                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#F5F5F7' }]}>
-                      <AppleIcon />
-            </View>
-                    <View style={styles.jobCardInfo}>
-                      <Text style={styles.jobTitle}>Frontend Developer</Text>
-                      <Text style={styles.jobCompany}>Apple Inc.</Text>
-                      <View style={styles.jobLocationContainer}>
-                        <LocationIcon />
-                        <Text style={styles.jobLocation}>İstanbul, Türkiye</Text>
-                      </View>
-                    </View>
-                    <View style={styles.jobSalary}>
-                      <Text style={styles.jobSalaryText}>25.000₺</Text>
-                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
-                    </View>
-          </View>
-
-                  <View style={styles.jobSkills}>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>React</Text>
-                    </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>TypeScript</Text>
-                    </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>Node.js</Text>
-                    </View>
+                <View style={styles.socialMediaTitleContainer}>
+                  <View style={styles.titleWithButton}>
+                    <Text style={styles.socialMediaTitle}>Gosbik Sosyal Medya</Text>
+                    <TouchableOpacity style={styles.followButton}>
+                      <Text style={styles.followButtonText}>Takip Edin</Text>
+                    </TouchableOpacity>
                   </View>
-                  
-                                    <View style={styles.jobFooter}>
-                    <View style={styles.jobTimeContainer}>
-                      <CalendarIcon />
-                      <Text style={styles.jobPostedTime}>18.04.2025</Text>
-                    </View>
-                    <TouchableOpacity style={styles.jobApplyButton}>
-                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
-              </TouchableOpacity>
-                  </View>
-                  </View>
+                  <Text style={styles.socialMediaSubtitle}>81 Paylaşım</Text>
                 </View>
+              </View>
 
-                <View style={styles.jobCardContainer}>
-                  <View style={styles.jobCardStripe} />
-                  <View style={styles.jobCard}>
-                    <View style={styles.jobCardHeader}>
-                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#00A4EF' }]}>
-                      <MicrosoftIcon />
-                    </View>
-                    <View style={styles.jobCardInfo}>
-                      <Text style={styles.jobTitle}>Backend Developer</Text>
-                      <Text style={styles.jobCompany}>Microsoft</Text>
-                      <View style={styles.jobLocationContainer}>
-                        <LocationIcon />
-                        <Text style={styles.jobLocation}>Ankara, Türkiye</Text>
+              {/* Platform Tabs */}
+              <View style={styles.platformTabs}>
+                <TouchableOpacity style={[styles.platformTab, styles.activePlatformTab]}>
+                  <Text style={[styles.platformTabText, styles.activePlatformTabText]}>Tüm Paylaşımlar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <InstagramIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <LinkedInIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <YouTubeIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <FacebookIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <WhatsAppIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.platformTabIcon}>
+                  <XIcon />
+                </TouchableOpacity>
+              </View>
+
+              {/* Social Media Cards */}
+              <View style={styles.socialCardsContainer}>
+                {/* Baykar Card */}
+                <View style={styles.socialCard}>
+                  <Image 
+                    source={{ uri: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop' }}
+                    style={styles.socialCardImage}
+                  />
+                  <View style={styles.socialCardContent}>
+                    <View style={styles.socialCardHeader}>
+                      <View style={styles.socialCardCompanyInfo}>
+                        <View style={styles.socialCardCompanyLogo}>
+                          <Text style={styles.socialCardCompanyLogoText}>B</Text>
+                        </View>
+                        <View style={styles.socialCardCompanyDetails}>
+                          <Text style={styles.socialCardCompanyName}>Baykar Teknoloji</Text>
+                          <Text style={styles.socialCardTime}>1 Saat Önce</Text>
+                        </View>
+                      </View>
+                      <View style={styles.socialCardPlatformIcon}>
+                        <InstagramIcon />
                       </View>
                     </View>
-                    <View style={styles.jobSalary}>
-                      <Text style={styles.jobSalaryText}>30.000₺</Text>
-                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
-                    </View>
-                  </View>
-                  
-                  <View style={styles.jobSkills}>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>C#</Text>
-                    </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>.NET</Text>
-                    </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>Azure</Text>
-                    </View>
-                  </View>
-                  
-                                    <View style={styles.jobFooter}>
-                    <View style={styles.jobTimeContainer}>
-                      <CalendarIcon />
-                      <Text style={styles.jobPostedTime}>15.04.2025</Text>
-                    </View>
-                    <TouchableOpacity style={styles.jobApplyButton}>
-                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
-              </TouchableOpacity>
-                  </View>
+                    <Text style={styles.socialCardText}>TÜ Rektörü Prof. Dr. Hasan Mandal'ı ve dünyanın...</Text>
+                    <TouchableOpacity style={styles.socialCardButton}>
+                      <Text style={styles.socialCardButtonText}>Devamı Görüntüle</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
 
-                <View style={styles.jobCardContainer}>
-                  <View style={styles.jobCardStripe} />
-                  <View style={styles.jobCard}>
-                    <View style={styles.jobCardHeader}>
-                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#FF6B35' }]}>
-                      <Text style={styles.jobCompanyLogoText}>B</Text>
-                    </View>
-                    <View style={styles.jobCardInfo}>
-                      <Text style={styles.jobTitle}>UI/UX Designer</Text>
-                      <Text style={styles.jobCompany}>Baykar Teknoloji</Text>
-                      <View style={styles.jobLocationContainer}>
-                        <LocationIcon />
-                        <Text style={styles.jobLocation}>İstanbul, Türkiye</Text>
+                {/* Toyotetsu Card */}
+                <View style={styles.socialCard}>
+                  <View style={styles.toyotetsuCardImage}>
+                    <Image 
+                      source={{ uri: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=200&fit=crop' }}
+                      style={styles.socialCardImage}
+                    />
+                    <View style={styles.toyotetsuOverlayNew}>
+                      <View style={styles.toyotetsuHeaderNew}>
+                        <View style={styles.toyotetsuDotsNew}>
+                          <View style={styles.redDotSmall} />
+                          <View style={styles.redDotLargeNew} />
+                        </View>
+                        <Text style={styles.toyotetsuTitleNew}>TOYOTETSU</Text>
+                        <Text style={styles.toyotetsuSubtitleNew}>TÜRKİYE'nin</Text>
+                        <Text style={styles.toyotetsuDescNew}>Mühendislik Gücünü Bir Kez Daha Kanıtlayan</Text>
+                        <Text style={styles.toyotetsuHighlightNew}>Bir İlki</Text>
+                        <Text style={styles.toyotetsuEndNew}>Hayata Geçirdik</Text>
+                      </View>
+                      <View style={styles.toyotetsuBottomNew}>
+                        <Text style={styles.toyotetsuBrandNew}>TOYOTETSU</Text>
                       </View>
                     </View>
-                    <View style={styles.jobSalary}>
-                      <Text style={styles.jobSalaryText}>22.000₺</Text>
-                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
-                    </View>
                   </View>
-                  
-                  <View style={styles.jobSkills}>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>Figma</Text>
+                  <View style={styles.socialCardContent}>
+                    <View style={styles.socialCardHeader}>
+                      <View style={styles.socialCardCompanyInfo}>
+                        <View style={styles.toyotetsuCardLogo}>
+                          <Text style={styles.toyotetsuCardLogoText}>T</Text>
+                        </View>
+                        <View style={styles.socialCardCompanyDetails}>
+                          <Text style={styles.socialCardCompanyName}>Toyotetsu</Text>
+                          <Text style={styles.socialCardTime}>1 Saat Önce</Text>
+                        </View>
+                      </View>
+                      <View style={styles.socialCardPlatformIcon}>
+                        <LinkedInIcon />
+                      </View>
                     </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>Adobe XD</Text>
-                    </View>
-                    <View style={styles.skillTag}>
-                      <Text style={styles.skillTagText}>Sketch</Text>
-                    </View>
-                  </View>
-                  
-                                                      <View style={styles.jobFooter}>
-                    <View style={styles.jobTimeContainer}>
-                      <CalendarIcon />
-                      <Text style={styles.jobPostedTime}>16.04.2025</Text>
-                    </View>
-                    <TouchableOpacity style={styles.jobApplyButton}>
-                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
-              </TouchableOpacity>
-                  </View>
+                    <Text style={styles.socialCardText}>Toyotetsu Türkiye'nin mühendislik gücünü bir kez daha...</Text>
+                    <TouchableOpacity style={styles.socialCardButton}>
+                      <Text style={styles.socialCardButtonText}>Devamı Görüntüle</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
             </View>
+            
+
+            
             
           </ScrollView>
         );
@@ -991,11 +980,7 @@ const styles = StyleSheet.create({
   categoryIcon: {
     marginBottom: 6,
   },
-  categoryIconText: {
-    fontSize: 12,
-    color: '#666666',
-    fontWeight: '500',
-  },
+
   categoryText: {
     fontSize: 12,
     color: '#666666',
@@ -1122,39 +1107,7 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 12,
-  },
-  sectionTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#191D20',
-  },
-  yellowLine: {
-    width: 20,
-    height: 3,
-    backgroundColor: '#FFBB01',
-    borderRadius: 2,
-  },
-  viewAllButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  viewAllText: {
-    color: '#FFBB01',
-    fontSize: 14,
-    fontWeight: '500',
-  },
+
   arrowIcon: {
     color: '#FFBB01',
     fontSize: 14,
@@ -1226,134 +1179,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#999999',
   },
-  companyCard: {
-    width: 100,
-    alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  companyLogo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#F0F0F0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  companyLogoText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#191D20',
-  },
-  companyName: {
-    fontSize: 12,
-    color: '#191D20',
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  productCard: {
-    width: 200,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  activeProductCard: {
-    borderWidth: 2,
-    borderColor: '#FFBB01',
-  },
-  productImage: {
-    width: '100%',
-    height: 120,
-    backgroundColor: '#F0F0F0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  productIcon: {
-    fontSize: 40,
-  },
-  productBadge: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    backgroundColor: '#FFBB01',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  productBadgeText: {
-    fontSize: 10,
-    color: '#191D20',
-    fontWeight: 'bold',
-  },
-  productTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#191D20',
-    padding: 12,
-    paddingBottom: 4,
-  },
-  productDescription: {
-    fontSize: 12,
-    color: '#666666',
-    paddingHorizontal: 12,
-    paddingBottom: 12,
-  },
-  jobCard: {
-    width: 220,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  activeJobCard: {
-    borderWidth: 2,
-    borderColor: '#FFBB01',
-  },
-  jobLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F0F0F0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  jobLogoText: {
-    fontSize: 20,
-  },
-  jobTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#191D20',
-    marginBottom: 4,
-  },
-  jobCompany: {
-    fontSize: 14,
-    color: '#666666',
-    marginBottom: 8,
-  },
-  jobLocation: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 4,
-  },
+
+
+
   locationIcon: {
     fontSize: 12,
   },
@@ -1373,88 +1201,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666666',
   },
-  eventCard: {
-    width: 200,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  activeEventCard: {
-    borderWidth: 2,
-    borderColor: '#FFBB01',
-  },
-  eventDate: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFBB01',
-    marginBottom: 8,
-  },
-  eventTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#191D20',
-    marginBottom: 6,
-    lineHeight: 18,
-  },
-  eventOrganizer: {
-    fontSize: 12,
-    color: '#666666',
-    marginBottom: 4,
-  },
-  eventLocation: {
-    fontSize: 12,
-    color: '#666666',
-  },
-  socialSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 12,
-  },
-  followButton: {
-    backgroundColor: '#FFBB01',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 6,
-  },
-  followButtonText: {
-    color: '#191D20',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  socialCard: {
-    marginHorizontal: 16,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    marginBottom: 12,
-  },
-  gosbikLogo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  gosbikLogoImage: {
-    width: 100,
-    height: 30,
-    resizeMode: 'contain',
-  },
-  gosbikLogoText: {
-    color: '#666666',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+
+
+
   gosbikLogoHighlight: {
     backgroundColor: '#666666',
     color: '#FFBB01',
@@ -1852,13 +1601,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#191D20',
   },
-  companyName: {
-    fontSize: 10,
-    color: '#191D20',
-    textAlign: 'center',
-    fontWeight: '500',
-    lineHeight: 12,
-  },
+
   // Products Styles
   productsScroll: {
     marginBottom: 24,
@@ -1937,25 +1680,29 @@ const styles = StyleSheet.create({
     color: '#666666',
     lineHeight: 16,
   },
+
   // Job Postings Styles
   jobsScroll: {
     marginBottom: 24,
   },
   jobsScrollContent: {
-    paddingHorizontal: 22,
+    paddingLeft: 22,
+    paddingRight: 22,
     gap: 16,
   },
   jobCard: {
-    width: 250,
+    width: 285,
+    height: 100,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
     position: 'relative',
+    marginRight: 16,
+    opacity: 1,
   },
   jobYellowStripe: {
     position: 'absolute',
@@ -1967,19 +1714,30 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderBottomLeftRadius: 12,
   },
-  jobLogoContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#F0F0F0',
-    justifyContent: 'center',
+  jobCardContent: {
+    flex: 1,
+    padding: 16,
+  },
+  jobCardHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
   },
-  jobLogo: {
-    fontSize: 24,
+  jobCompanyLogoCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#E0E0E0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
   },
-  jobContent: {
+  jobCompanyLogoText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  jobCardInfo: {
     flex: 1,
   },
   jobTitle: {
@@ -1990,32 +1748,24 @@ const styles = StyleSheet.create({
   },
   jobCompany: {
     fontSize: 14,
-    color: '#666666',
-    marginBottom: 12,
+    color: '#191D20',
+    marginBottom: 0,
   },
   jobDetails: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  jobLocation: {
+  jobDetailRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
-  locationIcon: {
-    fontSize: 12,
-  },
-  locationText: {
+  jobDetailText: {
     fontSize: 12,
     color: '#666666',
   },
-  dateIcon: {
-    fontSize: 12,
-  },
-  dateText: {
-    fontSize: 12,
-    color: '#666666',
-  },
+
   // Events Styles
   eventsScroll: {
     marginBottom: 24,
@@ -2131,20 +1881,7 @@ const styles = StyleSheet.create({
     gap: 16,
     marginBottom: 24,
   },
-  socialMediaCard: {
-    width: 165,
-    height: 285,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    overflow: 'hidden',
-  },
+
   socialMediaFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -2238,25 +1975,299 @@ const styles = StyleSheet.create({
     color: '#191D20',
   },
 
-  // Job Listings Styles
-  jobListingsContainer: {
-    width: 365,
-    height: 392,
-    marginLeft: 27,
-    marginTop: 24,
-    borderRadius: 10,
+  // Social Media Section Styles
+  socialMediaSection: {
     backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    marginTop: 24,
+    marginBottom: 24,
+    borderRadius: 12,
+    paddingTop: 16,
+    paddingRight: 16,
+    paddingBottom: 16,
+    paddingLeft: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    padding: 16,
   },
-  jobListingsHeader: {
+  socialMediaHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  titleWithButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 2,
+  },
+  gosbikLogoOuter: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#FFBB01',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 0,
+  },
+  gosbikLogoMiddle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#4A90E2',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  gosbikLogoInner: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  socialMediaLogoImage: {
+    width: 40,
+    height: 40,
+  },
+  socialMediaTitleContainer: {
+    flex: 1,
+    marginLeft: 70,
+  },
+  socialMediaTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#191D20',
+    
+        
+    marginBottom: 2,
+  },
+  socialMediaSubtitle: {
+    fontSize: 10,
+    color: '#666666',
+  },
+  followButton: {
+    backgroundColor: '#FFBB01',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#191D20',
+  },
+  followButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#191D20',
+  },
+  platformTabs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 12,
+  },
+  platformTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  activePlatformTab: {
+    borderBottomColor: '#191D20',
+  },
+  platformTabText: {
+    fontSize: 14,
+    color: '#666666',
+  },
+  activePlatformTabText: {
+    color: '#191D20',
+    fontWeight: '600',
+  },
+  platformTabIcon: {
+    padding: 4,
+  },
+  socialCardsContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  socialCard: {
+    width: 150,
+    height: 260,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    overflow: 'hidden',
+    opacity: 1,
+  },
+  socialCardImage: {
+    width: '100%',
+    height: 120,
+    resizeMode: 'cover',
+  },
+  socialCardContent: {
+    padding: 12,
+  },
+  socialCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 8,
+  },
+  socialCardCompanyInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  socialCardCompanyLogo: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#FF6B35',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  socialCardCompanyLogoText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  toyotetsuCardLogo: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#E31E24',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  toyotetsuCardLogoText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  socialCardCompanyDetails: {
+    flex: 1,
+  },
+  socialCardCompanyName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 2,
+  },
+  socialCardTime: {
+    fontSize: 10,
+    color: '#666666',
+  },
+  socialCardPlatformIcon: {
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  socialCardText: {
+    fontSize: 12,
+    color: '#191D20',
+    lineHeight: 16,
+    marginBottom: 8,
+  },
+  socialCardButton: {
+    alignSelf: 'flex-start',
+  },
+  socialCardButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#FFBB01',
+  },
+  toyotetsuCardImage: {
+    position: 'relative',
+  },
+  toyotetsuOverlayNew: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    justifyContent: 'space-between',
+    padding: 8,
+  },
+  toyotetsuHeaderNew: {
+    alignItems: 'center',
+  },
+  toyotetsuDotsNew: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  redDotSmall: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#E31E24',
+    marginRight: 4,
+  },
+  redDotLargeNew: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#E31E24',
+  },
+  toyotetsuTitleNew: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#E31E24',
+    marginBottom: 2,
+  },
+  toyotetsuSubtitleNew: {
+    fontSize: 10,
+    color: '#666666',
+    marginBottom: 2,
+  },
+  toyotetsuDescNew: {
+    fontSize: 8,
+    color: '#191D20',
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  toyotetsuHighlightNew: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#E31E24',
+    marginBottom: 2,
+  },
+  toyotetsuEndNew: {
+    fontSize: 8,
+    color: '#191D20',
+  },
+  toyotetsuBottomNew: {
+    alignItems: 'center',
+    backgroundColor: '#E31E24',
+    paddingVertical: 4,
+    marginHorizontal: -8,
+    marginBottom: -8,
+  },
+  toyotetsuBrandNew: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  socialMediaYellowStripe: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 4,
+    backgroundColor: '#FFBB01',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  jobListingsHeader: {
+    flexDirection: 'column',
     marginBottom: 16,
   },
   jobListingsHeaderLeft: {
@@ -2270,7 +2281,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFBB01',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
   },
   gosbikLogoMiddle: {
     width: 48,
@@ -2299,32 +2313,248 @@ const styles = StyleSheet.create({
   },
   jobListingsTitleContainer: {
     flex: 1,
-    marginRight: 16,
+    marginLeft: 66,
+    marginTop: 8,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 2,
   },
   jobListingsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: 'bold',
     color: '#191D20',
-    marginBottom: 2,
   },
   jobListingsSubtitle: {
     fontSize: 12,
     color: '#666666',
   },
   jobListingsViewAll: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     backgroundColor: '#FFBB01',
-    borderRadius: 5,
+    borderRadius: 4,
     borderWidth: 1,
     borderColor: '#191D20',
-    minWidth: 60,
-    minHeight: 20,
+    maxWidth: 70,
+    marginLeft: 20,
   },
   jobListingsViewAllText: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '500',
     color: '#191D20',
+    textAlign: 'center',
+  },
+  socialPlatforms: {
+    marginTop: 12,
+  },
+  platformsLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 8,
+  },
+  platformsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  platformButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 6,
+    backgroundColor: '#F8F9FA',
+    borderRadius: 6,
+    width: 36,
+    height: 36,
+    marginHorizontal: 2,
+  },
+  smallIcon: {
+    width: 14,
+    height: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: [{ scale: 0.6 }],
+  },
+  platformText: {
+    fontSize: 7,
+    color: '#191D20',
+    marginLeft: 2,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  socialMediaPosts: {
+    marginTop: 16,
+  },
+  postsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  socialMediaCard: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  postImage: {
+    width: '100%',
+    height: 120,
+    resizeMode: 'cover',
+  },
+  postFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 8,
+    backgroundColor: '#FFFFFF',
+  },
+  companyInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  companyLogoContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F0F0F0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  toyotetsuLogo: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#E31E24',
+  },
+  companyDetails: {
+    flex: 1,
+  },
+  companyName: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 1,
+  },
+  postTime: {
+    fontSize: 9,
+    color: '#666666',
+  },
+  socialPlatformIcon: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  postContent: {
+    padding: 8,
+    paddingTop: 4,
+  },
+  postText: {
+    fontSize: 10,
+    color: '#191D20',
+    lineHeight: 14,
+    marginBottom: 8,
+  },
+  continueButton: {
+    alignSelf: 'flex-start',
+  },
+  continueText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#FFBB01',
+  },
+  toyotetsuImageContainer: {
+    position: 'relative',
+  },
+  toyotetsuOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    justifyContent: 'space-between',
+    padding: 12,
+  },
+  toyotetsuHeader: {
+    alignItems: 'center',
+  },
+  toyotetsuDots: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  redDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#E31E24',
+    marginRight: 4,
+  },
+  redDotLarge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#E31E24',
+  },
+  toyotetsuTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#E31E24',
+    marginBottom: 2,
+  },
+  toyotetsuSubtitle: {
+    fontSize: 12,
+    color: '#666666',
+    marginBottom: 4,
+  },
+  toyotetsuDescription: {
+    fontSize: 10,
+    color: '#191D20',
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  toyotetsuHighlight: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#E31E24',
+    marginBottom: 2,
+  },
+  toyotetsuEnd: {
+    fontSize: 10,
+    color: '#191D20',
+  },
+  toyotetsuBottom: {
+    alignItems: 'center',
+    backgroundColor: '#E31E24',
+    paddingVertical: 4,
+    marginHorizontal: -12,
+    marginBottom: -12,
+  },
+  toyotetsuBrand: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  toyotetsuLogoContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#E31E24',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  toyotetsuLogoText: {
+    fontSize: 6,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
   jobListingsContent: {
     flex: 1,
@@ -2340,45 +2570,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     marginRight: 8,
   },
-  jobCard: {
-    backgroundColor: '#F8F9FA',
-    borderRadius: 8,
-    padding: 12,
-    flex: 1,
-  },
-  jobCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  jobCompanyLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: '#E0E0E0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  jobCompanyLogoText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
-  jobCardInfo: {
-    flex: 1,
-  },
-  jobTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#191D20',
-    marginBottom: 2,
-  },
-  jobCompany: {
-    fontSize: 12,
-    color: '#666666',
-    marginBottom: 2,
-  },
+
   jobLocationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
