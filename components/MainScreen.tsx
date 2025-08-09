@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage } from 'react-native-svg';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -54,14 +54,24 @@ const MicrosoftIcon: React.FC = () => (
 );
 
 const BaykarIcon: React.FC = () => (
-  <Svg width="24" height="28" viewBox="0 0 29 33">
-    <Path fill="url(#pattern0_3916_2549)" d="M0 0h28.8v32.9375H0z"/>
-  </Svg>
+  <Image 
+    source={require('../assets/images/icons/baykar.png')} 
+    style={{ width: 24, height: 28 }}
+    resizeMode="contain"
+  />
 );
 
 const HepsiburadaIcon: React.FC = () => (
-  <Svg width="48" height="14" viewBox="0 0 72 21">
-    <Path fill="url(#pattern0_3916_2532)" d="M0 0h72v20.16H0z"/>
+  <Image 
+    source={require('../assets/images/icons/hepsiburada.png')} 
+    style={{ width: 72, height: 20 }}
+    resizeMode="contain"
+  />
+);
+
+const MegaphoneIcon: React.FC = () => (
+  <Svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <Path d="M11.5 8C11.4226 7.99999 11.3463 7.98202 11.277 7.9475L10.277 7.4475C10.1583 7.38822 10.068 7.28423 10.026 7.15839C9.98403 7.03256 9.99373 6.89518 10.053 6.7765C10.1123 6.65782 10.2163 6.56754 10.3421 6.52553C10.4679 6.48352 10.6053 6.49322 10.724 6.5525L11.724 7.0525C11.8249 7.1028 11.9059 7.18575 11.9537 7.28787C12.0016 7.38999 12.0135 7.50529 11.9876 7.61504C11.9616 7.72478 11.8993 7.82254 11.8108 7.89242C11.7223 7.96231 11.6128 8.00022 11.5 8ZM10.7235 3.45L11.7235 2.95C11.8422 2.89072 11.9325 2.78673 11.9745 2.66089C12.0165 2.53506 12.0068 2.39768 11.9475 2.279C11.8882 2.16032 11.7842 2.07004 11.6584 2.02803C11.5326 1.98602 11.3952 1.99572 11.2765 2.055L10.2765 2.555C10.1578 2.61428 10.0675 2.71827 10.0255 2.84411C9.98353 2.96994 9.99323 3.10732 10.0525 3.226C10.1118 3.34468 10.2158 3.43496 10.3416 3.47697C10.4674 3.51898 10.6048 3.50928 10.7235 3.45ZM12 5C12 4.86739 11.9473 4.74021 11.8536 4.64645C11.7598 4.55268 11.6326 4.5 11.5 4.5H10.5C10.3674 4.5 10.2402 4.55268 10.1464 4.64645C10.0527 4.74021 10 4.86739 10 5C10 5.13261 10.0527 5.25979 10.1464 5.35355C10.2402 5.44732 10.3674 5.5 10.5 5.5H11.5C11.6326 5.5 11.7598 5.44732 11.8536 5.35355C11.9473 5.25979 12 5.13261 12 5ZM9 9.5V0.5C9 0.367392 8.94732 0.240215 8.85355 0.146447C8.75979 0.0526784 8.63261 0 8.5 0C8.36739 0 8.24022 0.0526784 8.14645 0.146447C8.05268 0.240215 8 0.367392 8 0.5C8 1.9745 6.7085 2.5 5.5 2.5H2C1.46957 2.5 0.960859 2.71071 0.585787 3.08579C0.210714 3.46086 0 3.96957 0 4.5L0 5.5C0 6.03043 0.210714 6.53914 0.585787 6.91421C0.960859 7.28929 1.46957 7.5 2 7.5H5.5C6.7085 7.5 8 8.0255 8 9.5C8 9.63261 8.05268 9.75979 8.14645 9.85355C8.24022 9.94732 8.36739 10 8.5 10C8.63261 10 8.75979 9.94732 8.85355 9.85355C8.94732 9.75979 9 9.63261 9 9.5ZM4.093 8.5H2C1.76721 8.49907 1.53531 8.47105 1.309 8.4165L2.559 11.2075C2.66398 11.4434 2.83509 11.6438 3.05162 11.7845C3.26814 11.9251 3.5208 12 3.779 12C3.98443 11.9997 4.18652 11.948 4.36686 11.8497C4.5472 11.7513 4.70005 11.6094 4.81149 11.4368C4.92292 11.2642 4.9894 11.0665 5.00486 10.8616C5.02032 10.6568 4.98427 10.4513 4.9 10.264L4.093 8.5Z" fill="#191D20"/>
   </Svg>
 );
 
@@ -77,29 +87,29 @@ const MainScreen: React.FC = () => {
 
   // Mock haber verileri - kategorilere göre
   const allNews = [
-    {
-      id: 1,
+        {
+          id: 1,
       title: "Teknoloji tarihinde dev birleşme! Qualcomm Intel'i satın alıyor",
-      category: "Teknoloji",
+          category: "Teknoloji",
       image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=200&fit=crop",
       time: "2 saat önce"
-    },
-    {
-      id: 2,
+        },
+        {
+          id: 2,
       title: "Yapay Zeka ile Üretimde Yeni Dönem Başladı",
       category: "Teknoloji", 
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop",
       time: "4 saat önce"
-    },
-    {
-      id: 3,
+        },
+        {
+          id: 3,
       title: "Sanayi 4.0 Dönüşümü Hızlanıyor",
       category: "Sanayi",
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
       time: "6 saat önce"
-    },
-    {
-      id: 4,
+        },
+        {
+          id: 4,
       title: "Yenilenebilir Enerji Yatırımları Artıyor",
       category: "Sanayi",
       image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=200&fit=crop",
@@ -140,7 +150,7 @@ const MainScreen: React.FC = () => {
     {
       id: 101,
       title: "158 projeye 394 milyar liralık kaynak... Doğu Karadeniz Projesi Eylem Planı açıklandı!",
-      category: "Otomotiv",
+          category: "Otomotiv",
       image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=300&fit=crop",
       time: "Pazar 16 dk Önce"
     },
@@ -169,28 +179,28 @@ const MainScreen: React.FC = () => {
 
   // Firmalar data
   const companies = [
-    {
-      id: 1,
+        {
+          id: 1,
       name: "Baykar Teknoloji",
       logo: "baykar",
       logoText: "B"
-    },
-    {
-      id: 2,
+        },
+        {
+          id: 2,
       name: "Hepsiburada",
       logo: "hepsiburada",
       logoText: "H"
-    },
-    {
-      id: 3,
-      name: "Baykar Teknoloji",
-      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop",
+        },
+        {
+          id: 3,
+      name: "Baykar Savunma",
+      logo: "baykar",
       logoText: "B"
-    },
-    {
-      id: 4,
-      name: "Hepsiburada",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=200&fit=crop",
+        },
+        {
+          id: 4,
+      name: "Hepsiburada Market",
+      logo: "hepsiburada",
       logoText: "H"
     }
   ];
@@ -250,6 +260,30 @@ const MainScreen: React.FC = () => {
       location: "İstanbul Kongre Merkezi",
       date: "15 Kasım",
       year: "2025"
+    }
+  ];
+
+  // Sosyal Medya data
+  const socialMediaPosts = [
+    {
+      id: 1,
+      company: "Baykar Teknoloji",
+      companyLogo: "baykar",
+      platform: "instagram",
+      time: "1 Saat Önce",
+      content: "TÜ Rektörü Prof. Dr. Hasan Mandal'ı ve dünyanın...",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
+      buttonText: "Devamı Görüntüle"
+    },
+    {
+      id: 2,
+      company: "Toyotetsu",
+      companyLogo: "toyotetsu", 
+      platform: "linkedin",
+      time: "1 Saat Önce",
+      content: "Toyotetsu Türkiye'nin mühendislik gücünü bir kez daha...",
+      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop",
+      buttonText: "Devamı Görüntüle"
     }
   ];
 
@@ -326,6 +360,44 @@ const MainScreen: React.FC = () => {
     );
   };
 
+  const renderSocialMediaCard = (item: any) => (
+    <View key={item.id} style={styles.socialMediaCard}>
+      <Image source={{ uri: item.image }} style={styles.socialMediaImage} />
+      <View style={styles.socialMediaFooter}>
+        <View style={styles.socialMediaCompanyInfo}>
+          {item.companyLogo === "baykar" ? (
+            <BaykarIcon />
+          ) : (
+            <View style={styles.socialMediaLogo}>
+              <Text style={styles.socialMediaLogoText}>T</Text>
+        </View>
+          )}
+          <View style={styles.socialMediaCompanyDetails}>
+            <Text style={styles.socialMediaCompanyName}>{item.company}</Text>
+            <Text style={styles.socialMediaTime}>{item.time}</Text>
+                </View>
+              </View>
+        <View style={styles.socialMediaPlatform}>
+          {item.platform === "instagram" ? (
+            <View style={styles.instagramIcon}>
+              <Text style={styles.platformIconText}>📷</Text>
+                </View>
+          ) : (
+            <View style={styles.linkedinIcon}>
+              <Text style={styles.platformIconText}>💼</Text>
+            </View>
+          )}
+        </View>
+      </View>
+      <View style={styles.socialMediaContent}>
+        <Text style={styles.socialMediaText}>{item.content}</Text>
+        <TouchableOpacity style={styles.socialMediaButton}>
+          <Text style={styles.socialMediaButtonText}>{item.buttonText}</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+    );
+
   const renderSectionHeader = (title: string, showViewAll: boolean = true) => (
     <View style={styles.sectionHeader}>
       <View style={styles.sectionTitleContainer}>
@@ -397,12 +469,12 @@ const MainScreen: React.FC = () => {
         />
       </View>
       <View style={styles.productContent}>
-        <View style={styles.productBadge}>
+      <View style={styles.productBadge}>
           <Text style={styles.productBadgeText}>{item.category}</Text>
-        </View>
+      </View>
         <Text style={styles.productTitle}>{item.title}</Text>
         <Text style={styles.productDescription}>{item.description}</Text>
-      </View>
+    </View>
     </TouchableOpacity>
   );
 
@@ -422,15 +494,15 @@ const MainScreen: React.FC = () => {
         <Text style={styles.jobTitle}>{item.title}</Text>
         <Text style={styles.jobCompany}>{item.company}</Text>
         <View style={styles.jobDetails}>
-          <View style={styles.jobLocation}>
-            <Text style={styles.locationIcon}>📍</Text>
+      <View style={styles.jobLocation}>
+        <Text style={styles.locationIcon}>📍</Text>
             <Text style={styles.locationText}>{item.location}</Text>
-          </View>
-          <View style={styles.jobDate}>
-            <Text style={styles.dateIcon}>📅</Text>
+      </View>
+      <View style={styles.jobDate}>
+        <Text style={styles.dateIcon}>📅</Text>
             <Text style={styles.dateText}>{item.date}</Text>
-          </View>
-        </View>
+      </View>
+    </View>
       </View>
     </TouchableOpacity>
   );
@@ -441,15 +513,21 @@ const MainScreen: React.FC = () => {
       <View style={styles.eventDateContainer}>
         <Text style={styles.eventDate}>{item.date}</Text>
         <Text style={styles.eventYear}>{item.year}</Text>
-      </View>
+    </View>
       <View style={styles.eventContent}>
         <Text style={styles.eventTitle}>{item.title}</Text>
         <View style={styles.eventDetail}>
-          <Text style={styles.organizerIcon}>🎤</Text>
+          <View style={{ marginRight: 6 }}>
+            <MegaphoneIcon />
+          </View>
           <Text style={styles.eventOrganizer}>{item.organizer}</Text>
         </View>
         <View style={styles.eventDetail}>
-          <Text style={styles.locationIcon}>📍</Text>
+          <Image 
+            source={require('../assets/images/icons/location.png')} 
+            style={{ width: 12, height: 12, marginRight: 6 }}
+            resizeMode="contain"
+          />
           <Text style={styles.eventLocation}>{item.location}</Text>
         </View>
       </View>
@@ -461,7 +539,7 @@ const MainScreen: React.FC = () => {
       return (
         <View style={styles.emptyNewsContainer}>
           <Text style={styles.emptyNewsText}>Bu kategoride henüz haber bulunmuyor.</Text>
-        </View>
+      </View>
       );
     }
 
@@ -506,7 +584,7 @@ const MainScreen: React.FC = () => {
                   <Text style={styles.newsSlideTime}>{item.time}</Text>
                 </View>
               </View>
-            </TouchableOpacity>
+        </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id.toString()}
         />
@@ -523,10 +601,10 @@ const MainScreen: React.FC = () => {
                 ]}
               />
             ))}
-          </View>
-        )}
       </View>
-    );
+        )}
+    </View>
+  );
   };
 
   const renderContent = () => {
@@ -552,7 +630,7 @@ const MainScreen: React.FC = () => {
 
             {/* Past News Section */}
             {renderSectionHeader('Geçmiş Haberler')}
-            
+
             {/* Past News Cards */}
             <ScrollView 
               horizontal 
@@ -606,6 +684,57 @@ const MainScreen: React.FC = () => {
             >
               {upcomingEvents.map(renderEventCard)}
             </ScrollView>
+
+            {/* Social Media Section */}
+            {renderSectionHeader('Gosbik Sosyal Medya')}
+            
+            {/* Social Media Platforms */}
+            <View style={styles.socialPlatformsContainer}>
+              <Text style={styles.platformsTitle}>Tüm Paylaşımlar</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.platformsScroll}>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#E4405F' }]}>
+                    <Text style={styles.platformIconText}>📷</Text>
+            </View>
+                  <Text style={styles.platformName}>Instagram</Text>
+          </View>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#0077B5' }]}>
+                    <Text style={styles.platformIconText}>💼</Text>
+                  </View>
+                  <Text style={styles.platformName}>LinkedIn</Text>
+                </View>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#FF0000' }]}>
+                    <Text style={styles.platformIconText}>📺</Text>
+                  </View>
+                  <Text style={styles.platformName}>YouTube</Text>
+                </View>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#1877F2' }]}>
+                    <Text style={styles.platformIconText}>📘</Text>
+                  </View>
+                  <Text style={styles.platformName}>Facebook</Text>
+                </View>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#25D366' }]}>
+                    <Text style={styles.platformIconText}>💬</Text>
+                  </View>
+                  <Text style={styles.platformName}>WhatsApp</Text>
+                </View>
+                <View style={styles.platformItem}>
+                  <View style={[styles.platformIcon, { backgroundColor: '#000000' }]}>
+                    <Text style={styles.platformIconText}>❌</Text>
+                  </View>
+                  <Text style={styles.platformName}>X</Text>
+                </View>
+            </ScrollView>
+            </View>
+
+            {/* Social Media Cards */}
+            <View style={styles.socialMediaCards}>
+              {socialMediaPosts.map(renderSocialMediaCard)}
+            </View>
           </ScrollView>
         );
       case 'ik':
@@ -1599,8 +1728,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 12,
   },
   companyLogo: {
-    width: 60,
-    height: 35,
+    width: 72,
+    height: 40,
     borderRadius: 4,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
@@ -1844,7 +1973,6 @@ const styles = StyleSheet.create({
   eventDetail: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
     marginBottom: 4,
   },
   organizerIcon: {
@@ -1859,6 +1987,152 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666666',
     flex: 1,
+  },
+  // Social Media Styles
+  socialPlatformsContainer: {
+    marginBottom: 20,
+    paddingHorizontal: 22,
+  },
+  platformsTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 12,
+  },
+  platformsScroll: {
+    marginBottom: 10,
+  },
+  platformItem: {
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  platformIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  platformName: {
+    fontSize: 11,
+    color: '#191D20',
+    textAlign: 'center',
+  },
+  socialMediaCards: {
+    flexDirection: 'row',
+    paddingHorizontal: 22,
+    gap: 16,
+    marginBottom: 24,
+  },
+  socialMediaCard: {
+    width: 165,
+    height: 285,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    overflow: 'hidden',
+  },
+  socialMediaFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+  },
+  socialMediaCompanyInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  socialMediaLogo: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F0F0F0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  socialMediaLogoText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#191D20',
+  },
+  socialMediaCompanyDetails: {
+    flex: 1,
+  },
+  socialMediaCompanyName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 1,
+  },
+  socialMediaTime: {
+    fontSize: 10,
+    color: '#666',
+  },
+  socialMediaPlatform: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  instagramIcon: {
+    backgroundColor: '#E4405F',
+    borderRadius: 6,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  linkedinIcon: {
+    backgroundColor: '#0077B5',
+    borderRadius: 6,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  platformIconText: {
+    fontSize: 12,
+    color: '#FFFFFF',
+  },
+  socialMediaImage: {
+    width: 165,
+    height: 200,
+    resizeMode: 'cover',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  socialMediaContent: {
+    padding: 12,
+    paddingTop: 8,
+  },
+  socialMediaText: {
+    fontSize: 12,
+    color: '#191D20',
+    lineHeight: 16,
+    marginBottom: 10,
+  },
+  socialMediaButton: {
+    backgroundColor: '#FFBB01',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  socialMediaButtonText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#191D20',
   },
 
 });
