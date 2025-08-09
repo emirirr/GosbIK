@@ -35,14 +35,7 @@ const BantIcon: React.FC = () => (
   </View>
 );
 
-const AppleIcon: React.FC<{ color?: string }> = ({ color = "black" }) => (
-  <Svg width="18" height="21" viewBox="0 0 18 21" fill="none">
-    <Path 
-      d="M17.6222 16.3654C17.3108 17.0786 16.9261 17.7587 16.474 18.3951C15.8702 19.2425 15.3743 19.8281 14.9942 20.154C14.4038 20.6866 13.7696 20.9606 13.0915 20.976C12.6057 20.976 12.0187 20.8401 11.335 20.5639C10.6491 20.2888 10.0194 20.154 9.44249 20.154C8.83863 20.154 8.19092 20.2888 7.4971 20.5639C6.8044 20.8401 6.24439 20.9849 5.81596 20.9981C5.16711 21.0258 4.51827 20.7451 3.87168 20.154C3.45899 19.8005 2.94284 19.1928 2.32323 18.3332C1.65977 17.4172 1.11439 16.351 0.687074 15.139C0.2294 13.8275 0 12.5591 0 11.3305C0 9.92398 0.30924 8.70973 0.928844 7.69324C1.39748 6.89493 2.06746 6.22866 2.87424 5.75861C3.6698 5.28977 4.57797 5.03733 5.50559 5.02718C6.02287 5.02718 6.70094 5.18407 7.54095 5.49344C8.38096 5.8028 8.92072 5.95969 9.15574 5.95969C9.33342 5.95969 9.93053 5.77518 10.9471 5.40947C11.9063 5.07027 12.7159 4.92995 13.3794 4.98519C15.1786 5.12772 16.5291 5.82379 17.4276 7.07893C15.8196 8.03686 15.0246 9.37707 15.0403 11.0974C15.0538 12.4376 15.5497 13.5524 16.5213 14.4374C16.9508 14.8413 17.452 15.1644 18 15.3909C17.8808 15.7301 17.7549 16.0538 17.6222 16.3654ZM13.4986 0.420957C13.4986 1.47059 13.1073 2.45172 12.3302 3.35882C11.3901 4.43718 10.2544 5.06143 9.02305 4.9631C9.00695 4.83111 8.99906 4.69828 8.99944 4.56534C8.99944 3.55659 9.44474 2.47823 10.2398 1.59544C10.6356 1.14907 11.1394 0.776727 11.75 0.480621C12.3595 0.188934 12.9352 0.0276219 13.4772 0C13.4918 0.141424 13.4986 0.281743 13.4986 0.420957Z" 
-      fill={color}
-    />
-  </Svg>
-);
+
 
 const MicrosoftIcon: React.FC = () => (
   <Svg width="21" height="21" viewBox="0 0 21 21">
@@ -72,6 +65,70 @@ const HepsiburadaIcon: React.FC = () => (
 const MegaphoneIcon: React.FC = () => (
   <Svg width="12" height="12" viewBox="0 0 12 12" fill="none">
     <Path d="M11.5 8C11.4226 7.99999 11.3463 7.98202 11.277 7.9475L10.277 7.4475C10.1583 7.38822 10.068 7.28423 10.026 7.15839C9.98403 7.03256 9.99373 6.89518 10.053 6.7765C10.1123 6.65782 10.2163 6.56754 10.3421 6.52553C10.4679 6.48352 10.6053 6.49322 10.724 6.5525L11.724 7.0525C11.8249 7.1028 11.9059 7.18575 11.9537 7.28787C12.0016 7.38999 12.0135 7.50529 11.9876 7.61504C11.9616 7.72478 11.8993 7.82254 11.8108 7.89242C11.7223 7.96231 11.6128 8.00022 11.5 8ZM10.7235 3.45L11.7235 2.95C11.8422 2.89072 11.9325 2.78673 11.9745 2.66089C12.0165 2.53506 12.0068 2.39768 11.9475 2.279C11.8882 2.16032 11.7842 2.07004 11.6584 2.02803C11.5326 1.98602 11.3952 1.99572 11.2765 2.055L10.2765 2.555C10.1578 2.61428 10.0675 2.71827 10.0255 2.84411C9.98353 2.96994 9.99323 3.10732 10.0525 3.226C10.1118 3.34468 10.2158 3.43496 10.3416 3.47697C10.4674 3.51898 10.6048 3.50928 10.7235 3.45ZM12 5C12 4.86739 11.9473 4.74021 11.8536 4.64645C11.7598 4.55268 11.6326 4.5 11.5 4.5H10.5C10.3674 4.5 10.2402 4.55268 10.1464 4.64645C10.0527 4.74021 10 4.86739 10 5C10 5.13261 10.0527 5.25979 10.1464 5.35355C10.2402 5.44732 10.3674 5.5 10.5 5.5H11.5C11.6326 5.5 11.7598 5.44732 11.8536 5.35355C11.9473 5.25979 12 5.13261 12 5ZM9 9.5V0.5C9 0.367392 8.94732 0.240215 8.85355 0.146447C8.75979 0.0526784 8.63261 0 8.5 0C8.36739 0 8.24022 0.0526784 8.14645 0.146447C8.05268 0.240215 8 0.367392 8 0.5C8 1.9745 6.7085 2.5 5.5 2.5H2C1.46957 2.5 0.960859 2.71071 0.585787 3.08579C0.210714 3.46086 0 3.96957 0 4.5L0 5.5C0 6.03043 0.210714 6.53914 0.585787 6.91421C0.960859 7.28929 1.46957 7.5 2 7.5H5.5C6.7085 7.5 8 8.0255 8 9.5C8 9.63261 8.05268 9.75979 8.14645 9.85355C8.24022 9.94732 8.36739 10 8.5 10C8.63261 10 8.75979 9.94732 8.85355 9.85355C8.94732 9.75979 9 9.63261 9 9.5ZM4.093 8.5H2C1.76721 8.49907 1.53531 8.47105 1.309 8.4165L2.559 11.2075C2.66398 11.4434 2.83509 11.6438 3.05162 11.7845C3.26814 11.9251 3.5208 12 3.779 12C3.98443 11.9997 4.18652 11.948 4.36686 11.8497C4.5472 11.7513 4.70005 11.6094 4.81149 11.4368C4.92292 11.2642 4.9894 11.0665 5.00486 10.8616C5.02032 10.6568 4.98427 10.4513 4.9 10.264L4.093 8.5Z" fill="#191D20"/>
+  </Svg>
+);
+
+// Social Media Icons
+const InstagramIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M6.75 0H1.25C0.559644 0 0 0.559644 0 1.25V6.75C0 7.44036 0.559644 8 1.25 8H6.75C7.44036 8 8 7.44036 8 6.75V1.25C8 0.559644 7.44036 0 6.75 0Z" fill="#F00073"/>
+    <Path d="M3.9998 1.80078C4.5498 1.80078 4.6248 1.80078 4.8498 1.80078C5.0498 1.80078 5.1498 1.85078 5.2248 1.87578C5.3248 1.92578 5.3998 1.95078 5.4748 2.02578C5.5498 2.10078 5.5998 2.17578 5.6248 2.27578C5.6498 2.35078 5.6748 2.45078 5.6998 2.65078C5.6998 2.87578 5.6998 2.92578 5.6998 3.50078C5.6998 4.07578 5.6998 4.12578 5.6998 4.35078C5.6998 4.55078 5.6498 4.65078 5.6248 4.72578C5.5748 4.82578 5.5498 4.90078 5.4748 4.97578C5.3998 5.05078 5.3248 5.10078 5.2248 5.12578C5.1498 5.15078 5.0498 5.17578 4.8498 5.20078C4.6248 5.20078 4.5748 5.20078 3.9998 5.20078C3.4248 5.20078 3.3748 5.20078 3.1498 5.20078C2.9498 5.20078 2.8498 5.15078 2.7748 5.12578C2.6748 5.07578 2.5998 5.05078 2.5248 4.97578C2.4498 4.90078 2.3998 4.82578 2.3748 4.72578C2.3498 4.65078 2.3248 4.55078 2.2998 4.35078C2.2998 4.12578 2.2998 4.07578 2.2998 3.50078C2.2998 2.92578 2.2998 2.87578 2.2998 2.65078C2.2998 2.45078 2.3498 2.35078 2.3748 2.27578C2.4248 2.17578 2.4498 2.10078 2.5248 2.02578C2.5998 1.95078 2.6748 1.90078 2.7748 1.87578C2.8498 1.85078 2.9498 1.82578 3.1498 1.80078C3.3748 1.80078 3.4498 1.80078 3.9998 1.80078ZM3.9998 1.42578C3.4248 1.42578 3.3748 1.42578 3.1498 1.42578C2.9248 1.42578 2.7748 1.47578 2.6498 1.52578C2.5248 1.57578 2.3998 1.65078 2.2748 1.77578C2.1498 1.90078 2.0998 2.00078 2.0248 2.15078C1.9748 2.27578 1.9498 2.42578 1.9248 2.65078C1.9248 2.87578 1.9248 2.95078 1.9248 3.50078C1.9248 4.07578 1.9248 4.12578 1.9248 4.35078C1.9248 4.57578 1.9748 4.72578 2.0248 4.85078C2.0748 4.97578 2.1498 5.10078 2.2748 5.22578C2.3998 5.35078 2.4998 5.40078 2.6498 5.47578C2.7748 5.52578 2.9248 5.55078 3.1498 5.57578C3.3748 5.57578 3.4498 5.57578 3.9998 5.57578C4.5498 5.57578 4.6248 5.57578 4.8498 5.57578C5.0748 5.57578 5.2248 5.52578 5.3498 5.47578C5.4748 5.42578 5.5998 5.35078 5.7248 5.22578C5.8498 5.10078 5.8998 5.00078 5.9748 4.85078C6.02481 4.72578 6.0498 4.57578 6.0748 4.35078C6.0748 4.12578 6.0748 4.05078 6.0748 3.50078C6.0748 2.95078 6.0748 2.87578 6.0748 2.65078C6.0748 2.42578 6.02481 2.27578 5.9748 2.15078C5.9248 2.02578 5.8498 1.90078 5.7248 1.77578C5.5998 1.65078 5.4998 1.60078 5.3498 1.52578C5.2248 1.47578 5.0748 1.45078 4.8498 1.42578C4.6248 1.42578 4.5748 1.42578 3.9998 1.42578Z" fill="white"/>
+    <Path d="M3.9998 2.42578C3.3998 2.42578 2.9248 2.90078 2.9248 3.50078C2.9248 4.10078 3.3998 4.57578 3.9998 4.57578C4.5998 4.57578 5.0748 4.10078 5.0748 3.50078C5.0748 2.90078 4.5998 2.42578 3.9998 2.42578ZM3.9998 4.20078C3.6248 4.20078 3.2998 3.90078 3.2998 3.50078C3.2998 3.12578 3.5998 2.80078 3.9998 2.80078C4.3748 2.80078 4.6998 3.10078 4.6998 3.50078C4.6998 3.87578 4.3748 4.20078 3.9998 4.20078Z" fill="white"/>
+    <Path d="M5.0998 2.65078C5.23788 2.65078 5.3498 2.53885 5.3498 2.40078C5.3498 2.26271 5.23788 2.15078 5.0998 2.15078C4.96173 2.15078 4.8498 2.26271 4.8498 2.40078C4.8498 2.53885 4.96173 2.65078 5.0998 2.65078Z" fill="white"/>
+  </Svg>
+);
+
+const LinkedInIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M6.75 0H1.25C0.559644 0 0 0.559644 0 1.25V6.75C0 7.44036 0.559644 8 1.25 8H6.75C7.44036 8 8 7.44036 8 6.75V1.25C8 0.559644 7.44036 0 6.75 0Z" fill="#2867B2"/>
+    <Path d="M2.9 6H2.05V3.325H2.9V6ZM2.475 2.95C2.2 2.95 2 2.75 2 2.475C2 2.2 2.225 2 2.475 2C2.75 2 2.95 2.2 2.95 2.475C2.95 2.75 2.75 2.95 2.475 2.95ZM6 6H5.15V4.55C5.15 4.125 4.975 4 4.725 4C4.475 4 4.225 4.2 4.225 4.575V6H3.375V3.325H4.175V3.7C4.25 3.525 4.55 3.25 4.975 3.25C5.45 3.25 5.95 3.525 5.95 4.35V6H6Z" fill="white"/>
+  </Svg>
+);
+
+const YouTubeIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M6.75 0H1.25C0.559644 0 0 0.559644 0 1.25V6.75C0 7.44036 0.559644 8 1.25 8H6.75C7.44036 8 8 7.44036 8 6.75V1.25C8 0.559644 7.44036 0 6.75 0Z" fill="#FF0000"/>
+    <Path d="M5.9 3.02461C5.85 2.84961 5.725 2.72461 5.55 2.67461C5.25 2.59961 3.975 2.59961 3.975 2.59961C3.975 2.59961 2.725 2.59961 2.4 2.67461C2.225 2.72461 2.1 2.84961 2.05 3.02461C2 3.34961 2 3.99961 2 3.99961C2 3.99961 2 4.64961 2.075 4.97461C2.125 5.14961 2.25 5.27461 2.425 5.32461C2.725 5.39961 4 5.39961 4 5.39961C4 5.39961 5.25 5.39961 5.575 5.32461C5.75 5.27461 5.875 5.14961 5.925 4.97461C6 4.64961 6 3.99961 6 3.99961C6 3.99961 6 3.34961 5.9 3.02461ZM3.6 4.59961V3.39961L4.65 3.99961L3.6 4.59961Z" fill="white"/>
+  </Svg>
+);
+
+const FacebookIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M6.75 0H1.25C0.559644 0 0 0.559644 0 1.25V6.75C0 7.44036 0.559644 8 1.25 8H6.75C7.44036 8 8 7.44036 8 6.75V1.25C8 0.559644 7.44036 0 6.75 0Z" fill="#1877F2"/>
+    <Path d="M6 4C6 2.9 5.1 2 4 2C2.9 2 2 2.9 2 4C2 5 2.725 5.825 3.675 5.975V4.575H3.175V4H3.675V3.55C3.675 3.05 3.975 2.775 4.425 2.775C4.65 2.775 4.875 2.825 4.875 2.825V3.325H4.625C4.375 3.325 4.3 3.475 4.3 3.625V4H4.85L4.75 4.575H4.275V6C5.275 5.85 6 5 6 4Z" fill="white"/>
+  </Svg>
+);
+
+const WhatsAppIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M6.75 0H1.25C0.559644 0 0 0.559644 0 1.25V6.75C0 7.44036 0.559644 8 1.25 8H6.75C7.44036 8 8 7.44036 8 6.75V1.25C8 0.559644 7.44036 0 6.75 0Z" fill="#25D366"/>
+    <Path fillRule="evenodd" clipRule="evenodd" d="M5.4 2.575C5.025 2.2 4.525 2 4 2C2.9 2 2 2.9 2 4C2 4.35 2.1 4.7 2.275 5L2 6L3.05 5.725C3.35 5.875 3.675 5.975 4 5.975C5.1 5.975 6 5.075 6 3.975C6 3.45 5.775 2.95 5.4 2.575ZM4 5.65C3.7 5.65 3.4 5.575 3.15 5.425L3.1 5.4L2.475 5.575L2.65 4.975L2.6 4.9C2.425 4.625 2.35 4.325 2.35 4.025C2.35 3.125 3.1 2.375 4 2.375C4.45 2.375 4.85 2.55 5.175 2.85C5.5 3.175 5.65 3.575 5.65 4.025C5.65 4.9 4.925 5.65 4 5.65ZM4.9 4.4C4.85 4.375 4.6 4.25 4.55 4.25C4.5 4.225 4.475 4.225 4.45 4.275C4.425 4.325 4.325 4.425 4.3 4.475C4.275 4.5 4.25 4.5 4.2 4.5C4.15 4.475 4 4.425 3.8 4.25C3.65 4.125 3.55 3.95 3.525 3.9C3.5 3.85 3.525 3.825 3.55 3.8C3.575 3.775 3.6 3.75 3.625 3.725C3.65 3.7 3.65 3.675 3.675 3.65C3.7 3.625 3.675 3.6 3.675 3.575C3.675 3.55 3.575 3.3 3.525 3.2C3.5 3.125 3.45 3.125 3.425 3.125C3.4 3.125 3.375 3.125 3.325 3.125C3.3 3.125 3.25 3.125 3.2 3.175C3.15 3.225 3.025 3.35 3.025 3.6C3.025 3.85 3.2 4.075 3.225 4.125C3.25 4.15 3.575 4.675 4.075 4.875C4.5 5.05 4.575 5 4.675 5C4.775 5 4.975 4.875 5 4.775C5.05 4.65 5.05 4.55 5.025 4.55C5 4.425 4.95 4.425 4.9 4.4Z" fill="white"/>
+  </Svg>
+);
+
+const XIcon: React.FC = () => (
+  <Svg width="24" height="24" viewBox="0 0 8 8">
+    <Path d="M0 1.25C0 0.559644 0.559644 0 1.25 0H6.75C7.44036 0 8 0.559644 8 1.25V6.75C8 7.44036 7.44036 8 6.75 8H1.25C0.559644 8 0 7.44036 0 6.75V1.25Z" fill="black"/>
+    <Path d="M4.38054 3.19373L5.86963 1.5H5.51677L4.22379 2.97064L3.19109 1.5H2L3.56164 3.72387L2 5.5H2.35289L3.7183 3.94695L4.80891 5.5H6L4.38046 3.19373H4.38054ZM3.89722 3.74346L3.73899 3.52201L2.48004 1.75994H3.02205L4.03804 3.18199L4.19627 3.40344L5.51693 5.25189H4.97492L3.89722 3.74354V3.74346Z" fill="white"/>
+  </Svg>
+);
+
+// Job Icons
+const LocationIcon: React.FC = () => (
+  <Svg width="12" height="12" viewBox="0 0 16 16">
+    <Path d="M7.9997 0.0273438C6.23566 0.0292845 4.54442 0.730861 3.29699 1.97816C2.04957 3.22547 1.34782 4.91664 1.3457 6.68068C1.3457 8.39401 2.67237 11.0753 5.28904 14.65C5.60054 15.0768 6.00841 15.4239 6.47944 15.6633C6.95047 15.9026 7.47135 16.0274 7.9997 16.0274C8.52805 16.0274 9.04894 15.9026 9.51997 15.6633C9.991 15.4239 10.3989 15.0768 10.7104 14.65C13.327 11.0753 14.6537 8.39401 14.6537 6.68068C14.6516 4.91664 13.9498 3.22547 12.7024 1.97816C11.455 0.730861 9.76374 0.0292845 7.9997 0.0273438ZM7.9997 9.33268C7.47229 9.33268 6.95671 9.17628 6.51818 8.88326C6.07965 8.59025 5.73786 8.17377 5.53602 7.6865C5.33419 7.19923 5.28138 6.66305 5.38428 6.14577C5.48717 5.62849 5.74115 5.15333 6.11409 4.78039C6.48703 4.40745 6.96218 4.15348 7.47946 4.05058C7.99675 3.94769 8.53292 4.0005 9.02019 4.20233C9.50746 4.40417 9.92394 4.74596 10.217 5.18449C10.51 5.62302 10.6664 6.13859 10.6664 6.66601C10.6664 7.37326 10.3854 8.05153 9.88532 8.55163C9.38522 9.05173 8.70695 9.33268 7.9997 9.33268Z" fill="#666666"/>
+  </Svg>
+);
+
+const CalendarIcon: React.FC = () => (
+  <Svg width="12" height="12" viewBox="0 0 16 16">
+    <Path d="M12.3333 1.33333H12V1C12 0.734784 11.8946 0.48043 11.7071 0.292893C11.5196 0.105357 11.2652 0 11 0V0C10.7348 0 10.4804 0.105357 10.2929 0.292893C10.1054 0.48043 10 0.734784 10 1V1.33333H6V1C6 0.734784 5.89464 0.48043 5.70711 0.292893C5.51957 0.105357 5.26522 0 5 0V0C4.73478 0 4.48043 0.105357 4.29289 0.292893C4.10536 0.48043 4 0.734784 4 1V1.33333H3.66667C2.69421 1.33333 1.76158 1.71964 1.07394 2.40728C0.386308 3.09491 0 4.02754 0 5L0 12.3333C0 13.3058 0.386308 14.2384 1.07394 14.9261C1.76158 15.6137 2.69421 16 3.66667 16H12.3333C13.3058 16 14.2384 15.6137 14.9261 14.9261C15.6137 14.2384 16 13.3058 16 12.3333V5C16 4.02754 15.6137 3.09491 14.9261 2.40728C14.2384 1.71964 13.3058 1.33333 12.3333 1.33333ZM12.3333 14H3.66667C3.22464 14 2.80072 13.8244 2.48816 13.5118C2.17559 13.1993 2 12.7754 2 12.3333V6.66667H14V12.3333C14 12.7754 13.8244 13.1993 13.5118 13.5118C13.1993 13.8244 12.7754 14 12.3333 14Z" fill="#666666"/>
+  </Svg>
+);
+
+const AppleIcon: React.FC = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24">
+    <Path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#000000"/>
   </Svg>
 );
 
@@ -263,29 +320,7 @@ const MainScreen: React.FC = () => {
     }
   ];
 
-  // Sosyal Medya data
-  const socialMediaPosts = [
-    {
-      id: 1,
-      company: "Baykar Teknoloji",
-      companyLogo: "baykar",
-      platform: "instagram",
-      time: "1 Saat Önce",
-      content: "TÜ Rektörü Prof. Dr. Hasan Mandal'ı ve dünyanın...",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
-      buttonText: "Devamı Görüntüle"
-    },
-    {
-      id: 2,
-      company: "Toyotetsu",
-      companyLogo: "toyotetsu", 
-      platform: "linkedin",
-      time: "1 Saat Önce",
-      content: "Toyotetsu Türkiye'nin mühendislik gücünü bir kez daha...",
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop",
-      buttonText: "Devamı Görüntüle"
-    }
-  ];
+
 
   // Kategori değiştiğinde haberleri filtrele
   useEffect(() => {
@@ -360,43 +395,7 @@ const MainScreen: React.FC = () => {
     );
   };
 
-  const renderSocialMediaCard = (item: any) => (
-    <View key={item.id} style={styles.socialMediaCard}>
-      <Image source={{ uri: item.image }} style={styles.socialMediaImage} />
-      <View style={styles.socialMediaFooter}>
-        <View style={styles.socialMediaCompanyInfo}>
-          {item.companyLogo === "baykar" ? (
-            <BaykarIcon />
-          ) : (
-            <View style={styles.socialMediaLogo}>
-              <Text style={styles.socialMediaLogoText}>T</Text>
-        </View>
-          )}
-          <View style={styles.socialMediaCompanyDetails}>
-            <Text style={styles.socialMediaCompanyName}>{item.company}</Text>
-            <Text style={styles.socialMediaTime}>{item.time}</Text>
-                </View>
-              </View>
-        <View style={styles.socialMediaPlatform}>
-          {item.platform === "instagram" ? (
-            <View style={styles.instagramIcon}>
-              <Text style={styles.platformIconText}>📷</Text>
-                </View>
-          ) : (
-            <View style={styles.linkedinIcon}>
-              <Text style={styles.platformIconText}>💼</Text>
-            </View>
-          )}
-        </View>
-      </View>
-      <View style={styles.socialMediaContent}>
-        <Text style={styles.socialMediaText}>{item.content}</Text>
-        <TouchableOpacity style={styles.socialMediaButton}>
-          <Text style={styles.socialMediaButtonText}>{item.buttonText}</Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-    );
+
 
   const renderSectionHeader = (title: string, showViewAll: boolean = true) => (
     <View style={styles.sectionHeader}>
@@ -412,31 +411,31 @@ const MainScreen: React.FC = () => {
           </View>
         </TouchableOpacity>
       )}
-    </View>
-  );
+        </View>
+      );
 
   const renderPastNewsCard = (item: any) => (
     <TouchableOpacity key={item.id} style={styles.pastNewsCard}>
       <View style={styles.yellowStripe} />
       <View style={styles.pastNewsImage}>
-        <Image 
-          source={{ uri: item.image }}
+                <Image
+                  source={{ uri: item.image }}
           style={styles.pastNewsImageStyle}
-          onError={() => {
+                  onError={() => {
             console.log('Past news image failed to load:', item.image);
-          }}
-        />
-      </View>
+                  }}
+                />
+                </View>
       <View style={styles.pastNewsContentArea}>
         <View style={styles.pastNewsMeta}>
           <View style={styles.categoryDot} />
           <Text style={styles.pastNewsCategory}>{item.category}</Text>
-        </View>
+              </View>
         <Text style={styles.pastNewsTitle} numberOfLines={3}>
-          {item.title}
-        </Text>
+                  {item.title}
+                </Text>
         <Text style={styles.pastNewsTime}>{item.time}</Text>
-      </View>
+              </View>
     </TouchableOpacity>
   );
 
@@ -450,8 +449,8 @@ const MainScreen: React.FC = () => {
           <HepsiburadaIcon />
         ) : (
           <Text style={styles.companyLogoText}>{item.logoText}</Text>
-        )}
-      </View>
+      )}
+    </View>
       <Text style={styles.companyName}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -471,10 +470,10 @@ const MainScreen: React.FC = () => {
       <View style={styles.productContent}>
       <View style={styles.productBadge}>
           <Text style={styles.productBadgeText}>{item.category}</Text>
-      </View>
+        </View>
         <Text style={styles.productTitle}>{item.title}</Text>
         <Text style={styles.productDescription}>{item.description}</Text>
-    </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -483,7 +482,7 @@ const MainScreen: React.FC = () => {
       <View style={styles.jobYellowStripe} />
       <View style={styles.jobLogoContainer}>
         {item.logo === "apple" ? (
-          <AppleIcon color="#191D20" />
+          <AppleIcon />
         ) : item.logo === "microsoft" ? (
           <MicrosoftIcon />
         ) : (
@@ -494,16 +493,15 @@ const MainScreen: React.FC = () => {
         <Text style={styles.jobTitle}>{item.title}</Text>
         <Text style={styles.jobCompany}>{item.company}</Text>
         <View style={styles.jobDetails}>
-      <View style={styles.jobLocation}>
-        <Text style={styles.locationIcon}>📍</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <LocationIcon />
             <Text style={styles.locationText}>{item.location}</Text>
+    </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <CalendarIcon />            <Text style={styles.dateText}>{item.date}</Text>
       </View>
-      <View style={styles.jobDate}>
-        <Text style={styles.dateIcon}>📅</Text>
-            <Text style={styles.dateText}>{item.date}</Text>
       </View>
     </View>
-      </View>
     </TouchableOpacity>
   );
 
@@ -513,15 +511,15 @@ const MainScreen: React.FC = () => {
       <View style={styles.eventDateContainer}>
         <Text style={styles.eventDate}>{item.date}</Text>
         <Text style={styles.eventYear}>{item.year}</Text>
-    </View>
+      </View>
       <View style={styles.eventContent}>
         <Text style={styles.eventTitle}>{item.title}</Text>
         <View style={styles.eventDetail}>
           <View style={{ marginRight: 6 }}>
             <MegaphoneIcon />
-          </View>
+      </View>
           <Text style={styles.eventOrganizer}>{item.organizer}</Text>
-        </View>
+      </View>
         <View style={styles.eventDetail}>
           <Image 
             source={require('../assets/images/icons/location.png')} 
@@ -529,7 +527,7 @@ const MainScreen: React.FC = () => {
             resizeMode="contain"
           />
           <Text style={styles.eventLocation}>{item.location}</Text>
-        </View>
+    </View>
       </View>
     </TouchableOpacity>
   );
@@ -539,8 +537,8 @@ const MainScreen: React.FC = () => {
       return (
         <View style={styles.emptyNewsContainer}>
           <Text style={styles.emptyNewsText}>Bu kategoride henüz haber bulunmuyor.</Text>
-      </View>
-      );
+    </View>
+  );
     }
 
     return (
@@ -574,7 +572,7 @@ const MainScreen: React.FC = () => {
                 {/* Category badge */}
                 <View style={styles.newsCategoryBadge}>
                   <Text style={styles.newsCategoryBadgeText}>{item.category}</Text>
-                </View>
+      </View>
                 
                 {/* Content overlay */}
                 <View style={styles.newsContentOverlay}>
@@ -685,56 +683,169 @@ const MainScreen: React.FC = () => {
               {upcomingEvents.map(renderEventCard)}
             </ScrollView>
 
-            {/* Social Media Section */}
-            {renderSectionHeader('Gosbik Sosyal Medya')}
+            {/* Job Listings Section */}
+            <View style={styles.jobListingsContainer}>
+              <View style={styles.jobListingsHeader}>
+                <View style={styles.jobListingsHeaderLeft}>
+                  <View style={styles.gosbikLogoOuter}>
+                    <View style={styles.gosbikLogoMiddle}>
+                      <View style={styles.gosbikLogo}>
+                        <Image 
+                          source={require('../assets/images/splash/splash logo.png')}
+                          style={styles.gosbikLogoImage}
+                          resizeMode="contain"
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.jobListingsTitleContainer}>
+                    <Text style={styles.jobListingsTitle}>Gosbik Sosyal Medya</Text>
+                    <Text style={styles.jobListingsSubtitle}>81 Paylaşım</Text>
+                  </View>
+                </View>
+                <TouchableOpacity style={styles.jobListingsViewAll}>
+                  <Text style={styles.jobListingsViewAllText}>Takip Edin</Text>
+              </TouchableOpacity>
+            </View>
             
-            {/* Social Media Platforms */}
-            <View style={styles.socialPlatformsContainer}>
-              <Text style={styles.platformsTitle}>Tüm Paylaşımlar</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.platformsScroll}>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#E4405F' }]}>
-                    <Text style={styles.platformIconText}>📷</Text>
+                            <View style={styles.jobListingsContent}>
+                <View style={styles.jobCardContainer}>
+                  <View style={styles.jobCardStripe} />
+                  <View style={styles.jobCard}>
+                    <View style={styles.jobCardHeader}>
+                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#F5F5F7' }]}>
+                      <AppleIcon />
             </View>
-                  <Text style={styles.platformName}>Instagram</Text>
+                    <View style={styles.jobCardInfo}>
+                      <Text style={styles.jobTitle}>Frontend Developer</Text>
+                      <Text style={styles.jobCompany}>Apple Inc.</Text>
+                      <View style={styles.jobLocationContainer}>
+                        <LocationIcon />
+                        <Text style={styles.jobLocation}>İstanbul, Türkiye</Text>
+                      </View>
+                    </View>
+                    <View style={styles.jobSalary}>
+                      <Text style={styles.jobSalaryText}>25.000₺</Text>
+                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
+                    </View>
           </View>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#0077B5' }]}>
-                    <Text style={styles.platformIconText}>💼</Text>
-                  </View>
-                  <Text style={styles.platformName}>LinkedIn</Text>
-                </View>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#FF0000' }]}>
-                    <Text style={styles.platformIconText}>📺</Text>
-                  </View>
-                  <Text style={styles.platformName}>YouTube</Text>
-                </View>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#1877F2' }]}>
-                    <Text style={styles.platformIconText}>📘</Text>
-                  </View>
-                  <Text style={styles.platformName}>Facebook</Text>
-                </View>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#25D366' }]}>
-                    <Text style={styles.platformIconText}>💬</Text>
-                  </View>
-                  <Text style={styles.platformName}>WhatsApp</Text>
-                </View>
-                <View style={styles.platformItem}>
-                  <View style={[styles.platformIcon, { backgroundColor: '#000000' }]}>
-                    <Text style={styles.platformIconText}>❌</Text>
-                  </View>
-                  <Text style={styles.platformName}>X</Text>
-                </View>
-            </ScrollView>
-            </View>
 
-            {/* Social Media Cards */}
-            <View style={styles.socialMediaCards}>
-              {socialMediaPosts.map(renderSocialMediaCard)}
+                  <View style={styles.jobSkills}>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>React</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>TypeScript</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>Node.js</Text>
+                    </View>
+                  </View>
+                  
+                                    <View style={styles.jobFooter}>
+                    <View style={styles.jobTimeContainer}>
+                      <CalendarIcon />
+                      <Text style={styles.jobPostedTime}>18.04.2025</Text>
+                    </View>
+                    <TouchableOpacity style={styles.jobApplyButton}>
+                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
+              </TouchableOpacity>
+                  </View>
+                  </View>
+                </View>
+
+                <View style={styles.jobCardContainer}>
+                  <View style={styles.jobCardStripe} />
+                  <View style={styles.jobCard}>
+                    <View style={styles.jobCardHeader}>
+                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#00A4EF' }]}>
+                      <MicrosoftIcon />
+                    </View>
+                    <View style={styles.jobCardInfo}>
+                      <Text style={styles.jobTitle}>Backend Developer</Text>
+                      <Text style={styles.jobCompany}>Microsoft</Text>
+                      <View style={styles.jobLocationContainer}>
+                        <LocationIcon />
+                        <Text style={styles.jobLocation}>Ankara, Türkiye</Text>
+                      </View>
+                    </View>
+                    <View style={styles.jobSalary}>
+                      <Text style={styles.jobSalaryText}>30.000₺</Text>
+                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
+                    </View>
+                  </View>
+                  
+                  <View style={styles.jobSkills}>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>C#</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>.NET</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>Azure</Text>
+                    </View>
+                  </View>
+                  
+                                    <View style={styles.jobFooter}>
+                    <View style={styles.jobTimeContainer}>
+                      <CalendarIcon />
+                      <Text style={styles.jobPostedTime}>15.04.2025</Text>
+                    </View>
+                    <TouchableOpacity style={styles.jobApplyButton}>
+                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
+              </TouchableOpacity>
+                  </View>
+                  </View>
+                </View>
+
+                <View style={styles.jobCardContainer}>
+                  <View style={styles.jobCardStripe} />
+                  <View style={styles.jobCard}>
+                    <View style={styles.jobCardHeader}>
+                    <View style={[styles.jobCompanyLogo, { backgroundColor: '#FF6B35' }]}>
+                      <Text style={styles.jobCompanyLogoText}>B</Text>
+                    </View>
+                    <View style={styles.jobCardInfo}>
+                      <Text style={styles.jobTitle}>UI/UX Designer</Text>
+                      <Text style={styles.jobCompany}>Baykar Teknoloji</Text>
+                      <View style={styles.jobLocationContainer}>
+                        <LocationIcon />
+                        <Text style={styles.jobLocation}>İstanbul, Türkiye</Text>
+                      </View>
+                    </View>
+                    <View style={styles.jobSalary}>
+                      <Text style={styles.jobSalaryText}>22.000₺</Text>
+                      <Text style={styles.jobSalaryPeriod}>/ay</Text>
+                    </View>
+                  </View>
+                  
+                  <View style={styles.jobSkills}>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>Figma</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>Adobe XD</Text>
+                    </View>
+                    <View style={styles.skillTag}>
+                      <Text style={styles.skillTagText}>Sketch</Text>
+                    </View>
+                  </View>
+                  
+                                                      <View style={styles.jobFooter}>
+                    <View style={styles.jobTimeContainer}>
+                      <CalendarIcon />
+                      <Text style={styles.jobPostedTime}>16.04.2025</Text>
+                    </View>
+                    <TouchableOpacity style={styles.jobApplyButton}>
+                      <Text style={styles.jobApplyButtonText}>Başvur</Text>
+              </TouchableOpacity>
+                  </View>
+                  </View>
+                </View>
+              </View>
             </View>
+            
           </ScrollView>
         );
       case 'ik':
@@ -1536,7 +1647,7 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 20,
     paddingTop: 40,
-    background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+    backgroundColor: 'rgba(0,0,0,0.6)',
   },
   newsSlideTitle: {
     color: '#FFFFFF',
@@ -1883,14 +1994,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   jobDetails: {
+    flexDirection: 'row',
     gap: 8,
   },
   jobLocation: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  jobDate: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
@@ -2009,7 +2116,6 @@ const styles = StyleSheet.create({
   platformIcon: {
     width: 40,
     height: 40,
-    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 6,
@@ -2099,10 +2205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  platformIconText: {
-    fontSize: 12,
-    color: '#FFFFFF',
-  },
+
   socialMediaImage: {
     width: 165,
     height: 200,
@@ -2133,6 +2236,212 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
     color: '#191D20',
+  },
+
+  // Job Listings Styles
+  jobListingsContainer: {
+    width: 365,
+    height: 392,
+    marginLeft: 27,
+    marginTop: 24,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    padding: 16,
+  },
+  jobListingsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  jobListingsHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  gosbikLogoOuter: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    backgroundColor: '#FFBB01',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  gosbikLogoMiddle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  gosbikLogo: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  gosbikLogoText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#191D20',
+  },
+  gosbikLogoImage: {
+    width: 36,
+    height: 36,
+  },
+  jobListingsTitleContainer: {
+    flex: 1,
+    marginRight: 16,
+  },
+  jobListingsTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 2,
+  },
+  jobListingsSubtitle: {
+    fontSize: 12,
+    color: '#666666',
+  },
+  jobListingsViewAll: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#FFBB01',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#191D20',
+    minWidth: 60,
+    minHeight: 20,
+  },
+  jobListingsViewAllText: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: '#191D20',
+  },
+  jobListingsContent: {
+    flex: 1,
+  },
+  jobCardContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    marginBottom: 12,
+  },
+  jobCardStripe: {
+    width: 4,
+    backgroundColor: '#FFBB01',
+    borderRadius: 2,
+    marginRight: 8,
+  },
+  jobCard: {
+    backgroundColor: '#F8F9FA',
+    borderRadius: 8,
+    padding: 12,
+    flex: 1,
+  },
+  jobCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  jobCompanyLogo: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: '#E0E0E0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  jobCompanyLogoText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  jobCardInfo: {
+    flex: 1,
+  },
+  jobTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#191D20',
+    marginBottom: 2,
+  },
+  jobCompany: {
+    fontSize: 12,
+    color: '#666666',
+    marginBottom: 2,
+  },
+  jobLocationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  jobLocation: {
+    fontSize: 11,
+    color: '#999999',
+  },
+  jobSalary: {
+    alignItems: 'flex-end',
+  },
+  jobSalaryText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#191D20',
+  },
+  jobSalaryPeriod: {
+    fontSize: 10,
+    color: '#666666',
+  },
+  jobSkills: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 8,
+  },
+  skillTag: {
+    backgroundColor: '#E3F2FD',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginRight: 6,
+    marginBottom: 4,
+  },
+  skillTagText: {
+    fontSize: 10,
+    color: '#1976D2',
+    fontWeight: '500',
+  },
+  jobFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  jobTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  jobPostedTime: {
+    fontSize: 10,
+    color: '#999999',
+  },
+  jobApplyButton: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  jobApplyButtonText: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: '#FFFFFF',
   },
 
 });
