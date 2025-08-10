@@ -15,6 +15,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomTabNavigator from './BottomTabNavigator';
 import SearchScreen from './SearchScreen';
+import NewsScreen from './NewsScreen';
 import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 
@@ -139,6 +140,7 @@ const MainScreen = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [activeCategory, setActiveCategory] = useState('Tümü');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showNewsScreen, setShowNewsScreen] = useState(false);
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
 
   const { width } = Dimensions.get('window');
@@ -417,15 +419,22 @@ const MainScreen = () => {
         <Text style={styles.sectionTitle}>{title}</Text>
       </View>
       {showViewAll && (
-        <TouchableOpacity style={styles.viewAllButton}>
+        <TouchableOpacity 
+          style={styles.viewAllButton}
+          onPress={() => {
+            if (title === 'Geçmiş Haberler') {
+              setShowNewsScreen(true);
+            }
+          }}
+        >
           <Text style={styles.viewAllText}>Tümü</Text>
           <View style={styles.arrowContainer}>
             <YonIcon color="#191D20" />
           </View>
         </TouchableOpacity>
       )}
-        </View>
-      );
+    </View>
+  );
 
   const renderPastNewsCard = (item: any) => (
     <TouchableOpacity key={item.id} style={styles.pastNewsCard}>
@@ -624,6 +633,10 @@ const MainScreen = () => {
   };
 
   const renderContent = () => {
+    if (showNewsScreen) {
+      return <NewsScreen onBack={() => setShowNewsScreen(false)} />;
+    }
+
     switch (activeTab) {
       case 'home':
         return (

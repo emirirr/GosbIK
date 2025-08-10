@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { IndustryIcon, TechnologyIcon, CarIcon } from './icons/SvgIcons';
 import Svg, { Path } from 'react-native-svg';
+import CategoryButton from './CategoryButton';
 
 const MegaphoneIcon: React.FC = () => (
   <Svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -75,71 +76,79 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ onBack }) => {
         <View style={styles.suggestionsContainer}>
           <Text style={styles.suggestionsTitle}>Öneri</Text>
           <View style={styles.suggestionsGrid}>
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Leadership') && styles.suggestionTagActive]}
+            {/* 1. Satır */}
+            <CategoryButton
+              title="Leadership"
+              isActive={selectedTags.includes('Leadership')}
               onPress={() => toggleTag('Leadership')}
-            >
-              <Text style={styles.suggestionTagText}>Leadership</Text>
-              <TouchableOpacity onPress={() => setSelectedTags(selectedTags.filter(t => t !== 'Leadership'))}>
-                <Text style={styles.suggestionTagX}>×</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Leadership')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Leadership'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Teamwork') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="Teamwork"
+              isActive={selectedTags.includes('Teamwork')}
               onPress={() => toggleTag('Teamwork')}
-            >
-              <Text style={styles.suggestionTagText}>Teamwork</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Teamwork')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Teamwork'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Visioner') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="Visioner"
+              isActive={selectedTags.includes('Visioner')}
               onPress={() => toggleTag('Visioner')}
-            >
-              <Text style={styles.suggestionTagText}>Visioner</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Visioner')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Visioner'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Target oriented') && styles.suggestionTagActive]}
+            {/* 2. Satır */}
+            <CategoryButton
+              title="Target oriented"
+              isActive={selectedTags.includes('Target oriented')}
               onPress={() => toggleTag('Target oriented')}
-            >
-              <Text style={styles.suggestionTagText}>Target oriented</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Target oriented')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Target oriented'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Consistent') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="Consistent"
+              isActive={selectedTags.includes('Consistent')}
               onPress={() => toggleTag('Consistent')}
-            >
-              <Text style={styles.suggestionTagText}>Consistent</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Consistent')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Consistent'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Good communication skills') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="Good communication skills"
+              isActive={selectedTags.includes('Good communication skills')}
               onPress={() => toggleTag('Good communication skills')}
-            >
-              <Text style={styles.suggestionTagText}>Good communication skills</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Good communication skills')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Good communication skills'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('English') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="English"
+              isActive={selectedTags.includes('English')}
               onPress={() => toggleTag('English')}
-            >
-              <Text style={styles.suggestionTagText}>English</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('English')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'English'))}
+            />
             
-            <TouchableOpacity 
-              style={[styles.suggestionTag, selectedTags.includes('Responsibility') && styles.suggestionTagActive]}
+            <CategoryButton
+              title="Responsibility"
+              isActive={selectedTags.includes('Responsibility')}
               onPress={() => toggleTag('Responsibility')}
-            >
-              <Text style={styles.suggestionTagText}>Responsibility</Text>
-              <Text style={styles.suggestionTagX}>×</Text>
-            </TouchableOpacity>
+              showCloseButton={selectedTags.includes('Responsibility')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Responsibility'))}
+            />
+            
+            <CategoryButton
+              title="Communication"
+              isActive={selectedTags.includes('Communication')}
+              onPress={() => toggleTag('Communication')}
+              showCloseButton={selectedTags.includes('Communication')}
+              onClosePress={() => setSelectedTags(selectedTags.filter(t => t !== 'Communication'))}
+            />
           </View>
         </View>
 
@@ -181,46 +190,9 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ onBack }) => {
           </View>
         </View>
 
-        {/* Recent Searches */}
-        <View style={styles.recentSearchesContainer}>
-          <Text style={styles.recentSearchesTitle}>Son Aramalar</Text>
-          <View style={styles.recentSearchesList}>
-            <TouchableOpacity style={styles.recentSearchItem}>
-              <Text style={styles.recentSearchText}>Baykar Teknoloji</Text>
-              <Text style={styles.recentSearchTime}>2 saat önce</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.recentSearchItem}>
-              <Text style={styles.recentSearchText}>Yapay Zeka</Text>
-              <Text style={styles.recentSearchTime}>1 gün önce</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.recentSearchItem}>
-              <Text style={styles.recentSearchText}>Otomotiv Sektörü</Text>
-              <Text style={styles.recentSearchTime}>3 gün önce</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Popular Searches */}
-        <View style={styles.popularSearchesContainer}>
-          <Text style={styles.popularSearchesTitle}>Popüler Aramalar</Text>
-          <View style={styles.popularSearchesTags}>
-            <TouchableOpacity style={styles.popularSearchTag}>
-              <Text style={styles.popularSearchTagText}>#Teknoloji</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.popularSearchTag}>
-              <Text style={styles.popularSearchTagText}>#Sanayi</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.popularSearchTag}>
-              <Text style={styles.popularSearchTagText}>#İnovasyon</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.popularSearchTag}>
-              <Text style={styles.popularSearchTagText}>#Sürdürülebilirlik</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.popularSearchTag}>
-              <Text style={styles.popularSearchTagText}>#E-ticaret</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -401,33 +373,9 @@ const styles = StyleSheet.create({
   suggestionsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: 6,
   },
-  suggestionTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#E9ECEF',
-  },
-  suggestionTagActive: {
-    backgroundColor: '#FFBB01',
-    borderColor: '#FFBB01',
-  },
-  suggestionTagText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#191D20',
-    marginRight: 6,
-  },
-  suggestionTagX: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#191D20',
-  },
+
   // History Styles
   historyContainer: {
     paddingHorizontal: 22,
