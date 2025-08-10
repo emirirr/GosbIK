@@ -10,8 +10,11 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
+  TextInput,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import BottomTabNavigator from './BottomTabNavigator';
+import SearchScreen from './SearchScreen';
 import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 
@@ -573,7 +576,7 @@ const MainScreen = () => {
             const index = Math.round(event.nativeEvent.contentOffset.x / (slideWidth + 16));
             setCurrentSlide(index);
           }}
-          renderItem={({ item }) => (
+                    renderItem={({ item }) => (
             <TouchableOpacity style={[styles.newsSlide, { width: slideWidth }]}>
               <View style={styles.newsImageContainer}>
                 <Image
@@ -584,16 +587,13 @@ const MainScreen = () => {
                   }}
                 />
                 
-                {/* Gradient overlay */}
-                <View style={styles.newsGradientOverlay} />
-                
-                {/* Category badge */}
+                                {/* Category badge */}
                 <View style={styles.newsCategoryBadge}>
                   <Text style={styles.newsCategoryBadgeText}>{item.category}</Text>
-      </View>
+                </View>
                 
-                {/* Content overlay */}
-                <View style={styles.newsContentOverlay}>
+                {/* Title and time */}
+                <View style={styles.newsTitleContainer}>
                   <Text style={styles.newsSlideTitle} numberOfLines={2}>
                     {item.title}
                   </Text>
@@ -845,12 +845,7 @@ const MainScreen = () => {
           </View>
         );
       case 'search':
-        return (
-          <View style={styles.content}>
-            <Text style={styles.title}>Arama</Text>
-            <Text style={styles.subtitle}>Arama modülü</Text>
-          </View>
-        );
+        return <SearchScreen onBack={() => setActiveTab('home')} />;
       case 'industry':
         return (
           <View style={styles.content}>
@@ -1410,6 +1405,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.8,
   },
+  newsTitleContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
   newsDotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -1557,7 +1558,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   companiesScrollContent: {
-    paddingLeft: 124,
+    paddingLeft: 22,
     paddingRight: 22,
     gap: 16,
   },
@@ -2065,10 +2066,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-    gap: 12,
+    gap: 6,
   },
   platformTab: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 6,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
@@ -2274,26 +2275,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  gosbikLogoOuter: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: '#FFBB01',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
-  },
-  gosbikLogoMiddle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   gosbikLogo: {
     width: 42,
     height: 42,

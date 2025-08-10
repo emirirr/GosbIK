@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   Poppins_100Thin,
   Poppins_200ExtraLight,
@@ -21,6 +22,7 @@ import ForgotPasswordScreen from './components/ForgotPasswordScreen';
 import VerificationScreen from './components/VerificationScreen';
 import CreatePasswordScreen from './components/CreatePasswordScreen';
 import MainScreen from './components/MainScreen';
+import SearchScreen from './components/SearchScreen';
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -58,20 +60,30 @@ export default function App() {
 
   if (currentScreen === 'login') {
     return (
-      <View style={styles.loginContainer}>
+      <LinearGradient
+        colors={['#8A2BE2', '#00C6FF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.loginContainer}
+      >
         <LoginScreen
           onLogin={handleLogin}
           onRegister={handleRegister}
           onForgotPassword={handleForgotPassword}
         />
         <StatusBar style="dark" />
-      </View>
+      </LinearGradient>
     );
   }
 
   if (currentScreen === 'register') {
     return (
-      <View style={styles.loginContainer}>
+      <LinearGradient
+        colors={['#8A2BE2', '#00C6FF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.loginContainer}
+      >
         <RegisterScreen
           onRegister={(name, surname, email, password) => {
             console.log('Register attempt:', { name, surname, email, password });
@@ -80,13 +92,18 @@ export default function App() {
           onBackToLogin={() => setCurrentScreen('login')}
         />
         <StatusBar style="dark" />
-      </View>
+      </LinearGradient>
     );
   }
 
   if (currentScreen === 'forgotPassword') {
     return (
-      <View style={styles.loginContainer}>
+      <LinearGradient
+        colors={['#8A2BE2', '#00C6FF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.loginContainer}
+      >
         <ForgotPasswordScreen
           onSendPassword={(email) => {
             console.log('Send password attempt:', { email });
@@ -95,13 +112,18 @@ export default function App() {
           onBackToLogin={() => setCurrentScreen('login')}
         />
         <StatusBar style="dark" />
-      </View>
+      </LinearGradient>
     );
   }
 
   if (currentScreen === 'verification') {
     return (
-      <View style={styles.loginContainer}>
+      <LinearGradient
+        colors={['#8A2BE2', '#00C6FF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.loginContainer}
+      >
         <VerificationScreen
           onVerify={(code) => {
             console.log('Verification attempt:', { code });
@@ -111,13 +133,18 @@ export default function App() {
           email="kullanıcı@gmail.com"
         />
         <StatusBar style="dark" />
-      </View>
+      </LinearGradient>
     );
   }
 
   if (currentScreen === 'createPassword') {
     return (
-      <View style={styles.loginContainer}>
+      <LinearGradient
+        colors={['#8A2BE2', '#00C6FF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.loginContainer}
+      >
         <CreatePasswordScreen
           onCreatePassword={(password, confirmPassword) => {
             console.log('Create password attempt:', { password, confirmPassword });
@@ -126,7 +153,7 @@ export default function App() {
           onBackToLogin={() => setCurrentScreen('login')}
         />
         <StatusBar style="dark" />
-      </View>
+      </LinearGradient>
     );
   }
 
