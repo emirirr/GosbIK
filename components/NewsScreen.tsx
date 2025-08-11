@@ -121,28 +121,14 @@ const NewsScreen: React.FC<NewsScreenProps> = ({ onBack, onNewsPress }) => {
 
   const renderNewsCard = ({ item }: { item: any }) => (
     <TouchableOpacity 
-      style={styles.newsCard}
+      style={styles.imageCard}
       onPress={() => onNewsPress && onNewsPress(item)}
     >
       <Image 
         source={{ uri: item.image }}
-        style={styles.newsImage}
+        style={styles.imageCardImage}
         resizeMode="cover"
       />
-      <View style={styles.newsContent}>
-        <View style={styles.newsHeader}>
-          <View style={styles.categoryBadge}>
-            <Text style={styles.categoryText}>{item.category}</Text>
-          </View>
-          <Text style={styles.newsTime}>{item.time}</Text>
-        </View>
-        <Text style={styles.newsTitle} numberOfLines={2}>
-          {item.title}
-        </Text>
-        <Text style={styles.newsDescription} numberOfLines={3}>
-          {item.description}
-        </Text>
-      </View>
     </TouchableOpacity>
   );
 
@@ -264,55 +250,87 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 3,
-    overflow: 'hidden',
-    width: '100%',
-    aspectRatio: 1,
+    flexDirection: 'row',
+    position: 'relative',
+    padding: 16,
+    width: 335,
+    height: 100,
+    opacity: 1,
+    alignSelf: 'center',
+    marginHorizontal: 0,
   },
-  newsImage: {
+  imageCard: {
+    width: 370,
+    height: 185,
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    overflow: 'hidden',
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  imageCardImage: {
     width: '100%',
-    height: '60%',
-    resizeMode: 'cover',
+    height: '100%',
+  },
+  yellowStripe: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 4,
+    backgroundColor: '#FFBB01',
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12,
+  },
+  newsThumb: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    backgroundColor: '#F0F0F0',
+    overflow: 'hidden',
+    marginLeft: 18,
+    marginRight: 14,
+  },
+  newsThumbImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
   newsContent: {
-    padding: 16,
-    height: '40%',
+    flex: 1,
     justifyContent: 'space-between',
   },
-  newsHeader: {
+  newsMetaRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 3,
   },
-  categoryBadge: {
+  categoryDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: '#FFBB01',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    marginRight: 6,
   },
-  categoryText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#191D20',
-  },
-  newsTime: {
+  newsCategory: {
     fontSize: 12,
     color: '#666666',
   },
   newsTitle: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 'bold',
     color: '#191D20',
-    marginBottom: 4,
-    lineHeight: 20,
+    lineHeight: 17,
+    marginBottom: 3,
   },
-  newsDescription: {
+  newsTime: {
     fontSize: 12,
     color: '#666666',
-    lineHeight: 16,
   },
 });
 

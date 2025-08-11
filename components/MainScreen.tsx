@@ -440,27 +440,34 @@ const MainScreen = () => {
   );
 
   const renderPastNewsCard = (item: any) => (
-    <TouchableOpacity key={item.id} style={styles.pastNewsCard}>
+    <TouchableOpacity 
+      key={item.id} 
+      style={styles.pastNewsCard}
+      onPress={() => {
+        setSelectedNews(item);
+        setShowNewsDetail(true);
+      }}
+    >
       <View style={styles.yellowStripe} />
       <View style={styles.pastNewsImage}>
-                <Image
-                  source={{ uri: item.image }}
+        <Image
+          source={{ uri: item.image }}
           style={styles.pastNewsImageStyle}
-                  onError={() => {
+          onError={() => {
             console.log('Past news image failed to load:', item.image);
-                  }}
-                />
-                </View>
+          }}
+        />
+      </View>
       <View style={styles.pastNewsContentArea}>
         <View style={styles.pastNewsMeta}>
           <View style={styles.categoryDot} />
           <Text style={styles.pastNewsCategory}>{item.category}</Text>
-              </View>
+        </View>
         <Text style={styles.pastNewsTitle} numberOfLines={3}>
-                  {item.title}
-                </Text>
+          {item.title}
+        </Text>
         <Text style={styles.pastNewsTime}>{item.time}</Text>
-              </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -589,7 +596,13 @@ const MainScreen = () => {
             setCurrentSlide(index);
           }}
                     renderItem={({ item }) => (
-            <TouchableOpacity style={[styles.newsSlide, { width: slideWidth }]}>
+            <TouchableOpacity 
+              style={[styles.newsSlide, { width: slideWidth }]}
+              onPress={() => {
+                setSelectedNews(item);
+                setShowNewsDetail(true);
+              }}
+            >
               <View style={styles.newsImageContainer}>
                 <Image
                   source={{ uri: item.image }}
@@ -1370,7 +1383,7 @@ const styles = StyleSheet.create({
   },
   newsSlide: {
     marginRight: 16,
-    borderRadius: 16,
+    borderRadius: 10,
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
@@ -1385,6 +1398,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 185,
     position: 'relative',
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   newsSlideImage: {
     width: '100%',
