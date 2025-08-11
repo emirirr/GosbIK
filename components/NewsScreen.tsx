@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import CategoryButton from './CategoryButton';
-import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon } from './icons/SvgIcons';
+import CategorySelector from './CategorySelector';
 
 interface NewsScreenProps {
   onBack?: () => void;
@@ -22,16 +22,7 @@ interface NewsScreenProps {
 const NewsScreen: React.FC<NewsScreenProps> = ({ onBack, onNewsPress }) => {
   const [selectedCategory, setSelectedCategory] = useState('Tümü');
 
-  // Haber kategorileri
-  const categories = [
-    { id: 'Tümü', name: 'Tümü', icon: GridIcon },
-    { id: 'Teknoloji', name: 'Teknoloji', icon: TechnologyIcon },
-    { id: 'Sanayi', name: 'Sanayi', icon: IndustryIcon },
-    { id: 'Bilim', name: 'Bilim', icon: ScienceIcon },
-    { id: 'Eğitim', name: 'Eğitim', icon: EducationIcon },
-    { id: 'Otomotiv', name: 'Otomotiv', icon: CarIcon },
-    { id: 'OSB', name: 'OSB', icon: OSBIcon }
-  ];
+
 
   // Örnek haber verileri
   const newsData = [
@@ -89,33 +80,7 @@ const NewsScreen: React.FC<NewsScreenProps> = ({ onBack, onNewsPress }) => {
     ? newsData 
     : newsData.filter(news => news.category === selectedCategory);
 
-  const renderCategoryButton = (category: any) => {
-    const IconComponent = category.icon;
-    return (
-      <TouchableOpacity
-        key={category.id}
-        style={[
-          styles.categoryButton,
-          selectedCategory === category.id && styles.activeCategoryButton
-        ]}
-        onPress={() => setSelectedCategory(category.id)}
-      >
-        <View style={styles.categoryIcon}>
-          <IconComponent 
-            width={24} 
-            height={24} 
-            color={selectedCategory === category.id ? '#191D20' : '#666666'} 
-          />
-        </View>
-        <Text style={[
-          styles.categoryText,
-          selectedCategory === category.id && styles.activeCategoryText
-        ]}>
-          {category.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+
 
 
 
@@ -151,14 +116,10 @@ const NewsScreen: React.FC<NewsScreenProps> = ({ onBack, onNewsPress }) => {
 
       <ScrollView style={styles.mainScroll} showsVerticalScrollIndicator={false}>
         {/* Categories */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          style={styles.categoryContainer}
-          contentContainerStyle={styles.categoryContent}
-        >
-          {categories.map(renderCategoryButton)}
-        </ScrollView>
+        <CategorySelector 
+          activeCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
 
         {/* News List */}
         <View style={styles.newsList}>

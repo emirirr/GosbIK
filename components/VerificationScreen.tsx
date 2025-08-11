@@ -89,7 +89,7 @@ const VerificationScreen: React.FC<VerificationScreenProps> = ({
         {/* Logo */}
         <View style={styles.logoContainer}>
           <Image 
-            source={require('../assets/images/splash/splash logo.png')} 
+            source={require('../assets/images/splash/splash-logo.png')} 
             style={styles.logoImage}
           />
         </View>

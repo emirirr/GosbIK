@@ -144,7 +144,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({
         {/* Logo */}
         <View style={styles.logoContainer}>
           <Image 
-            source={require('../assets/images/splash/splash logo.png')} 
+            source={require('../assets/images/splash/splash-logo.png')} 
             style={styles.logoImage}
           />
         </View>

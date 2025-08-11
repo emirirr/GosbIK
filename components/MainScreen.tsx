@@ -17,8 +17,11 @@ import BottomTabNavigator from './BottomTabNavigator';
 import SearchScreen from './SearchScreen';
 import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
-import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
+import ProductsScreen from './ProductsScreen';
+import CompaniesScreen from './CompaniesScreen';
+import { NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
+import CategorySelector from './CategorySelector';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -143,6 +146,8 @@ const MainScreen = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNewsScreen, setShowNewsScreen] = useState(false);
   const [showNewsDetail, setShowNewsDetail] = useState(false);
+  const [showProductsScreen, setShowProductsScreen] = useState(false);
+  const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
   const [selectedNews, setSelectedNews] = useState<any>(null);
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
 
@@ -355,15 +360,7 @@ const MainScreen = () => {
     setActiveTab(tabId);
   };
 
-  const categories = [
-    { id: 'Tümü', name: 'Tümü', icon: GridIcon },
-    { id: 'Teknoloji', name: 'Teknoloji', icon: TechnologyIcon },
-    { id: 'Sanayi', name: 'Sanayi', icon: IndustryIcon },
-    { id: 'Bilim', name: 'Bilim', icon: ScienceIcon },
-    { id: 'Eğitim', name: 'Eğitim', icon: EducationIcon },
-    { id: 'Otomativ', name: 'Otomativ', icon: CarIcon },
-    { id: 'OSB', name: 'OSB', icon: OSBIcon },
-  ];
+
 
   const renderHeader = () => (
     <View style={styles.header}>
@@ -374,7 +371,7 @@ const MainScreen = () => {
       </View>
              <View style={styles.logoContainer}>
          <View style={styles.logo}>
-           <Image source={require('../assets/images/splash/splash logo.png')} style={styles.logoImage} />
+           <Image source={require('../assets/images/splash/splash-logo.png')} style={styles.logoImage} />
          </View>
        </View>
       <View style={styles.notificationContainer}>
@@ -385,33 +382,7 @@ const MainScreen = () => {
     </View>
   );
 
-  const renderCategoryButton = (category: any) => {
-    const IconComponent = category.icon;
-    return (
-      <TouchableOpacity
-        key={category.id}
-        style={[
-          styles.categoryButton,
-          activeCategory === category.id && styles.activeCategoryButton
-        ]}
-        onPress={() => setActiveCategory(category.id)}
-      >
-                 <View style={styles.categoryIcon}>
-           <IconComponent 
-             width={24} 
-             height={24} 
-             color={activeCategory === category.id ? '#191D20' : '#666666'} 
-           />
-         </View>
-        <Text style={[
-          styles.categoryText,
-          activeCategory === category.id && styles.activeCategoryText
-        ]}>
-          {category.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+
 
 
 
@@ -427,6 +398,10 @@ const MainScreen = () => {
           onPress={() => {
             if (title === 'Geçmiş Haberler') {
               setShowNewsScreen(true);
+            } else if (title === 'Ürünler') {
+              setShowProductsScreen(true);
+            } else if (title === 'Firmalar') {
+              setShowCompaniesScreen(true);
             }
           }}
         >
@@ -666,6 +641,18 @@ const MainScreen = () => {
       />;
     }
 
+      if (showProductsScreen) {
+    return <ProductsScreen
+      onBack={() => setShowProductsScreen(false)}
+    />;
+  }
+
+  if (showCompaniesScreen) {
+    return <CompaniesScreen
+      onBack={() => setShowCompaniesScreen(false)}
+    />;
+  }
+
     switch (activeTab) {
       case 'home':
         return (
@@ -674,14 +661,10 @@ const MainScreen = () => {
             {renderHeader()}
             
             {/* Category Navigation */}
-            <ScrollView 
-              horizontal 
-              showsHorizontalScrollIndicator={false}
-              style={styles.categoryContainer}
-              contentContainerStyle={styles.categoryContent}
-            >
-              {categories.map(renderCategoryButton)}
-            </ScrollView>
+            <CategorySelector 
+              activeCategory={activeCategory}
+              onCategoryChange={setActiveCategory}
+            />
 
             {/* News Slider */}
             {renderNewsSlider()}
@@ -753,7 +736,7 @@ const MainScreen = () => {
                   <View style={styles.gosbikLogoMiddle}>
                     <View style={styles.gosbikLogoInner}>
                       <Image 
-                        source={require('../assets/images/splash/splash logo.png')}
+                        source={require('../assets/images/splash/splash-logo.png')}
                         style={styles.socialMediaLogoImage}
                         resizeMode="contain"
                       />
@@ -772,7 +755,7 @@ const MainScreen = () => {
               </View>
 
               {/* Platform Tabs */}
-              <View style={styles.platformTabs}>
+              <View style={styles.platformTabs}>  
                 <TouchableOpacity style={[styles.platformTab, styles.activePlatformTab]}>
                   <Text style={[styles.platformTabText, styles.activePlatformTabText]}>Tüm Paylaşımlar</Text>
                 </TouchableOpacity>
@@ -2081,7 +2064,7 @@ const styles = StyleSheet.create({
   },
   socialMediaTitleContainer: {
     flex: 1,
-    marginLeft: 70,
+    marginLeft: 20,
   },
   socialMediaTitle: {
     fontSize: 14,
@@ -2313,6 +2296,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
+
   jobListingsHeader: {
     flexDirection: 'column',
     marginBottom: 16,
