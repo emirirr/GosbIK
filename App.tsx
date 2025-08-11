@@ -24,6 +24,7 @@ import CreatePasswordScreen from './components/CreatePasswordScreen';
 import MainScreen from './components/MainScreen';
 import SearchScreen from './components/SearchScreen';
 import NewsScreen from './components/NewsScreen';
+import NewsDetailScreen from './components/NewsDetailScreen';
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);

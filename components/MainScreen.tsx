@@ -16,6 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import BottomTabNavigator from './BottomTabNavigator';
 import SearchScreen from './SearchScreen';
 import NewsScreen from './NewsScreen';
+import NewsDetailScreen from './NewsDetailScreen';
 import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, CarIcon, OSBIcon, NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 
@@ -141,6 +142,8 @@ const MainScreen = () => {
   const [activeCategory, setActiveCategory] = useState('Tümü');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNewsScreen, setShowNewsScreen] = useState(false);
+  const [showNewsDetail, setShowNewsDetail] = useState(false);
+  const [selectedNews, setSelectedNews] = useState<any>(null);
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
 
   const { width } = Dimensions.get('window');
@@ -633,8 +636,21 @@ const MainScreen = () => {
   };
 
   const renderContent = () => {
+    if (showNewsDetail) {
+      return <NewsDetailScreen 
+        onBack={() => setShowNewsDetail(false)} 
+        newsItem={selectedNews}
+      />;
+    }
+    
     if (showNewsScreen) {
-      return <NewsScreen onBack={() => setShowNewsScreen(false)} />;
+      return <NewsScreen 
+        onBack={() => setShowNewsScreen(false)} 
+        onNewsPress={(newsItem) => {
+          setSelectedNews(newsItem);
+          setShowNewsDetail(true);
+        }}
+      />;
     }
 
     switch (activeTab) {

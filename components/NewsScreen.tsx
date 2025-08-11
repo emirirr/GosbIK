@@ -16,9 +16,10 @@ import { GridIcon, TechnologyIcon, IndustryIcon, ScienceIcon, EducationIcon, Car
 
 interface NewsScreenProps {
   onBack?: () => void;
+  onNewsPress?: (newsItem: any) => void;
 }
 
-const NewsScreen: React.FC<NewsScreenProps> = ({ onBack }) => {
+const NewsScreen: React.FC<NewsScreenProps> = ({ onBack, onNewsPress }) => {
   const [selectedCategory, setSelectedCategory] = useState('Tümü');
 
   // Haber kategorileri
@@ -119,7 +120,10 @@ const NewsScreen: React.FC<NewsScreenProps> = ({ onBack }) => {
 
 
   const renderNewsCard = ({ item }: { item: any }) => (
-    <TouchableOpacity style={styles.newsCard}>
+    <TouchableOpacity 
+      style={styles.newsCard}
+      onPress={() => onNewsPress && onNewsPress(item)}
+    >
       <Image 
         source={{ uri: item.image }}
         style={styles.newsImage}
@@ -159,25 +163,26 @@ const NewsScreen: React.FC<NewsScreenProps> = ({ onBack }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Categories */}
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoryContainer}
-        contentContainerStyle={styles.categoryContent}
-      >
-        {categories.map(renderCategoryButton)}
-      </ScrollView>
+      <ScrollView style={styles.mainScroll} showsVerticalScrollIndicator={false}>
+        {/* Categories */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoryContainer}
+          contentContainerStyle={styles.categoryContent}
+        >
+          {categories.map(renderCategoryButton)}
+        </ScrollView>
 
-      {/* News List */}
-      <FlatList
-        data={filteredNews}
-        renderItem={renderNewsCard}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.newsList}
-        contentContainerStyle={styles.newsListContent}
-        showsVerticalScrollIndicator={false}
-      />
+        {/* News List */}
+        <View style={styles.newsList}>
+          {filteredNews.map((item) => (
+            <View key={item.id} style={styles.newsListContent}>
+              {renderNewsCard({ item })}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -187,13 +192,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+  mainScroll: {
+    flex: 1,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 22,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   backButton: {
     padding: 8,
@@ -212,8 +220,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   categoryContainer: {
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: 10,
+    marginTop: 10,
   },
   categoryContent: {
     paddingHorizontal: 16,
@@ -221,11 +229,11 @@ const styles = StyleSheet.create({
   },
   categoryButton: {
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    justifyContent: 'center',
+    width: 80,
+    height: 80,
     borderRadius: 8,
     backgroundColor: '#F5F5F5',
-    minWidth: 90,
   },
   activeCategoryButton: {
     backgroundColor: '#FFBB01',
@@ -245,10 +253,10 @@ const styles = StyleSheet.create({
   },
   newsList: {
     flex: 1,
+    paddingHorizontal: 22,
   },
   newsListContent: {
-    paddingHorizontal: 22,
-    paddingBottom: 20,
+    marginBottom: 16,
   },
   newsCard: {
     backgroundColor: '#FFFFFF',
@@ -260,19 +268,24 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     overflow: 'hidden',
+    width: '100%',
+    aspectRatio: 1,
   },
   newsImage: {
     width: '100%',
-    height: 200,
+    height: '60%',
+    resizeMode: 'cover',
   },
   newsContent: {
     padding: 16,
+    height: '40%',
+    justifyContent: 'space-between',
   },
   newsHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   categoryBadge: {
     backgroundColor: '#FFBB01',
@@ -290,16 +303,16 @@ const styles = StyleSheet.create({
     color: '#666666',
   },
   newsTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#191D20',
-    marginBottom: 8,
-    lineHeight: 24,
+    marginBottom: 4,
+    lineHeight: 20,
   },
   newsDescription: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666666',
-    lineHeight: 20,
+    lineHeight: 16,
   },
 });
 
