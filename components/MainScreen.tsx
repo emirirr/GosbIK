@@ -19,6 +19,7 @@ import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
 import JobsScreen from './JobsScreen';
 import JobDetailScreen from './JobDetailScreen';
+import CvUploadScreen from './CvUploadScreen';
 import ProductsScreen from './ProductsScreen';
 import CompaniesScreen from './CompaniesScreen';
 import CompanyDetailScreen from './CompanyDetailScreen';
@@ -158,6 +159,7 @@ const MainScreen = () => {
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
   const [showJobDetail, setShowJobDetail] = useState(false);
+  const [showCvUpload, setShowCvUpload] = useState(false);
 
   const { width } = Dimensions.get('window');
   const slideWidth = 370; // Fixed width as specified
@@ -710,8 +712,13 @@ const MainScreen = () => {
     return <CompanyDetailScreen onBack={() => setShowCompanyDetail(false)} company={selectedCompany} />;
   }
 
+  // Show CV Upload screen with higher priority so it can open from JobDetail screen
+  if (showCvUpload) {
+    return <CvUploadScreen onBack={() => setShowCvUpload(false)} job={selectedJob || undefined} />;
+  }
+
   if (showJobDetail && selectedJob) {
-    return <JobDetailScreen onBack={() => setShowJobDetail(false)} job={selectedJob} />;
+    return <JobDetailScreen onBack={() => setShowJobDetail(false)} onApply={() => setShowCvUpload(true)} job={selectedJob} />;
   }
 
     switch (activeTab) {

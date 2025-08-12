@@ -281,7 +281,7 @@ const JobDetailScreen: React.FC<Props> = ({ onBack, onApply, job }) => {
               ))}
 
               <TouchableOpacity style={styles.applyCta} onPress={onApply}>
-                <Text style={styles.applyCtaText}>BAŞVUR</Text>
+                <Text style={styles.applyCtaText}>CV EKLE</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -300,7 +300,7 @@ const JobDetailScreen: React.FC<Props> = ({ onBack, onApply, job }) => {
             <BookmarkIcon filled={isSaved} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomApplyButton} onPress={onApply}>
-            <Text style={styles.bottomApplyText}>BAŞVUR</Text>
+            <Text style={styles.bottomApplyText}>CV EKLE</Text>
           </TouchableOpacity>
         </View>
       )}

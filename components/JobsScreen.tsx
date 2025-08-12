@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Modal, ScrollView } from 'react-native';
 import JobsFilterScreen from './JobsFilterScreen';
 import JobDetailScreen from './JobDetailScreen';
+import CvUploadScreen from './CvUploadScreen';
 import Svg, { Path } from 'react-native-svg';
 
 const BackIcon: React.FC<{ color?: string }> = ({ color = '#191D20' }) => (
@@ -42,6 +43,7 @@ const JobsScreen: React.FC<Props> = ({ onBack }) => {
   const [workTypeOpen, setWorkTypeOpen] = useState(false);
   const [showJobDetail, setShowJobDetail] = useState(false);
   const [activeJob, setActiveJob] = useState<any | null>(null);
+  const [showCvUpload, setShowCvUpload] = useState(false);
 
   const parseDate = (d: string) => {
     const [day, month, year] = d.split('.').map((s) => parseInt(s, 10));
@@ -73,8 +75,12 @@ const JobsScreen: React.FC<Props> = ({ onBack }) => {
     );
   }
 
+  if (showCvUpload) {
+    return <CvUploadScreen onBack={() => setShowCvUpload(false)} job={activeJob || undefined} />;
+  }
+
   if (showJobDetail && activeJob) {
-    return <JobDetailScreen onBack={() => setShowJobDetail(false)} job={activeJob} />;
+    return <JobDetailScreen onBack={() => setShowJobDetail(false)} onApply={() => setShowCvUpload(true)} job={activeJob} />;
   }
 
   return (
