@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, StatusBar, Linking } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, StatusBar, Linking, ScrollView } from 'react-native';
+import { PhoneIcon, MobileIcon, GlobeIcon, MailIcon, MapPinIcon, BuildingIcon, InstagramIcon, LinkedInIcon, YouTubeIcon, FacebookIcon, WhatsAppIcon, XIcon } from './icons/SvgIcons';
 import Svg, { Path } from 'react-native-svg';
 
 const BackIcon: React.FC<{ color?: string }> = ({ color = '#191D20' }) => (
@@ -22,18 +23,14 @@ const MoreIcon: React.FC = () => (
   </Svg>
 );
 
-const SmallCircle: React.FC<{ color: string; size?: number }> = ({ color, size = 18 }) => (
-  <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color }} />
-);
-
 const SocialIconsRow: React.FC = () => (
   <View style={styles.socialIconsRow}>
-    <SmallCircle color="#E4405F" />
-    <SmallCircle color="#0077B5" />
-    <SmallCircle color="#FF0000" />
-    <SmallCircle color="#1877F2" />
-    <SmallCircle color="#25D366" />
-    <SmallCircle color="#000000" />
+    <InstagramIcon />
+    <LinkedInIcon />
+    <YouTubeIcon />
+    <FacebookIcon />
+    <WhatsAppIcon />
+    <XIcon />
   </View>
 );
 
@@ -71,7 +68,11 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
         </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.headerCard}>
           <Image
             source={{ uri: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=900&h=600&fit=crop' }}
@@ -99,7 +100,11 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
           </View>
         </View>
 
-        <View style={styles.tabsContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabsContainer}
+        >
           {[
             { id: 'ik', label: 'İK Bilgileri' },
             { id: 'hakkinda', label: 'Hakkında' },
@@ -115,18 +120,18 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
               <Text style={[styles.tabText, activeTab === tab.id && styles.activeTabText]}>{tab.label}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         {activeTab === 'ik' && (
           <View style={styles.kvCard}>
             <View style={styles.kvRow}>
-              <View style={styles.kvLeft}><Text style={styles.kvLabel}>Yetkili Kişi</Text></View>
+              <View style={styles.kvLeft}><BuildingIcon color="#FFBB01" /><Text style={styles.kvLabel}>Yetkili Kişi</Text></View>
               <View style={styles.kvRight}><Text style={styles.kvValue}>Mustafa Koçak</Text></View>
             </View>
-            <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Telefon</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>+123 456 78 90</Text></View></View>
-            <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Cep No</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>+123 456 78 90</Text></View></View>
-            <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Web Sitesi</Text></View><View style={styles.kvRight}><Text style={styles.linkText} onPress={() => Linking.openURL(company.websiteUrl ?? 'https://www.mustafa.com')}>www.mustafa.com</Text></View></View>
-            <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>E-mail</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>mustafa@mustafa.com</Text></View></View>
+            <View style={styles.kvRow}><View style={styles.kvLeft}><PhoneIcon color="#FFBB01" /><Text style={styles.kvLabel}>Telefon</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>+123 456 78 90</Text></View></View>
+            <View style={styles.kvRow}><View style={styles.kvLeft}><MobileIcon color="#FFBB01" /><Text style={styles.kvLabel}>Cep No</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>+123 456 78 90</Text></View></View>
+            <View style={styles.kvRow}><View style={styles.kvLeft}><GlobeIcon color="#FFBB01" /><Text style={styles.kvLabel}>Web Sitesi</Text></View><View style={styles.kvRight}><Text style={styles.linkText} onPress={() => Linking.openURL(company.websiteUrl ?? 'https://www.mustafa.com')}>www.mustafa.com</Text></View></View>
+            <View style={styles.kvRow}><View style={styles.kvLeft}><MailIcon color="#FFBB01" /><Text style={styles.kvLabel}>E-mail</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>mustafa@mustafa.com</Text></View></View>
             <View style={styles.kvRow}>
               <View style={styles.kvLeft}><Text style={styles.kvLabel}>Sosyal Medya</Text></View>
               <View style={styles.kvRight}><SocialIconsRow /></View>
@@ -136,7 +141,7 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
             <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Teknopark</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>Gebze</Text></View></View>
             <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Şirket Şubeler</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>---</Text></View></View>
             <View style={styles.kvRow}><View style={styles.kvLeft}><Text style={styles.kvLabel}>İhracat</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>---</Text></View></View>
-            <View style={styles.kvRow} style={{borderBottomWidth:0}}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Bulunduğu İl</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>Kocaeli</Text></View></View>
+            <View style={[styles.kvRow, styles.kvRowLast]}><View style={styles.kvLeft}><Text style={styles.kvLabel}>Bulunduğu İl</Text></View><View style={styles.kvRight}><Text style={styles.kvValue}>Kocaeli</Text></View></View>
           </View>
         )}
 
@@ -152,7 +157,7 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
             <Text style={styles.placeholderText}>Bu sekme yakında.</Text>
           </View>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -174,7 +179,8 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#191D20' },
   notificationButton: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
 
-  content: { padding: 16 },
+  content: { flex: 1 },
+  scrollContent: { padding: 16, paddingBottom: 24 },
   headerCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
@@ -239,8 +245,9 @@ const styles = StyleSheet.create({
   description: { fontSize: 14, color: '#666666', lineHeight: 20 },
   tabsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 2,
     marginTop: 8,
     marginBottom: 12,
   },
@@ -274,7 +281,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
-  kvLeft: { width: 120 },
+  kvRowLast: { borderBottomWidth: 0 },
+  kvLeft: { width: 140, flexDirection: 'row', alignItems: 'center', gap: 8 },
   kvLabel: { fontSize: 12, color: '#191D20', fontWeight: '600' },
   kvRight: { flex: 1 },
   kvValue: { fontSize: 12, color: '#666666' },
