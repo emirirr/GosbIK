@@ -17,6 +17,8 @@ import BottomTabNavigator from './BottomTabNavigator';
 import SearchScreen from './SearchScreen';
 import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
+import JobsScreen from './JobsScreen';
+import JobDetailScreen from './JobDetailScreen';
 import ProductsScreen from './ProductsScreen';
 import CompaniesScreen from './CompaniesScreen';
 import CompanyDetailScreen from './CompanyDetailScreen';
@@ -149,10 +151,13 @@ const MainScreen = () => {
   const [showNewsDetail, setShowNewsDetail] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
+  const [showJobsScreen, setShowJobsScreen] = useState(false);
   const [showCompanyDetail, setShowCompanyDetail] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
   const [selectedNews, setSelectedNews] = useState<any>(null);
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  const [showJobDetail, setShowJobDetail] = useState(false);
 
   const { width } = Dimensions.get('window');
   const slideWidth = 370; // Fixed width as specified
@@ -405,6 +410,8 @@ const MainScreen = () => {
               setShowProductsScreen(true);
             } else if (title === 'Firmalar') {
               setShowCompaniesScreen(true);
+            } else if (title === 'İş İlanları') {
+              setShowJobsScreen(true);
             }
           }}
         >
@@ -507,7 +514,27 @@ const MainScreen = () => {
   );
 
   const renderJobCard = (item: any) => (
-    <TouchableOpacity key={item.id} style={styles.jobCard}>
+    <TouchableOpacity
+      key={item.id}
+      style={styles.jobCard}
+      onPress={() => {
+        const logoUrl =
+          item.logo === 'apple'
+            ? 'https://images.unsplash.com/photo-1521123845560-14093637aa7a?w=80&h=80&fit=crop'
+            : item.logo === 'microsoft'
+            ? 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=80&h=80&fit=crop'
+            : 'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=80&h=80&fit=crop';
+        setSelectedJob({
+          id: item.id,
+          title: item.title,
+          company: item.company,
+          location: item.location,
+          date: item.date,
+          logo: logoUrl,
+        });
+        setShowJobDetail(true);
+      }}
+    >
       <View style={styles.jobYellowStripe} />
       <View style={styles.jobCardContent}>
         <View style={styles.jobCardHeader}>
@@ -675,8 +702,16 @@ const MainScreen = () => {
     />;
   }
 
+  if (showJobsScreen) {
+    return <JobsScreen onBack={() => setShowJobsScreen(false)} />;
+  }
+
   if (showCompanyDetail && selectedCompany) {
     return <CompanyDetailScreen onBack={() => setShowCompanyDetail(false)} company={selectedCompany} />;
+  }
+
+  if (showJobDetail && selectedJob) {
+    return <JobDetailScreen onBack={() => setShowJobDetail(false)} job={selectedJob} />;
   }
 
     switch (activeTab) {
