@@ -4,15 +4,14 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   TouchableOpacity,
   Image,
   StatusBar,
-  TextInput,
   FlatList,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import CategorySelector from './CategorySelector';
+import CompanyDetailScreen from './CompanyDetailScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -32,21 +31,10 @@ const NotificationIcon: React.FC = () => (
   </Svg>
 );
 
-const SearchIcon: React.FC = () => (
-  <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <Path 
-      d="M19 19L13 13M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8Z" 
-      stroke="#666666" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
-
 const CompaniesScreen = ({ onBack }: { onBack: () => void }) => {
   const [activeCategory, setActiveCategory] = useState('Tümü');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<any>(null);
 
 
 
@@ -100,9 +88,7 @@ const CompaniesScreen = ({ onBack }: { onBack: () => void }) => {
 
   const filteredCompanies = companies.filter(company => {
     const matchesCategory = activeCategory === 'Tümü' || company.category === activeCategory;
-    const matchesSearch = company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         company.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory;
   });
 
   const renderHeader = () => (
@@ -117,45 +103,37 @@ const CompaniesScreen = ({ onBack }: { onBack: () => void }) => {
     </View>
   );
 
-  const renderSearchBar = () => (
-    <View style={styles.searchContainer}>
-      <View style={styles.searchInputContainer}>
-        <SearchIcon />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Firma ara..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholderTextColor="#666666"
-        />
-      </View>
+  const renderCompanyCard = ({ item }: { item: any }) => (
+    <View style={styles.companyCardWrapper}>
+      <TouchableOpacity 
+        style={styles.companyCardInner}
+        onPress={() => {
+          setSelectedCompany(item);
+          setShowDetail(true);
+        }}
+      >
+        <View style={styles.companyYellowStripe} />
+        <View style={styles.companyImageContainer}>
+          <Image source={{ uri: item.logo }} style={styles.companyImage} />
+        </View>
+        <View style={styles.companyContent}>
+          <Text style={styles.companyName}>{item.name}</Text>
+          <Text style={styles.companyDescription} numberOfLines={2}>
+            {item.description}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 
-
-
-  const renderCompanyCard = ({ item }: { item: any }) => (
-    <TouchableOpacity style={styles.companyCard}>
-      <Image source={{ uri: item.logo }} style={styles.companyLogo} />
-      <View style={styles.companyContent}>
-        <View style={styles.companyHeader}>
-          <Text style={styles.companyName}>{item.name}</Text>
-          <View style={styles.ratingContainer}>
-            <Text style={styles.ratingText}>★ {item.rating}</Text>
-            <Text style={styles.reviewsText}>({item.reviews})</Text>
-          </View>
-        </View>
-        <Text style={styles.companyCategory}>{item.category}</Text>
-        <Text style={styles.companyDescription}>{item.description}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  if (showDetail && selectedCompany) {
+    return <CompanyDetailScreen onBack={() => setShowDetail(false)} company={selectedCompany} />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       {renderHeader()}
-      {renderSearchBar()}
       
       <View style={styles.categoryWrapper}>
         <CategorySelector
@@ -209,24 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  searchContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  searchInput: {
-    flex: 1,
-    marginLeft: 12,
-    fontSize: 16,
-    color: '#191D20',
-  },
   categoryWrapper: {
     marginBottom: 16,
   },
@@ -238,60 +198,65 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 20,
   },
-  companyCard: {
-    flexDirection: 'row',
+  companyCardWrapper: {
+    width: 365,
+    height: 120,
+    marginBottom: 16,
+  },
+  companyCardInner: {
+    width: '100%',
+    height: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    position: 'relative',
+    overflow: 'hidden',
+    flexDirection: 'row',
   },
-  companyLogo: {
-    width: 60,
-    height: 60,
+  companyYellowStripe: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 4,
+    backgroundColor: '#FFBB01',
+    zIndex: 1,
+  },
+  companyImageContainer: {
+    width: 78,
+    height: 78,
+    position: 'relative',
+    marginLeft: 21,
+    marginTop: 16,
     borderRadius: 8,
-    marginRight: 16,
+    overflow: 'hidden',
+  },
+  companyImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    borderRadius: 8,
   },
   companyContent: {
     flex: 1,
-  },
-  companyHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 4,
+    padding: 12,
+    paddingLeft: 16,
   },
   companyName: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#191D20',
-    flex: 1,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  ratingText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFBB01',
-  },
-  reviewsText: {
-    fontSize: 12,
-    color: '#666666',
-  },
-  companyCategory: {
-    fontSize: 12,
-    color: '#FFBB01',
-    fontWeight: '600',
     marginBottom: 4,
+    lineHeight: 18,
   },
   companyDescription: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666666',
-    lineHeight: 20,
+    lineHeight: 16,
   },
 });
 
