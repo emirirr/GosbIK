@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomTabNavigator from './BottomTabNavigator';
+import EventsScreen from './EventsScreen';
 import SearchScreen from './SearchScreen';
 import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
@@ -26,6 +27,7 @@ import CompanyDetailScreen from './CompanyDetailScreen';
 import { NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 import CategorySelector from './CategorySelector';
+import ProfileScreen from './ProfileScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -149,9 +151,11 @@ const MainScreen = () => {
   const [activeCategory, setActiveCategory] = useState('Tümü');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNewsScreen, setShowNewsScreen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [showNewsDetail, setShowNewsDetail] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
+  const [showEventsScreen, setShowEventsScreen] = useState(false);
   const [showJobsScreen, setShowJobsScreen] = useState(false);
   const [showCompanyDetail, setShowCompanyDetail] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
@@ -374,18 +378,18 @@ const MainScreen = () => {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <View style={styles.profileContainer}>
+      <TouchableOpacity style={styles.profileContainer} onPress={() => setShowProfile(true)}>
         <View style={styles.profilePic}>
           <UserIcon width={24} height={24} color="#191D20" />
         </View>
-      </View>
+      </TouchableOpacity>
              <View style={styles.logoContainer}>
          <View style={styles.logo}>
            <Image source={require('../assets/images/splash/splash-logo.png')} style={styles.logoImage} />
          </View>
        </View>
       <View style={styles.notificationContainer}>
-        <TouchableOpacity style={styles.notificationButton}>
+        <TouchableOpacity style={styles.notificationButton} onPress={() => setShowProfile(true)}>
           <NotificationIcon width={24} height={24} color="#191D20" />
         </TouchableOpacity>
       </View>
@@ -414,6 +418,8 @@ const MainScreen = () => {
               setShowCompaniesScreen(true);
             } else if (title === 'İş İlanları') {
               setShowJobsScreen(true);
+            } else if (title === 'Yaklaşan Etkinlikler') {
+              setShowEventsScreen(true);
             }
           }}
         >
@@ -702,6 +708,14 @@ const MainScreen = () => {
     return <CompaniesScreen
       onBack={() => setShowCompaniesScreen(false)}
     />;
+  }
+
+  if (showProfile) {
+    return <ProfileScreen onBack={() => setShowProfile(false)} />;
+  }
+
+  if (showEventsScreen) {
+    return <EventsScreen onBack={() => setShowEventsScreen(false)} events={upcomingEvents} />;
   }
 
   if (showJobsScreen) {
