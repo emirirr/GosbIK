@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, StatusBar, Linking, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, StatusBar, Linking, ScrollView, Modal } from 'react-native';
 import { PhoneIcon, MobileIcon, GlobeIcon, MailIcon, MapPinIcon, BuildingIcon, InstagramIcon, LinkedInIcon, YouTubeIcon, FacebookIcon, WhatsAppIcon, XIcon } from './icons/SvgIcons';
 import Svg, { Path } from 'react-native-svg';
 
@@ -20,6 +20,19 @@ const MoreIcon: React.FC = () => (
     <Path d="M12 5C12.8284 5 13.5 4.32843 13.5 3.5C13.5 2.67157 12.8284 2 12 2C11.1716 2 10.5 2.67157 10.5 3.5C10.5 4.32843 11.1716 5 12 5Z" fill="#191D20"/>
     <Path d="M12 14C12.8284 14 13.5 13.3284 13.5 12.5C13.5 11.6716 12.8284 11 12 11C11.1716 11 10.5 11.6716 10.5 12.5C10.5 13.3284 11.1716 14 12 14Z" fill="#191D20"/>
     <Path d="M12 23C12.8284 23 13.5 22.3284 13.5 21.5C13.5 20.6716 12.8284 20 12 20C11.1716 20 10.5 20.6716 10.5 21.5C10.5 22.3284 11.1716 23 12 23Z" fill="#191D20"/>
+  </Svg>
+);
+
+const PlayIcon: React.FC = () => (
+  <Svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+    <Path d="M28 56C43.464 56 56 43.464 56 28C56 12.536 43.464 0 28 0C12.536 0 0 12.536 0 28C0 43.464 12.536 56 28 56Z" fill="rgba(0,0,0,0.55)"/>
+    <Path d="M22 18V38L39 28L22 18Z" fill="#FFFFFF"/>
+  </Svg>
+);
+
+const BookmarkIcon: React.FC<{ color?: string }> = ({ color = '#191D20' }) => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path d="M17 3H7C5.895 3 5 3.895 5 5V21L12 17L19 21V5C19 3.895 18.105 3 17 3Z" stroke={color} strokeWidth="2" fill="none"/>
   </Svg>
 );
 
@@ -52,7 +65,40 @@ type Company = {
 const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company: Company }) => {
   const [isFollowing, setIsFollowing] = useState(true);
   const followers = company.followers ?? company.reviews ?? 7360;
-  const [activeTab, setActiveTab] = useState<'ik' | 'hakkinda' | 'ilanlar' | 'urunler' | 'duyurular'>('ik');
+  const [activeTab, setActiveTab] = useState<'ik' | 'hakkinda' | 'ilanlar' | 'urunler' | 'duyurular' | 'fotograflar' | 'videolar'>('ik');
+  const aboutText =
+    company.description ||
+    `1986'dan bu yana Türkiye'nin teknolojik olarak bağımsızlaşması amacıyla yerli ve milli üretimden yana çalışan Baykar, geçtiğimiz yıllar içinde Türkiye'de savunma ve havacılık alanında dönüşüm yaratacak bir ivmenin öncüsü haline geldi. Bugün Baykar olarak, otomotiv endüstrisi için adım attığımız mühendislik girişimimizi yeni kuşak mühendislerimizle gökyüzüne taşıyarak dünyanın sayılı insansız hava aracı üreticilerinden biri olmanın gururunu taşıyoruz. Türkiye'nin ilk yerli ve milli İnsansız Hava Araçlarını üreten en önemli motivasyonumuz her zaman kendi mühendislerimize ve beyin gücümüze güvenmek oldu.
+
+Baykar'ın Türk Silahlı Kuvvetleri'nin envanterine giren ve yurt dışına ihraç edilen savunma teknolojilerinin başarısında da sürekli üretim ve geliştirme kültürü öncü rol oynuyor. Sanayi ve Teknoloji Bakanlığı'ndan tescilli Baykar Ar-Ge yapılanması ile savunma ve havacılık alanında milli teknolojiler geliştirmeye devam ediyoruz.`;
+
+  // Mock content for tabs
+  const jobPosts = [
+    { id: 1, title: 'Grafik Tasarımcı', company: company.name, description: 'Lorem ipsum dolor sit amet consectetur. Quisque eros mauris pellentesque nunc nulla in.' },
+    { id: 2, title: 'Frontend Developer', company: company.name, description: 'React Native deneyimi tercih sebebidir.' },
+  ];
+  const products = [
+    { id: 1, category: 'Teknoloji', title: 'Bayraktar Kızılelma', description: 'Lorem ipsum dolor sit amet consectetur. Orci et euismod morbi quis.', image: 'https://images.unsplash.com/photo-1514517220031-65a46a1c663f?w=300&h=200&fit=crop' },
+    { id: 2, category: 'Teknoloji', title: 'TB2', description: 'Dayanıklı ve esnek platform.', image: 'https://images.unsplash.com/photo-1533113350448-1b1c4c7d2df1?w=300&h=200&fit=crop' },
+  ];
+  const announcements = [
+    { id: 1, title: '27 Ekim Expo 2025', text: 'Lorem ipsum dolor sit amet consectetur. dolor sit amet consectetur.', time: '25 Dakika Önce' },
+  ];
+  const photos = [
+    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1576435728678-68b37a4df2d2?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=800&h=600&fit=crop',
+  ];
+  const videos = [
+    { id: 1, title: '100. Sorti', thumbnail: 'https://images.unsplash.com/photo-1504198266285-165a1b20f9fc?w=800&h=450&fit=crop', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+    { id: 2, title: 'Tam Otomatik Kalkış-İniş', thumbnail: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=800&h=450&fit=crop', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  ];
+
+  const [photoModalVisible, setPhotoModalVisible] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [videoModalVisible, setVideoModalVisible] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<{ title: string; url: string } | null>(null);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -100,6 +146,38 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
           </View>
         </View>
 
+        <View style={styles.infoCard}>
+          <View style={styles.infoRow}>
+            <View style={styles.infoLeft}>
+              <View style={styles.infoItem}>
+                <Text style={styles.infoLabel}>Sektör:</Text>
+                <Text style={styles.infoValue}>{company.sector ?? 'Teknoloji'}</Text>
+              </View>
+              <View style={styles.infoItem}>
+                <Text style={styles.infoLabel}>Çalışan Sayısı:</Text>
+                <Text style={styles.infoValue}>{company.employeeCount ?? '5000+'}</Text>
+              </View>
+              <View style={styles.infoItem}>
+                <Text style={styles.infoLabel}>Kuruluş Yılı:</Text>
+                <Text style={styles.infoValue}>{company.foundedYear ?? '1986'}</Text>
+              </View>
+              <View style={styles.infoItem}>
+                <Text style={styles.infoLabel}>Web Ziyaret:</Text>
+                <TouchableOpacity onPress={() => Linking.openURL(company.websiteUrl ?? 'https://example.com')}>
+                  <Text style={styles.linkText}>Ziyaret Et</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.infoDivider} />
+            <View style={styles.infoRight}>
+              <Text style={styles.infoLabel}>Adres:</Text>
+              <Text style={styles.infoAddress}>
+                {company.address ?? 'Baykar Milli S/İHA\nSistemleri Ar-Ge ve\nÜretim Tesisi'}
+              </Text>
+            </View>
+          </View>
+        </View>
+
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -111,6 +189,8 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
             { id: 'ilanlar', label: 'İş İlanları' },
             { id: 'urunler', label: 'Ürünleri' },
             { id: 'duyurular', label: 'Duyurular' },
+            { id: 'fotograflar', label: 'Fotoğrafları' },
+            { id: 'videolar', label: 'Videolar' },
           ].map((tab: any) => (
             <TouchableOpacity
               key={tab.id}
@@ -146,18 +226,129 @@ const CompanyDetailScreen = ({ onBack, company }: { onBack: () => void; company:
         )}
 
         {activeTab === 'hakkinda' && (
-          <View>
+          <View style={styles.aboutSection}>
             <Text style={styles.sectionHeading}>Hakkında</Text>
-            <Text style={styles.description}>{company.description}</Text>
+            <View style={styles.aboutCard}>
+              <Text style={styles.aboutText}>{aboutText}</Text>
+            </View>
           </View>
         )}
 
-        {activeTab !== 'ik' && activeTab !== 'hakkinda' && (
-          <View style={styles.placeholderBox}>
-            <Text style={styles.placeholderText}>Bu sekme yakında.</Text>
+        {activeTab === 'ilanlar' && (
+          <View style={styles.cardList}>
+            {jobPosts.map((item) => (
+              <View key={item.id} style={styles.listCard}>
+                <View style={styles.leftStripe} />
+                <View style={styles.listCardLeftImage}>
+                  <Image
+                    source={{ uri: company.logo }}
+                    style={{ width: 54, height: 54, borderRadius: 8 }}
+                  />
+                </View>
+                <View style={styles.listCardContent}>
+                  <Text style={styles.listCardTitle}>{company.name}</Text>
+                  <Text style={styles.listCardText}>{item.description}</Text>
+                </View>
+                <TouchableOpacity style={styles.moreButtonSmall}>
+                  <MoreIcon />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {activeTab === 'urunler' && (
+          <View style={styles.cardList}>
+            {products.map((p) => (
+              <View key={p.id} style={styles.productRow}>
+                <View style={styles.leftStripe} />
+                <Image source={{ uri: p.image }} style={styles.productThumb} />
+                <View style={{ flex: 1 }}>
+                  <View style={styles.badge}><Text style={styles.badgeText}>{p.category}</Text></View>
+                  <Text style={styles.productTitle}>{p.title}</Text>
+                  <Text style={styles.productDesc}>{p.description}</Text>
+                </View>
+                <BookmarkIcon />
+              </View>
+            ))}
+          </View>
+        )}
+
+        {activeTab === 'duyurular' && (
+          <View style={styles.cardList}>
+            {announcements.map((a) => (
+              <View key={a.id} style={styles.announcementCard}>
+                <View style={styles.leftStripe} />
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.announcementTitle}>{a.title}</Text>
+                  <Text style={styles.announcementText}>{a.text}</Text>
+                  <Text style={styles.announcementTime}>{a.time}</Text>
+                </View>
+                <TouchableOpacity style={styles.moreButtonSmall}>
+                  <MoreIcon />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {activeTab === 'fotograflar' && (
+          <View style={styles.photoGrid}>
+            {photos.map((url, idx) => (
+              <TouchableOpacity
+                key={idx}
+                onPress={() => {
+                  setSelectedPhoto(url);
+                  setPhotoModalVisible(true);
+                }}
+                style={styles.photoItem}
+              >
+                <Image source={{ uri: url }} style={styles.photoImage} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {activeTab === 'videolar' && (
+          <View style={styles.videoList}>
+            {videos.map((v) => (
+              <TouchableOpacity key={v.id} style={styles.videoThumbWrapper} onPress={() => { setSelectedVideo({ title: v.title, url: v.url }); setVideoModalVisible(true); }}>
+                <Image source={{ uri: v.thumbnail }} style={styles.videoThumb} />
+                <View style={styles.playOverlay}><PlayIcon /></View>
+              </TouchableOpacity>
+            ))}
           </View>
         )}
       </ScrollView>
+
+      {/* Photo Modal */}
+      <Modal visible={photoModalVisible} transparent animationType="fade" onRequestClose={() => setPhotoModalVisible(false)}>
+        <View style={styles.modalBackdrop}>
+          <TouchableOpacity style={styles.modalClose} onPress={() => setPhotoModalVisible(false)}>
+            <Text style={{ color: '#FFFFFF', fontSize: 22 }}>×</Text>
+          </TouchableOpacity>
+          {selectedPhoto && (
+            <Image source={{ uri: selectedPhoto }} style={styles.modalImage} resizeMode="contain" />
+          )}
+        </View>
+      </Modal>
+
+      {/* Video Modal */}
+      <Modal visible={videoModalVisible} transparent animationType="fade" onRequestClose={() => setVideoModalVisible(false)}>
+        <View style={styles.modalBackdrop}>
+          <TouchableOpacity style={styles.modalClose} onPress={() => setVideoModalVisible(false)}>
+            <Text style={{ color: '#FFFFFF', fontSize: 22 }}>×</Text>
+          </TouchableOpacity>
+          {selectedVideo && (
+            <View style={styles.videoModalContent}>
+              <Text style={styles.videoModalTitle}>{selectedVideo.title}</Text>
+              <TouchableOpacity style={styles.watchButton} onPress={() => Linking.openURL(selectedVideo.url)}>
+                <Text style={styles.watchButtonText}>Videoyu İzle</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -243,6 +434,93 @@ const styles = StyleSheet.create({
 
   sectionHeading: { fontSize: 14, fontWeight: 'bold', color: '#191D20', marginBottom: 8 },
   description: { fontSize: 14, color: '#666666', lineHeight: 20 },
+  aboutSection: { marginTop: 8 },
+  aboutCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    padding: 12,
+  },
+  aboutText: { fontSize: 12, color: '#191D20', lineHeight: 18 },
+  cardList: { gap: 10 },
+  listCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    padding: 12,
+    position: 'relative',
+  },
+  leftStripe: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 6, backgroundColor: '#FFBB01', borderTopLeftRadius: 12, borderBottomLeftRadius: 12 },
+  listCardLeftImage: { width: 60, height: 60, justifyContent: 'center', alignItems: 'center', marginRight: 12 },
+  listCardContent: { flex: 1 },
+  listCardTitle: { fontSize: 13, fontWeight: '700', color: '#191D20', marginBottom: 4 },
+  listCardText: { fontSize: 12, color: '#666666' },
+  moreButtonSmall: { width: 24, height: 24, justifyContent: 'center', alignItems: 'center' },
+  productRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    padding: 12,
+    position: 'relative',
+    gap: 12,
+  },
+  productThumb: { width: 64, height: 64, borderRadius: 10 },
+  badge: { alignSelf: 'flex-start', backgroundColor: '#FFBB01', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, marginBottom: 4 },
+  badgeText: { fontSize: 10, fontWeight: '700', color: '#191D20' },
+  productTitle: { fontSize: 14, fontWeight: '700', color: '#191D20', marginBottom: 2 },
+  productDesc: { fontSize: 12, color: '#666666' },
+  announcementCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    padding: 12,
+    position: 'relative',
+    gap: 12,
+  },
+  announcementTitle: { fontSize: 14, fontWeight: '700', color: '#191D20', marginBottom: 6 },
+  announcementText: { fontSize: 12, color: '#666666', marginBottom: 8, lineHeight: 18 },
+  announcementTime: { fontSize: 11, color: '#999999' },
+  photoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  photoItem: {
+    width: '48%',
+    aspectRatio: 1,
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  photoImage: { width: '100%', height: '100%' },
+  videoList: { gap: 12 },
+  videoThumbWrapper: {
+    position: 'relative',
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  videoThumb: { width: '100%', height: 180 },
+  playOverlay: { position: 'absolute', top: '50%', left: '50%', transform: [{ translateX: -28 }, { translateY: -28 }], justifyContent: 'center', alignItems: 'center' },
+  modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', alignItems: 'center' },
+  modalClose: { position: 'absolute', top: 40, right: 20, width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
+  modalImage: { width: '90%', height: '70%' },
+  videoModalContent: { width: '80%', padding: 16, backgroundColor: '#1F1F1F', borderRadius: 12, alignItems: 'center' },
+  videoModalTitle: { color: '#FFFFFF', fontSize: 16, fontWeight: '700', marginBottom: 12, textAlign: 'center' },
+  watchButton: { backgroundColor: '#FFBB01', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 8 },
+  watchButtonText: { color: '#191D20', fontWeight: '700' },
   tabsContainer: {
     flexDirection: 'row',
     gap: 8,

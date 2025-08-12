@@ -19,6 +19,7 @@ import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
 import ProductsScreen from './ProductsScreen';
 import CompaniesScreen from './CompaniesScreen';
+import CompanyDetailScreen from './CompanyDetailScreen';
 import { NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 import CategorySelector from './CategorySelector';
@@ -148,6 +149,8 @@ const MainScreen = () => {
   const [showNewsDetail, setShowNewsDetail] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
+  const [showCompanyDetail, setShowCompanyDetail] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<any>(null);
   const [selectedNews, setSelectedNews] = useState<any>(null);
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
 
@@ -447,7 +450,26 @@ const MainScreen = () => {
   );
 
   const renderCompanyCard = (item: any) => (
-    <TouchableOpacity key={item.id} style={styles.companyCard}>
+    <TouchableOpacity 
+      key={item.id} 
+      style={styles.companyCard}
+      onPress={() => {
+        setSelectedCompany({
+          id: item.id,
+          name: item.name,
+          category: 'Teknoloji',
+          description: 'Lorem ipsum dolor sit amet consectetur. Orci et euismod morbi quis.',
+          logo: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop',
+          followers: 7360,
+          sector: 'Teknoloji',
+          employeeCount: '5000+',
+          foundedYear: '1986',
+          websiteUrl: 'https://www.mustafa.com',
+          address: 'Baykar Milli S/İHA\nSistemleri Ar-Ge ve\nÜretim Tesisi',
+        });
+        setShowCompanyDetail(true);
+      }}
+    >
       <View style={styles.companyYellowStripe} />
       <View style={styles.companyLogo}>
         {item.logo === "baykar" ? (
@@ -651,6 +673,10 @@ const MainScreen = () => {
     return <CompaniesScreen
       onBack={() => setShowCompaniesScreen(false)}
     />;
+  }
+
+  if (showCompanyDetail && selectedCompany) {
+    return <CompanyDetailScreen onBack={() => setShowCompanyDetail(false)} company={selectedCompany} />;
   }
 
     switch (activeTab) {
