@@ -21,7 +21,11 @@
         "backgroundColor": "#FFBB01"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.emirirr.GosbIK"
+      "package": "com.emirirr.GosbIK",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

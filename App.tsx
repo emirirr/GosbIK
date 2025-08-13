@@ -27,6 +27,18 @@ import NewsScreen from './components/NewsScreen';
 import NewsDetailScreen from './components/NewsDetailScreen';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Poppins_100Thin,
+    Poppins_200ExtraLight,
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+    Poppins_900Black,
+  });
+
   const [showSplash, setShowSplash] = useState(true);
   const [currentScreen, setCurrentScreen] = useState<'splash' | 'login' | 'register' | 'forgotPassword' | 'verification' | 'createPassword' | 'main'>('splash');
 
@@ -55,6 +67,10 @@ export default function App() {
     console.log('Navigate to forgot password screen');
     setCurrentScreen('forgotPassword');
   };
+
+  if (!fontsLoaded) {
+    return <SplashScreen visible={true} />;
+  }
 
   if (showSplash) {
     return <SplashScreen visible={true} />;
