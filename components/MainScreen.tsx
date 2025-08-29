@@ -30,6 +30,7 @@ import CategorySelector from './CategorySelector';
 import ProfileScreen from './ProfileScreen';
 import AccountScreen from './AccountScreen';
 import AboutMeScreen from './AboutMeScreen';
+import WorkExperienceScreen from './WorkExperienceScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -159,6 +160,7 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
   const [showNewsDetail, setShowNewsDetail] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [showAboutMe, setShowAboutMe] = useState(false);
+  const [showWorkExp, setShowWorkExp] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
   const [showEventsScreen, setShowEventsScreen] = useState(false);
@@ -747,9 +749,16 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
       if (route === 'aboutMe') {
         setShowAccount(false);
         setShowAboutMe(true);
+      } else if (route === 'workExperience') {
+        setShowAccount(false);
+        setShowWorkExp(true);
       }
     };
     return <AccountScreen onBack={() => setShowAccount(false)} />;
+  }
+
+  if (showWorkExp) {
+    return <WorkExperienceScreen onBack={() => setShowWorkExp(false)} />;
   }
 
   if (showEventsScreen) {

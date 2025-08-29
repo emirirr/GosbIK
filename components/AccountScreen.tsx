@@ -124,7 +124,10 @@ const AccountScreen: React.FC<Props> = ({ onBack }) => {
           // @ts-ignore - this screen is shown by MainScreen via state; we'll use a global event to request navigation
           globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('aboutMe');
         }} />
-        <SectionRow icon={<WorkHistoryIcon />} label="İş Deneyimi" />
+        <SectionRow icon={<WorkHistoryIcon />} label="İş Deneyimi" onPress={() => {
+          // @ts-ignore
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('workExperience');
+        }} />
         <SectionRow icon={<SchoolIcon />} label="Eğitim" />
         <SectionRow icon={<PersonPlayIcon />} label="Yetenek" />
         <SectionRow icon={<DictionaryIcon />} label="Yabancı Dil" />

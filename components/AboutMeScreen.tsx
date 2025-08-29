@@ -329,13 +329,14 @@ const styles = StyleSheet.create({
   confirmSecondaryText: { color: '#191D20', fontWeight: '700', fontSize: 16 },
 });
 
-// Lightweight month calendar styled like the reference screenshot
+// Lightweight calendar with Day / Week / Month / Year tabs
 const CalendarLikeMonth: React.FC<{ onSelect: (label: string) => void; onClose: () => void }> = ({ onSelect, onClose }) => {
   const monthsTR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
   const weekTR = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
   const today = new Date();
   const [cursor, setCursor] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [selected, setSelected] = useState<Date | null>(today);
+  const [activeTab, setActiveTab] = useState<'Day' | 'Week' | 'Month' | 'Year'>('Month');
 
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
@@ -354,47 +355,109 @@ const CalendarLikeMonth: React.FC<{ onSelect: (label: string) => void; onClose: 
 
   const isSelected = (d: number) => selected && selected.getDate() === d && selected.getMonth() === month && selected.getFullYear() === year;
 
+  // Helpers
+  const toLabel = (d: Date) => `${d.getDate()} ${monthsTR[d.getMonth()]} ${d.getFullYear()}`;
+  const startOfWeekMon = (d: Date) => {
+    const x = new Date(d);
+    const day = (x.getDay() + 6) % 7; // 0..6 Mon-first
+    x.setDate(x.getDate() - day);
+    x.setHours(0,0,0,0);
+    return x;
+  };
+  const addDays = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+
   return (
     <View style={{ paddingVertical: 12, paddingHorizontal: 12 }}>
       {/* Tabs */}
       <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
-        {['Day','Week','Month','Year'].map(tab => (
-          <View key={tab} style={{ backgroundColor: tab === 'Month' ? '#FFBB01' : '#F5F5F5', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18 }}>
-            <Text style={{ color: '#191D20', fontWeight: '700', opacity: tab === 'Month' ? 1 : 0.7 }}>{tab}</Text>
-          </View>
+        {(['Day','Week','Month','Year'] as const).map(tab => (
+          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+            <View style={{ backgroundColor: activeTab === tab ? '#FFBB01' : '#F5F5F5', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18 }}>
+              <Text style={{ color: '#191D20', fontWeight: '700', opacity: activeTab === tab ? 1 : 0.7 }}>{tab}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </View>
 
       {/* Month Header */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <TouchableOpacity onPress={() => setCursor(new Date(year, month - 1, 1))}><Text style={{ fontSize: 18 }}>‹</Text></TouchableOpacity>
-        <Text style={{ fontSize: 22, fontWeight: '800' }}>{monthsTR[month]} {year}</Text>
-        <TouchableOpacity onPress={() => setCursor(new Date(year, month + 1, 1))}><Text style={{ fontSize: 18 }}>›</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          if (activeTab === 'Year') setCursor(new Date(year - 1, month, 1));
+          else if (activeTab === 'Month') setCursor(new Date(year, month - 1, 1));
+          else if (activeTab === 'Week') setCursor(addDays(cursor, -7));
+          else setSelected(prev => { const base = prev || today; const next = addDays(base, -1); setCursor(new Date(next.getFullYear(), next.getMonth(), 1)); return next; });
+        }}><Text style={{ fontSize: 18 }}>‹</Text></TouchableOpacity>
+        <Text style={{ fontSize: 22, fontWeight: '800' }}>
+          {activeTab === 'Year' ? year : `${monthsTR[month]} ${year}`}
+        </Text>
+        <TouchableOpacity onPress={() => {
+          if (activeTab === 'Year') setCursor(new Date(year + 1, month, 1));
+          else if (activeTab === 'Month') setCursor(new Date(year, month + 1, 1));
+          else if (activeTab === 'Week') setCursor(addDays(cursor, 7));
+          else setSelected(prev => { const base = prev || today; const next = addDays(base, 1); setCursor(new Date(next.getFullYear(), next.getMonth(), 1)); return next; });
+        }}><Text style={{ fontSize: 18 }}>›</Text></TouchableOpacity>
       </View>
 
-      {/* Week labels */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
-        {weekTR.map(w => (<Text key={w} style={{ width: 36, textAlign: 'center', color: '#9AA0A6', fontWeight: '700' }}>{w}</Text>))}
-      </View>
+      {/* Views */}
+      {activeTab !== 'Year' && (
+        <View>
+          {/* Week labels */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
+            {weekTR.map(w => (<Text key={w} style={{ width: 36, textAlign: 'center', color: '#9AA0A6', fontWeight: '700' }}>{w}</Text>))}
+          </View>
+          {activeTab === 'Month' && (
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+              {cells.map((c, idx) => {
+                const baseStyle: any = { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', marginBottom: 10 };
+                const textStyle: any = { fontWeight: '700', color: c.inMonth ? '#191D20' : '#C6C6C6' };
+                const selectedStyle = c.inMonth && isSelected(c.day) ? { backgroundColor: '#FFBB01' } : {};
+                return (
+                  <TouchableOpacity
+                    key={idx}
+                    disabled={!c.inMonth}
+                    onPress={() => { const d = new Date(year, month, c.day); setSelected(d); onSelect(toLabel(d)); }}
+                    style={[baseStyle, selectedStyle]}
+                  >
+                    <Text style={textStyle}>{c.day}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+          {activeTab === 'Week' && (() => {
+            const start = startOfWeekMon(new Date(year, month, (selected && selected.getMonth() === month && selected.getFullYear() === year) ? selected.getDate() : 1));
+            const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+            return (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                {days.map((d, idx) => {
+                  const sel = selected && d.toDateString() === selected.toDateString();
+                  return (
+                    <TouchableOpacity key={idx} onPress={() => { setSelected(d); onSelect(toLabel(d)); }} style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: sel ? '#FFBB01' : 'transparent' }}>
+                      <Text style={{ fontWeight: '700' }}>{d.getDate()}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            );
+          })()}
+          {activeTab === 'Day' && selected && (
+            <View style={{ alignItems: 'center', paddingVertical: 8 }}>
+              <Text style={{ fontSize: 32, fontWeight: '800' }}>{selected.getDate()}</Text>
+              <Text style={{ color: '#6B7280' }}>{monthsTR[selected.getMonth()]} {selected.getFullYear()}</Text>
+            </View>
+          )}
+        </View>
+      )}
 
-      {/* Grid */}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        {cells.map((c, idx) => {
-          const baseStyle: any = { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', marginBottom: 10 };
-          const textStyle: any = { fontWeight: '700', color: c.inMonth ? '#191D20' : '#C6C6C6' };
-          const selectedStyle = c.inMonth && isSelected(c.day) ? { backgroundColor: '#FFBB01' } : {};
-          return (
-            <TouchableOpacity
-              key={idx}
-              disabled={!c.inMonth}
-              onPress={() => { setSelected(new Date(year, month, c.day)); onSelect(`${c.day} ${monthsTR[month]} ${year}`); }}
-              style={[baseStyle, selectedStyle]}
-            >
-              <Text style={textStyle}>{c.day}</Text>
+      {activeTab === 'Year' && (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+          {monthsTR.map((m, idx) => (
+            <TouchableOpacity key={m} onPress={() => setCursor(new Date(year, idx, 1))} style={{ width: '30%', marginBottom: 12, backgroundColor: idx === month ? '#FFBB01' : '#F5F5F5', borderRadius: 10, paddingVertical: 10, alignItems: 'center' }}>
+              <Text style={{ fontWeight: '700', color: '#191D20' }}>{m}</Text>
             </TouchableOpacity>
-          );
-        })}
-      </View>
+          ))}
+        </View>
+      )}
 
       <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', marginTop: 4 }}>
         <Text style={{ color: '#191D20', fontWeight: '600' }}>Kapat</Text>
