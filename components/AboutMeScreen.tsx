@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, UIManager, findNodeHandle, Dimensions } from 'react-native';
+import { BlurView } from 'expo-blur';
 import Svg, { Path } from 'react-native-svg';
 import { scale, responsiveSpacing, responsiveFontSize, responsiveIconSize } from '../utils/responsive';
 
@@ -43,6 +44,13 @@ const AboutMeScreen: React.FC<Props> = ({ onBack }) => {
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [showLicensePicker, setShowLicensePicker] = useState(false);
   const [showDocPicker, setShowDocPicker] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [countryAnchor, setCountryAnchor] = useState<{x:number;y:number;width:number;height:number}|null>(null);
+  const [licenseAnchor, setLicenseAnchor] = useState<{x:number;y:number;width:number;height:number}|null>(null);
+  const [docAnchor, setDocAnchor] = useState<{x:number;y:number;width:number;height:number}|null>(null);
+  const countryRef = useRef<View>(null);
+  const licenseRef = useRef<View>(null);
+  const docRef = useRef<View>(null);
   const [countryCode, setCountryCode] = useState('+90');
 
   const countryOptions = ['+90', '+1', '+44', '+49', '+33', '+7'];
@@ -95,7 +103,22 @@ const AboutMeScreen: React.FC<Props> = ({ onBack }) => {
 
         <Text style={styles.label}>Telefon</Text>
         <View style={styles.phoneRow}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.countryCode} onPress={() => setShowCountryPicker(true)}> 
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.countryCode}
+            onPress={() => {
+              const node = findNodeHandle(countryRef.current);
+              if (node) {
+                UIManager.measureInWindow(node, (x, y, width, height) => {
+                  setCountryAnchor({ x, y, width, height });
+                  setShowCountryPicker(true);
+                });
+              } else {
+                setShowCountryPicker(true);
+              }
+            }}
+            ref={countryRef}
+          > 
             <Text style={styles.countryCodeText}>{countryCode}</Text>
             <ArrowDownIcon />
           </TouchableOpacity>
@@ -106,11 +129,41 @@ const AboutMeScreen: React.FC<Props> = ({ onBack }) => {
         <TextInput value={address} onChangeText={setAddress} style={styles.input} placeholder="Adres" placeholderTextColor="#9AA0A6" />
 
         <View style={styles.row2}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.selectBox} onPress={() => setShowLicensePicker(true)}> 
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.selectBox}
+            onPress={() => {
+              const node = findNodeHandle(licenseRef.current);
+              if (node) {
+                UIManager.measureInWindow(node, (x, y, width, height) => {
+                  setLicenseAnchor({ x, y, width, height });
+                  setShowLicensePicker(true);
+                });
+              } else {
+                setShowLicensePicker(true);
+              }
+            }}
+            ref={licenseRef}
+          > 
             <Text style={styles.selectText}>{licenseType}</Text>
             <ArrowDownIcon />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.selectBox} onPress={() => setShowDocPicker(true)}> 
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.selectBox}
+            onPress={() => {
+              const node = findNodeHandle(docRef.current);
+              if (node) {
+                UIManager.measureInWindow(node, (x, y, width, height) => {
+                  setDocAnchor({ x, y, width, height });
+                  setShowDocPicker(true);
+                });
+              } else {
+                setShowDocPicker(true);
+              }
+            }}
+            ref={docRef}
+          > 
             <Text style={styles.selectText}>{docType}</Text>
             <ArrowDownIcon />
           </TouchableOpacity>
@@ -119,7 +172,7 @@ const AboutMeScreen: React.FC<Props> = ({ onBack }) => {
         <Text style={styles.label}>Hakkımda</Text>
         <TextInput value={about} onChangeText={setAbout} style={styles.textArea} multiline numberOfLines={5} />
 
-        <TouchableOpacity style={styles.saveButton}>
+        <TouchableOpacity style={styles.saveButton} onPress={() => setShowConfirm(true)}>
           <Text style={styles.saveButtonText}>Kaydet</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -134,31 +187,52 @@ const AboutMeScreen: React.FC<Props> = ({ onBack }) => {
       </Modal>
 
       {/* Country Code Picker */}
-      <PickerModal
+      <AnchoredDropdown
         visible={showCountryPicker}
-        title="Ülke Kodu"
+        anchor={countryAnchor}
         options={countryOptions}
+        selected={countryCode}
         onClose={() => setShowCountryPicker(false)}
         onSelect={(opt) => { setCountryCode(opt); setShowCountryPicker(false); }}
       />
 
       {/* License Picker */}
-      <PickerModal
+      <AnchoredDropdown
         visible={showLicensePicker}
-        title="Ehliyet Türü"
+        anchor={licenseAnchor}
         options={licenseOptions}
+        selected={licenseType}
         onClose={() => setShowLicensePicker(false)}
         onSelect={(opt) => { setLicenseType(opt); setShowLicensePicker(false); }}
       />
 
       {/* Document Picker */}
-      <PickerModal
+      <AnchoredDropdown
         visible={showDocPicker}
-        title="Belge Türü"
+        anchor={docAnchor}
         options={docOptions}
+        selected={docType}
         onClose={() => setShowDocPicker(false)}
         onSelect={(opt) => { setDocType(opt); setShowDocPicker(false); }}
       />
+
+      {/* Confirm Save Modal */}
+      <Modal visible={showConfirm} transparent animationType="fade" onRequestClose={() => setShowConfirm(false)}>
+        <View style={styles.confirmBackdrop}>
+          <BlurView intensity={20} tint="dark" style={StyleSheet.absoluteFillObject as any} />
+          <View style={styles.confirmCard}>
+            <View style={styles.confirmHandle} />
+            <Text style={styles.confirmTitle}>Emin misin</Text>
+            <Text style={styles.confirmDesc}>Bilgileri değiştirmek istediğinizden emin misiniz?</Text>
+            <TouchableOpacity style={styles.confirmPrimary} onPress={() => setShowConfirm(false)}>
+              <Text style={styles.confirmPrimaryText}>Kaydet</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.confirmSecondary} onPress={() => setShowConfirm(false)}>
+              <Text style={styles.confirmSecondaryText}>İptal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -223,14 +297,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFBB01',
   },
   genderText: { color: '#191D20', fontSize: responsiveFontSize.base },
-  phoneRow: { flexDirection: 'row', gap: responsiveSpacing.sm },
+  phoneRow: { flexDirection: 'row', gap: responsiveSpacing.sm, alignItems: 'center' },
   countryCode: {
-    minWidth: scale(80),
+    minWidth: scale(100),
     backgroundColor: '#F1F1F1',
     borderRadius: scale(12),
     paddingHorizontal: responsiveSpacing.md,
     paddingVertical: responsiveSpacing.md,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   countryCodeText: { color: '#191D20', fontSize: responsiveFontSize.base },
   phoneInput: { flex: 1, backgroundColor: '#F1F1F1', borderRadius: scale(12), paddingHorizontal: responsiveSpacing.md, paddingVertical: responsiveSpacing.md, color: '#191D20', fontSize: responsiveFontSize.base },
@@ -242,62 +318,109 @@ const styles = StyleSheet.create({
   saveButtonText: { color: '#191D20', fontWeight: '700', fontSize: responsiveFontSize.base },
   calendarBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'center', padding: 16 },
   calendarCard: { backgroundColor: '#FFFFFF', borderRadius: 16, overflow: 'hidden' },
+  confirmBackdrop: { flex: 1, justifyContent: 'flex-end' },
+  confirmCard: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 20 },
+  confirmHandle: { width: 140, height: 6, borderRadius: 3, backgroundColor: '#D8D8D8', alignSelf: 'center', marginBottom: 16 },
+  confirmTitle: { fontSize: 20, fontWeight: '800', color: '#191D20', textAlign: 'center', marginBottom: 6 },
+  confirmDesc: { fontSize: 14, color: '#6B7280', textAlign: 'center', marginBottom: 16 },
+  confirmPrimary: { backgroundColor: '#FFBB01', borderRadius: 14, paddingVertical: 14, alignItems: 'center', marginBottom: 10 },
+  confirmPrimaryText: { color: '#191D20', fontWeight: '700', fontSize: 16 },
+  confirmSecondary: { backgroundColor: '#E9E9EB', borderRadius: 14, paddingVertical: 14, alignItems: 'center' },
+  confirmSecondaryText: { color: '#191D20', fontWeight: '700', fontSize: 16 },
 });
 
-// Lightweight month calendar to match provided screenshot style without heavy deps
+// Lightweight month calendar styled like the reference screenshot
 const CalendarLikeMonth: React.FC<{ onSelect: (label: string) => void; onClose: () => void }> = ({ onSelect, onClose }) => {
   const monthsTR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-  const weekTR = ['PZT','SAL','ÇAR','PER','CUM','CTS','PAZ'];
+  const weekTR = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
   const today = new Date();
   const [cursor, setCursor] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+  const [selected, setSelected] = useState<Date | null>(today);
+
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
-  const firstDay = new Date(year, month, 1).getDay(); // 0: Sun
+  const firstWeekdaySun0 = new Date(year, month, 1).getDay(); // 0: Sun
+  const daysInPrev = new Date(year, month, 0).getDate();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const leading = (firstDay + 6) % 7; // convert to Mon-first
-  const cells = Array.from({ length: leading + daysInMonth }, (_, i) => (i < leading ? null : i - leading + 1));
-  const isToday = (d: number) => d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+  const leading = (firstWeekdaySun0 + 6) % 7; // Monday-first index
+  const totalCells = 42; // 6 weeks
+  const cells: { day: number; inMonth: boolean }[] = [];
+  // leading prev days
+  for (let i = leading; i > 0; i--) cells.push({ day: daysInPrev - i + 1, inMonth: false });
+  // current month days
+  for (let d = 1; d <= daysInMonth; d++) cells.push({ day: d, inMonth: true });
+  // trailing next days
+  while (cells.length < totalCells) cells.push({ day: cells.length - (leading + daysInMonth) + 1, inMonth: false });
+
+  const isSelected = (d: number) => selected && selected.getDate() === d && selected.getMonth() === month && selected.getFullYear() === year;
 
   return (
-    <View style={{ padding: 16 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <TouchableOpacity onPress={() => setCursor(new Date(year, month - 1, 1))}><Text style={{ fontSize: 18 }}>‹</Text></TouchableOpacity>
-        <Text style={{ fontSize: 18, fontWeight: '700' }}>{monthsTR[month]} {year}</Text>
-        <TouchableOpacity onPress={() => setCursor(new Date(year, month + 1, 1))}><Text style={{ fontSize: 18 }}>›</Text></TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-        {weekTR.map(w => (<Text key={w} style={{ width: 32, textAlign: 'center', color: '#9AA0A6', fontWeight: '700' }}>{w}</Text>))}
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between' }}>
-        {cells.map((d, idx) => (
-          <TouchableOpacity key={idx} disabled={!d} onPress={() => onSelect(`${d} ${monthsTR[month]} ${year}`)} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: d && isToday(d) ? '#FFBB01' : 'transparent', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: '#191D20', fontWeight: '700' }}>{d ? d : ''}</Text>
-          </TouchableOpacity>
+    <View style={{ paddingVertical: 12, paddingHorizontal: 12 }}>
+      {/* Tabs */}
+      <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
+        {['Day','Week','Month','Year'].map(tab => (
+          <View key={tab} style={{ backgroundColor: tab === 'Month' ? '#FFBB01' : '#F5F5F5', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18 }}>
+            <Text style={{ color: '#191D20', fontWeight: '700', opacity: tab === 'Month' ? 1 : 0.7 }}>{tab}</Text>
+          </View>
         ))}
       </View>
-      <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', marginTop: 16 }}>
+
+      {/* Month Header */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <TouchableOpacity onPress={() => setCursor(new Date(year, month - 1, 1))}><Text style={{ fontSize: 18 }}>‹</Text></TouchableOpacity>
+        <Text style={{ fontSize: 22, fontWeight: '800' }}>{monthsTR[month]} {year}</Text>
+        <TouchableOpacity onPress={() => setCursor(new Date(year, month + 1, 1))}><Text style={{ fontSize: 18 }}>›</Text></TouchableOpacity>
+      </View>
+
+      {/* Week labels */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
+        {weekTR.map(w => (<Text key={w} style={{ width: 36, textAlign: 'center', color: '#9AA0A6', fontWeight: '700' }}>{w}</Text>))}
+      </View>
+
+      {/* Grid */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        {cells.map((c, idx) => {
+          const baseStyle: any = { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', marginBottom: 10 };
+          const textStyle: any = { fontWeight: '700', color: c.inMonth ? '#191D20' : '#C6C6C6' };
+          const selectedStyle = c.inMonth && isSelected(c.day) ? { backgroundColor: '#FFBB01' } : {};
+          return (
+            <TouchableOpacity
+              key={idx}
+              disabled={!c.inMonth}
+              onPress={() => { setSelected(new Date(year, month, c.day)); onSelect(`${c.day} ${monthsTR[month]} ${year}`); }}
+              style={[baseStyle, selectedStyle]}
+            >
+              <Text style={textStyle}>{c.day}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', marginTop: 4 }}>
         <Text style={{ color: '#191D20', fontWeight: '600' }}>Kapat</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const PickerModal: React.FC<{ visible: boolean; title: string; options: string[]; onSelect: (opt: string) => void; onClose: () => void }> = ({ visible, title, options, onSelect, onClose }) => {
+const AnchoredDropdown: React.FC<{ visible: boolean; anchor: {x:number;y:number;width:number;height:number}|null; options: string[]; selected?: string; onSelect: (opt: string) => void; onClose: () => void }> = ({ visible, anchor, options, selected, onSelect, onClose }) => {
+  const { width: screenWidth } = Dimensions.get('window');
+  const dropdownWidth = 220;
+  const left = anchor ? Math.max(8, Math.min(anchor.x, screenWidth - dropdownWidth - 8)) : 16;
+  const top = anchor ? anchor.y + (anchor.height || 0) + 6 : 120;
+  if (!visible) return null;
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'center', padding: 16 }}>
-        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 16, padding: 16 }}>
-          <Text style={{ fontWeight: '700', fontSize: 16, marginBottom: 12, color: '#191D20' }}>{title}</Text>
-          {options.map(opt => (
-            <TouchableOpacity key={opt} onPress={() => onSelect(opt)} style={{ paddingVertical: 12 }}>
-              <Text style={{ color: '#191D20', fontSize: 14 }}>{opt}</Text>
+    <Modal visible transparent animationType="none" onRequestClose={onClose}>
+      <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={onClose}>
+        <View style={{ position: 'absolute', top, left, width: dropdownWidth, backgroundColor: '#EFEFEF', borderRadius: 14, paddingVertical: 8, shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 10 }}>
+          {options.map((opt, idx) => (
+            <TouchableOpacity key={opt} onPress={() => onSelect(opt)} style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
+              <Text style={{ color: selected === opt ? '#191D20' : '#9AA0A6', fontSize: 14 }}>{opt}</Text>
+              {idx < options.length - 1 && <View style={{ height: 1, backgroundColor: '#E2E2E2', marginTop: 10 }} />}
             </TouchableOpacity>
           ))}
-          <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', marginTop: 8 }}>
-            <Text style={{ color: '#191D20', fontWeight: '600' }}>Kapat</Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };
