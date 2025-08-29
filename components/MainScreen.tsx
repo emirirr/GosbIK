@@ -29,6 +29,7 @@ import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } fr
 import CategorySelector from './CategorySelector';
 import ProfileScreen from './ProfileScreen';
 import AccountScreen from './AccountScreen';
+import AboutMeScreen from './AboutMeScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -157,6 +158,7 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showNewsDetail, setShowNewsDetail] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
+  const [showAboutMe, setShowAboutMe] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
   const [showEventsScreen, setShowEventsScreen] = useState(false);
@@ -732,7 +734,21 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
     );
   }
 
+  // Show AboutMe before Account so it can overlay Account screen
+  if (showAboutMe) {
+    return <AboutMeScreen onBack={() => { setShowAboutMe(false); setShowAccount(true); }} />;
+  }
+
   if (showAccount) {
+    // bridge to allow child to request navigation since we don't use a navigator
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    globalThis.__gosbikNavigate = (route: string) => {
+      if (route === 'aboutMe') {
+        setShowAccount(false);
+        setShowAboutMe(true);
+      }
+    };
     return <AccountScreen onBack={() => setShowAccount(false)} />;
   }
 

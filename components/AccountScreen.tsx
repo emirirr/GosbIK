@@ -120,7 +120,10 @@ const AccountScreen: React.FC<Props> = ({ onBack }) => {
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <SectionRow icon={<PersonIcon />} label="Hakkımda" />
+        <SectionRow icon={<PersonIcon />} label="Hakkımda" onPress={() => {
+          // @ts-ignore - this screen is shown by MainScreen via state; we'll use a global event to request navigation
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('aboutMe');
+        }} />
         <SectionRow icon={<WorkHistoryIcon />} label="İş Deneyimi" />
         <SectionRow icon={<SchoolIcon />} label="Eğitim" />
         <SectionRow icon={<PersonPlayIcon />} label="Yetenek" />
