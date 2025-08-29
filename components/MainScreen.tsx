@@ -31,6 +31,11 @@ import ProfileScreen from './ProfileScreen';
 import AccountScreen from './AccountScreen';
 import AboutMeScreen from './AboutMeScreen';
 import WorkExperienceScreen from './WorkExperienceScreen';
+import EducationScreen from './EducationScreen';
+import SkillsScreen from './SkillsScreen';
+import LanguagesScreen from './LanguagesScreen';
+import ContactScreen from './ContactScreen';
+import NotificationsScreen from './NotificationsScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -161,7 +166,12 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
   const [showAccount, setShowAccount] = useState(false);
   const [showAboutMe, setShowAboutMe] = useState(false);
   const [showWorkExp, setShowWorkExp] = useState(false);
+  const [showEducation, setShowEducation] = useState(false);
+  const [showSkills, setShowSkills] = useState(false);
+  const [showLanguages, setShowLanguages] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
   const [showEventsScreen, setShowEventsScreen] = useState(false);
   const [showJobsScreen, setShowJobsScreen] = useState(false);
@@ -172,6 +182,7 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
   const [showJobDetail, setShowJobDetail] = useState(false);
   const [showCvUpload, setShowCvUpload] = useState(false);
+  const [showResumeFromAccount, setShowResumeFromAccount] = useState(false);
 
   const { width } = Dimensions.get('window');
   const slideWidth = 370; // Fixed width as specified
@@ -397,7 +408,7 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
          </View>
        </View>
       <View style={styles.notificationContainer}>
-        <TouchableOpacity style={styles.notificationButton} onPress={() => setShowProfile(true)}>
+        <TouchableOpacity style={styles.notificationButton} onPress={() => setShowNotifications(true)}>
           <NotificationIcon width={24} height={24} color="#191D20" />
         </TouchableOpacity>
       </View>
@@ -706,6 +717,10 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
       />;
     }
 
+    if (showNotifications) {
+      return <NotificationsScreen onBack={() => setShowNotifications(false)} />;
+    }
+
       if (showProductsScreen) {
     return <ProductsScreen
       onBack={() => setShowProductsScreen(false)}
@@ -730,6 +745,9 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
           if (route === 'account') {
             setShowProfile(false);
             setShowAccount(true);
+          } else if (route === 'contact') {
+            setShowProfile(false);
+            setShowContact(true);
           }
         }}
       />
@@ -752,6 +770,21 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
       } else if (route === 'workExperience') {
         setShowAccount(false);
         setShowWorkExp(true);
+      } else if (route === 'education') {
+        setShowAccount(false);
+        setShowEducation(true);
+      } else if (route === 'skills') {
+        setShowAccount(false);
+        setShowSkills(true);
+      } else if (route === 'languages') {
+        setShowAccount(false);
+        setShowLanguages(true);
+      } else if (route === 'resume') {
+        setShowAccount(false);
+        setShowResumeFromAccount(true);
+      } else if (route === 'contact') {
+        setShowProfile(false);
+        setShowContact(true);
       }
     };
     return <AccountScreen onBack={() => setShowAccount(false)} />;
@@ -759,6 +792,22 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
 
   if (showWorkExp) {
     return <WorkExperienceScreen onBack={() => setShowWorkExp(false)} />;
+  }
+
+  if (showEducation) {
+    return <EducationScreen onBack={() => setShowEducation(false)} />;
+  }
+
+  if (showSkills) {
+    return <SkillsScreen onBack={() => setShowSkills(false)} />;
+  }
+
+  if (showLanguages) {
+    return <LanguagesScreen onBack={() => setShowLanguages(false)} />;
+  }
+
+  if (showContact) {
+    return <ContactScreen onBack={() => setShowContact(false)} />;
   }
 
   if (showEventsScreen) {
@@ -776,6 +825,10 @@ const MainScreen = ({ onLogout }: MainScreenProps) => {
   // Show CV Upload screen with higher priority so it can open from JobDetail screen
   if (showCvUpload) {
     return <CvUploadScreen onBack={() => setShowCvUpload(false)} job={selectedJob || undefined} />;
+  }
+
+  if (showResumeFromAccount) {
+    return <CvUploadScreen onBack={() => setShowResumeFromAccount(false)} />;
   }
 
   if (showJobDetail && selectedJob) {

@@ -4,7 +4,7 @@ import Svg, { Path, Circle, Rect, Defs, LinearGradient, Stop, ClipPath, G } from
 import { BlurView } from 'expo-blur';
 import { scale, verticalScale, fontScale, responsiveSpacing, responsiveFontSize, responsiveIconSize, responsiveSafeArea, isSmallDevice, isLargeDevice } from '../utils/responsive';
 
-type Props = { onBack: () => void; onLogout?: () => void; onNavigate?: (route: 'account') => void };
+type Props = { onBack: () => void; onLogout?: () => void; onNavigate?: (route: 'account' | 'contact') => void };
 
 const BackIcon: React.FC<{ color?: string }> = ({ color = '#191D20' }) => (
   <Svg width={responsiveIconSize.lg} height={responsiveIconSize.lg} viewBox="0 0 24 24" fill="none">
@@ -123,7 +123,7 @@ const ProfileScreen: React.FC<Props> = ({ onBack, onLogout, onNavigate }) => {
 
         <View style={styles.menuList}>
           <MenuItem icon={<PersonIcon />} label="Hesabım" onPress={() => onNavigate && onNavigate('account')} />
-          <MenuItem icon={<SupportAgentIcon />} label="Gosbik İletişim" />
+          <MenuItem icon={<SupportAgentIcon />} label="Gosbik İletişim" onPress={() => onNavigate && onNavigate('contact')} />
           <MenuItem icon={<SettingsIcon />} label="Ayarlar" />
           <MenuItem icon={<BookmarkIcon />} label="Kaydedilenler" />
           <MenuItem icon={<LogoutIcon />} label="Çıkış Yap" onPress={() => setShowLogoutModal(true)} />

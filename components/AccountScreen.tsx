@@ -128,10 +128,22 @@ const AccountScreen: React.FC<Props> = ({ onBack }) => {
           // @ts-ignore
           globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('workExperience');
         }} />
-        <SectionRow icon={<SchoolIcon />} label="Eğitim" />
-        <SectionRow icon={<PersonPlayIcon />} label="Yetenek" />
-        <SectionRow icon={<DictionaryIcon />} label="Yabancı Dil" />
-        <SectionRow icon={<ArticlePersonIcon />} label="Özgeçmiş" />
+        <SectionRow icon={<SchoolIcon />} label="Eğitim" onPress={() => {
+          // @ts-ignore
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('education');
+        }} />
+        <SectionRow icon={<PersonPlayIcon />} label="Yetenek" onPress={() => {
+          // @ts-ignore
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('skills');
+        }} />
+        <SectionRow icon={<DictionaryIcon />} label="Yabancı Dil" onPress={() => {
+          // @ts-ignore
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('languages');
+        }} />
+        <SectionRow icon={<ArticlePersonIcon />} label="Özgeçmiş" onPress={() => {
+          // @ts-ignore
+          globalThis.__gosbikNavigate && globalThis.__gosbikNavigate('resume');
+        }} />
       </ScrollView>
     </SafeAreaView>
   );
