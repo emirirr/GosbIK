@@ -177,7 +177,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <MainScreen />
+      <MainScreen onLogout={() => setCurrentScreen('login')} />
     </ThemeProvider>
   );
 }

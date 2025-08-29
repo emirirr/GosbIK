@@ -28,6 +28,7 @@ import { NotificationIcon, UserIcon } from './icons/SvgIcons';
 import Svg, { Path, Rect, Defs, Pattern, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 import CategorySelector from './CategorySelector';
 import ProfileScreen from './ProfileScreen';
+import AccountScreen from './AccountScreen';
 
 const YonIcon: React.FC<{ color?: string }> = ({ color = "#191D20" }) => (
   <Svg width="8" height="14" viewBox="0 0 5 10" fill="none">
@@ -146,13 +147,16 @@ const AppleIcon: React.FC = () => (
   </Svg>
 );
 
-const MainScreen = () => {
+interface MainScreenProps { onLogout?: () => void }
+
+const MainScreen = ({ onLogout }: MainScreenProps) => {
   const [activeTab, setActiveTab] = useState('home');
   const [activeCategory, setActiveCategory] = useState('Tümü');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNewsScreen, setShowNewsScreen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showNewsDetail, setShowNewsDetail] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
   const [showProductsScreen, setShowProductsScreen] = useState(false);
   const [showCompaniesScreen, setShowCompaniesScreen] = useState(false);
   const [showEventsScreen, setShowEventsScreen] = useState(false);
@@ -711,7 +715,25 @@ const MainScreen = () => {
   }
 
   if (showProfile) {
-    return <ProfileScreen onBack={() => setShowProfile(false)} />;
+    return (
+      <ProfileScreen
+        onBack={() => setShowProfile(false)}
+        onLogout={() => {
+          setShowProfile(false);
+          onLogout && onLogout();
+        }}
+        onNavigate={(route) => {
+          if (route === 'account') {
+            setShowProfile(false);
+            setShowAccount(true);
+          }
+        }}
+      />
+    );
+  }
+
+  if (showAccount) {
+    return <AccountScreen onBack={() => setShowAccount(false)} />;
   }
 
   if (showEventsScreen) {

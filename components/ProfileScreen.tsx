@@ -1,9 +1,10 @@
-import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet, StatusBar, TouchableOpacity, Image, ScrollView } from 'react-native';
-import Svg, { Path, Circle } from 'react-native-svg';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, StyleSheet, StatusBar, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
+import Svg, { Path, Circle, Rect, Defs, LinearGradient, Stop, ClipPath, G } from 'react-native-svg';
+import { BlurView } from 'expo-blur';
 import { scale, verticalScale, fontScale, responsiveSpacing, responsiveFontSize, responsiveIconSize, responsiveSafeArea, isSmallDevice, isLargeDevice } from '../utils/responsive';
 
-type Props = { onBack: () => void };
+type Props = { onBack: () => void; onLogout?: () => void; onNavigate?: (route: 'account') => void };
 
 const BackIcon: React.FC<{ color?: string }> = ({ color = '#191D20' }) => (
   <Svg width={responsiveIconSize.lg} height={responsiveIconSize.lg} viewBox="0 0 24 24" fill="none">
@@ -52,6 +53,37 @@ const BookmarkIcon: React.FC = () => (
   </Svg>
 );
 
+// Illustration for confirmation modal based on assets/images/icons/emin misin.svg
+const ConfirmIllustration: React.FC = () => (
+  <Svg width={scale(132)} height={scale(132)} viewBox="0 0 132 132" fill="none">
+    <Defs>
+      <LinearGradient id="g1" x1="66" y1="14" x2="66" y2="56">
+        <Stop stopColor="#E79F35" />
+        <Stop offset="1" stopColor="#FFC977" stopOpacity="0.1" />
+      </LinearGradient>
+      <LinearGradient id="g2" x1="66" y1="20.5264" x2="66" y2="49.4737">
+        <Stop stopColor="#E79F35" />
+        <Stop offset="1" stopColor="#FFC977" />
+      </LinearGradient>
+      <ClipPath id="clip">
+        <Rect width="132" height="132" rx="66" fill="white" />
+      </ClipPath>
+    </Defs>
+    <G clipPath="url(#clip)">
+      <Circle cx="66" cy="71" r="66" fill="#E6FDFD" />
+      <Rect x="18" y="35" width="95" height="63" rx="12" fill="#FAFFFF" />
+      <Rect x="-9" y="107" width="95" height="63" rx="12" fill="#FAFFFF" />
+      <Rect x="95" y="107" width="49" height="63" rx="12" fill="#FAFFFF" />
+      <Circle opacity="0.2" cx="66" cy="35" r="21" fill="url(#g1)" />
+      <Circle cx="66.0001" cy="35.0001" r="14.4737" fill="url(#g2)" />
+      <Path d="M66.6487 22.2501L73.7934 34.6252C74.0005 34.9839 73.8776 35.4426 73.5189 35.6496C73.4049 35.7155 73.2756 35.7502 73.1439 35.7502H58.8545C58.4403 35.7502 58.1045 35.4144 58.1045 35.0002C58.1045 34.8685 58.1391 34.7392 58.205 34.6252L65.3497 22.2501C65.5568 21.8914 66.0154 21.7685 66.3742 21.9756C66.4882 22.0414 66.5829 22.1361 66.6487 22.2501ZM60.1535 34.2502H71.8449L65.9992 24.1251L60.1535 34.2502ZM65.2492 32.0002H66.7492V33.5002H65.2492V32.0002ZM65.2492 26.7501H66.7492V30.5002H65.2492V26.7501Z" fill="white" />
+      <Rect x="33" y="63" width="65" height="6" rx="3" fill="#9CF8F7" />
+      <Rect x="48" y="78" width="35" height="6" rx="3" fill="#9CF8F7" />
+      <Rect x="21" y="120" width="35" height="6" rx="3" fill="#9CF8F7" />
+    </G>
+  </Svg>
+);
+
 const LogoutIcon: React.FC = () => (
   <Svg width={responsiveIconSize.lg} height={responsiveIconSize.lg} viewBox="0 0 24 24" fill="none">
     <Path d="M20.15 13H9C8.71667 13 8.47917 12.9042 8.2875 12.7125C8.09583 12.5208 8 12.2833 8 12C8 11.7167 8.09583 11.4792 8.2875 11.2875C8.47917 11.0958 8.71667 11 9 11H20.15L19.3 10.15C19.1 9.95 19.0042 9.71667 19.0125 9.45C19.0208 9.18333 19.1167 8.95 19.3 8.75C19.5 8.55 19.7375 8.44583 20.0125 8.4375C20.2875 8.42917 20.525 8.525 20.725 8.725L23.3 11.3C23.5 11.5 23.6 11.7333 23.6 12C23.6 12.2667 23.5 12.5 23.3 12.7L20.725 15.275C20.525 15.475 20.2875 15.5708 20.0125 15.5625C19.7375 15.5542 19.5 15.45 19.3 15.25C19.1167 15.05 19.0208 14.8167 19.0125 14.55C19.0042 14.2833 19.1 14.05 19.3 13.85L20.15 13ZM15 8V5H5V19H15V16C15 15.7167 15.0958 15.4792 15.2875 15.2875C15.4792 15.0958 15.7167 15 16 15C16.2833 15 16.5208 15.0958 16.7125 15.2875C16.9042 15.4792 17 15.7167 17 16V19C17 19.55 16.8042 20.0208 16.4125 20.4125C16.0208 20.8042 15.55 21 15 21H5C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H15C15.55 3 16.0208 3.19583 16.4125 3.5875C16.8042 3.97917 17 4.45 17 5V8C17 8.28333 16.9042 8.52083 16.7125 8.7125C16.5208 8.90417 16.2833 9 16 9C15.7167 9 15.4792 8.90417 15.2875 8.7125C15.0958 8.52083 15 8.28333 15 8Z" fill="#FFBB01"/>
@@ -64,7 +96,8 @@ const ChevronRight: React.FC = () => (
   </Svg>
 );
 
-const ProfileScreen: React.FC<Props> = ({ onBack }) => {
+const ProfileScreen: React.FC<Props> = ({ onBack, onLogout, onNavigate }) => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFBB01" />
@@ -89,21 +122,63 @@ const ProfileScreen: React.FC<Props> = ({ onBack }) => {
         </View>
 
         <View style={styles.menuList}>
-          <MenuItem icon={<PersonIcon />} label="Hesabım" />
+          <MenuItem icon={<PersonIcon />} label="Hesabım" onPress={() => onNavigate && onNavigate('account')} />
           <MenuItem icon={<SupportAgentIcon />} label="Gosbik İletişim" />
           <MenuItem icon={<SettingsIcon />} label="Ayarlar" />
           <MenuItem icon={<BookmarkIcon />} label="Kaydedilenler" />
-          <MenuItem icon={<LogoutIcon />} label="Çıkış Yap" />
+          <MenuItem icon={<LogoutIcon />} label="Çıkış Yap" onPress={() => setShowLogoutModal(true)} />
         </View>
       </ScrollView>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        visible={showLogoutModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowLogoutModal(false)}
+      >
+        <View style={styles.modalBackdrop}>
+          <BlurView intensity={10} tint="dark" style={styles.absoluteFill} />
+          <View style={[styles.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.35)' }]} />
+          <View style={styles.modalCard}>
+            <View style={styles.modalHandle} />
+            <View style={styles.modalIllustration}>
+              <ConfirmIllustration />
+            </View>
+            <Text style={styles.modalTitle}>Emin misin</Text>
+            <Text style={styles.modalDesc}>
+              Bu hesaptan çıkış yapmak istediğinizden emin misiniz? Kolayca tekrar giriş yapabilirsiniz.
+            </Text>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.cancelButton}
+              onPress={() => setShowLogoutModal(false)}
+            >
+              <Text style={styles.cancelButtonText}>İptal Et</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.logoutButton}
+              onPress={() => {
+                setShowLogoutModal(false);
+                onLogout && onLogout();
+              }}
+            >
+              <Text style={styles.logoutButtonText}>Oturumu Kapat</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
-const MenuItem: React.FC<{ icon: React.ReactNode; label: string }> = ({ icon, label }) => {
+const MenuItem: React.FC<{ icon: React.ReactNode; label: string; onPress?: () => void }> = ({ icon, label, onPress }) => {
   const isLogout = label === "Çıkış Yap";
   return (
-    <TouchableOpacity style={[styles.menuItem, isLogout && styles.logoutMenuItem]} activeOpacity={0.7}>
+    <TouchableOpacity style={[styles.menuItem, isLogout && styles.logoutMenuItem]} activeOpacity={0.7} onPress={onPress}>
       <View style={styles.menuItemLeft}>
         <View style={[styles.menuIconWrap, isLogout && styles.logoutIconWrap]}>{icon}</View>
         <Text style={[styles.menuLabel, isLogout && styles.logoutLabel]}>{label}</Text>
@@ -233,6 +308,81 @@ const styles = StyleSheet.create({
   },
   logoutLabel: {
     color: '#FFFFFF',
+  },
+  // Modal styles
+  modalBackdrop: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  absoluteFill: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+  modalCard: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: scale(16),
+    borderTopRightRadius: scale(16),
+    paddingHorizontal: responsiveSpacing.lg,
+    paddingTop: responsiveSpacing.lg,
+    paddingBottom: responsiveSpacing.xl,
+  },
+  modalHandle: {
+    width: scale(120),
+    height: scale(6),
+    borderRadius: scale(3),
+    alignSelf: 'center',
+    backgroundColor: '#CFCFCF',
+    marginBottom: responsiveSpacing.lg,
+  },
+  modalIllustration: {
+    alignSelf: 'center',
+    backgroundColor: '#F3F7FF',
+    width: scale(140),
+    height: scale(140),
+    borderRadius: scale(70),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: responsiveSpacing.md,
+  },
+  modalTitle: {
+    fontSize: responsiveFontSize.lg,
+    fontWeight: '800',
+    color: '#191D20',
+    textAlign: 'center',
+    marginBottom: responsiveSpacing.sm,
+  },
+  modalDesc: {
+    fontSize: responsiveFontSize.sm,
+    color: '#666666',
+    textAlign: 'center',
+    marginHorizontal: responsiveSpacing.md,
+    marginBottom: responsiveSpacing.lg,
+  },
+  cancelButton: {
+    backgroundColor: '#FFBB01',
+    borderRadius: scale(12),
+    paddingVertical: responsiveSpacing.md,
+    alignItems: 'center',
+    marginBottom: responsiveSpacing.md,
+  },
+  cancelButtonText: {
+    color: '#191D20',
+    fontWeight: '700',
+    fontSize: responsiveFontSize.base,
+  },
+  logoutButton: {
+    backgroundColor: '#E9E9EB',
+    borderRadius: scale(12),
+    paddingVertical: responsiveSpacing.md,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    color: '#191D20',
+    fontWeight: '700',
+    fontSize: responsiveFontSize.base,
   },
 });
 
