@@ -1,72 +1,66 @@
-# GosbIK Mobile Application
+# GosbIK Mobile
 
-Bu proje, GosbIK markası için geliştirilmiş native mobil uygulamasıdır.
+GOSB (Gebze Organize Sanayi Bölgesi) için geliştirilmiş, haber ve kurumsal içerik sunan native mobil uygulama.
+
+## Özellikler
+
+- Splash, giriş, kayıt, şifremi unuttum ve doğrulama akışı
+- Ana ekran ve arama
+- Haber listesi ve haber detay ekranları — PHP tabanlı bir API üzerinden MySQL'den çekilir
+- Marka kimliği: sarı zemin üzerinde siyah "Gosb" yazısı ve siyah kutu içinde "ik"
 
 ## Proje Yapısı
 
 ```
 GosbIK/
+├── api/
+│   ├── news.php            # Haber API endpoint'i (MySQL)
+│   └── config.example.php  # DB bağlantı ayarları şablonu
 ├── assets/
 │   ├── images/
 │   │   ├── logos/          # Logo dosyaları
 │   │   ├── icons/          # İkon dosyaları
 │   │   └── splash/         # Splash screen görselleri
-│   ├── icon.png            # Uygulama ikonu
-│   ├── adaptive-icon.png   # Android adaptive icon
-│   ├── splash-icon.png     # Splash screen ikonu
-│   └── favicon.png         # Web favicon
-├── App.tsx                 # Ana uygulama bileşeni
-├── app.json               # Expo konfigürasyonu
-└── package.json           # Bağımlılıklar
+│   ├── icon.png
+│   ├── adaptive-icon.png
+│   ├── splash-icon.png
+│   └── favicon.png
+├── components/              # Ekranlar (SplashScreen, LoginScreen, NewsScreen, ...)
+├── contexts/                 # ThemeContext
+├── App.tsx                   # Ana uygulama bileşeni, ekran yönlendirmesi burada
+├── app.json                  # Expo konfigürasyonu
+└── package.json
 ```
-
-## Asset Yapısı
-
-### Logolar (`assets/images/logos/`)
-- Ana marka logoları
-- Farklı boyutlarda logo versiyonları
-- Beyaz/şeffaf arka plan versiyonları
-
-### İkonlar (`assets/images/icons/`)
-- Uygulama içi navigasyon ikonları
-- Fonksiyon ikonları
-- Menü ikonları
-
-### Splash Screen (`assets/images/splash/`)
-- Splash screen görselleri
-- Farklı ekran boyutları için optimizasyon
 
 ## Kurulum
 
+### Mobil uygulama
 ```bash
-# Bağımlılıkları yükle
 npm install
 
-# iOS için çalıştır
-npm run ios
-
-# Android için çalıştır
-npm run android
-
-# Web için çalıştır
-npm run web
+npm run ios      # iOS
+npm run android  # Android
+npm run web      # Web
 ```
 
-## Asset Yükleme
+### Haber API'si (api/news.php)
+API, `api/config.php` dosyasından veritabanı bilgilerini okur — bu dosya repoya dahil değildir.
 
-Logolar ve ikonları ilgili klasörlere yükleyebilirsiniz:
-
-1. **Logolar için**: `assets/images/logos/` klasörüne yükleyin
-2. **İkonlar için**: `assets/images/icons/` klasörüne yükleyin
-3. **Splash screen için**: `assets/images/splash/` klasörüne yükleyin
+```bash
+cp api/config.example.php api/config.php
+# api/config.php içindeki db_host / db_user / db_pass / db_name alanlarını doldurun
+```
+`api/config.php` `.gitignore`'da — gerçek veritabanı bilgilerini asla commit etmeyin.
 
 ## Teknolojiler
 
-- React Native
-- Expo
-- TypeScript
-- React Navigation (planlanıyor)
+- React Native + Expo (TypeScript)
+- expo-font, expo-linear-gradient, expo-blur ve ilgili Expo modülleri
+- Ekranlar arası geçiş `App.tsx` içinde state ile yönetiliyor (ayrı bir navigasyon kütüphanesi kullanılmıyor)
+- Backend: PHP + MySQL (`api/news.php`)
 
-## Marka Kimliği
+## Asset Yükleme
 
-GosbIK markası sarı arka plan üzerinde siyah "Gosb" yazısı ve siyah kutu içinde "ik" yazısından oluşmaktadır.
+- **Logolar**: `assets/images/logos/`
+- **İkonlar**: `assets/images/icons/`
+- **Splash screen**: `assets/images/splash/`
