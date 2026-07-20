@@ -4,7 +4,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-$mysqli = new mysqli("104.247.168.98", "gosbikco_2025", "Gosbik@2025", "gosbikco_2025");
+$config = require __DIR__ . '/config.php';
+$mysqli = new mysqli($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
 
 if ($mysqli->connect_errno) {
     echo json_encode([
